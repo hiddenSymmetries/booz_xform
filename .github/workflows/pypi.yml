@@ -1,0 +1,49 @@
+# This file is based on the instructions in
+# https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+
+# The push to PyPI only happens for commits with a tag. This is done
+# because PyPI and TestPyPI will not let you upload files with the
+# same name as previous files. So, new files will only be accepted if
+# the version number has increased.
+
+name: Publish python distribution to PyPI
+
+on: push
+
+jobs:
+  build-and-publish:
+    name: Build and publish python distributions to PyPI
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    #- name: Install wheel
+    #  run: pip install wheel
+
+    - name: Build a binary wheel and a source tarball
+      run: python3 setup.py sdist
+      #run: python3 setup.py sdist bdist_wheel
+
+    - name: Publish distribution to TestPyPI
+      #if: startsWith(github.ref, 'refs/tags')
+      #if: "contains(github.event.head_commit.message, 'version bump')"
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.test_pypi_password }}
+        repository_url: https://test.pypi.org/legacy/
+
+    - name: Publish distribution to PyPI
+      #if: startsWith(github.ref, 'refs/tags')
+      #if: "contains(github.event.head_commit.message, 'version bump')"
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.pypi_password }}
+

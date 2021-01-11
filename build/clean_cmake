@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This script removes the files and directories created by CMake
+# during the configuration and build steps.
+
+rm -f CMakeCache.txt
+rm -rf CMakeFiles
+rm -f Makefile
+rm -f cmake_install.cmake
