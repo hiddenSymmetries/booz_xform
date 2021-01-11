@@ -105,15 +105,18 @@ class CMakeBuild(build_ext):
         )
 
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="booz_xform",
-    version="0.0.1",
+    version="0.0.2",
     author="Matt Landreman",
     author_email="matt.landreman@gmail.com",
     description="A test project using pybind11 and CMake",
-    long_description="",
+    long_description=long_description,
     ext_modules=[CMakeExtension("booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
