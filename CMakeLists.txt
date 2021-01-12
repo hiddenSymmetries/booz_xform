@@ -22,7 +22,6 @@ project(booz_xform LANGUAGES CXX)
 message("CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
 message("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package (NetCDF REQUIRED)
 message("NETCDF_INCLUDES=${NETCDF_INCLUDES}")
 message("NETCDF_LIBRARIES=${NETCDF_LIBRARIES}")
@@ -40,9 +39,10 @@ include_directories("${NETCDF_INCLUDES}")
 # Get a list of all sources:
 file(GLOB SOURCES "src/*.cpp")
 message("Sources: ${SOURCES}")
-# In the future, a driver could be removed this way:
-#list(FILTER SOURCES EXCLUDE REGEX ".*xqsc.cpp$")
-#message("Sources after filter: ${SOURCES}")
+# Remove the 2 special files: the standalone executable and the python bindings:
+list(FILTER SOURCES EXCLUDE REGEX ".*xbooz_xform.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX ".*bindings.cpp$")
+message("Sources after filter: ${SOURCES}")
 
 # Locate pybind11
 execute_process(COMMAND python -m pybind11 --cmakedir
@@ -53,5 +53,17 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 #message("New pybind11_DIR: ${pybind11_DIR}")
 
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
-pybind11_add_module(booz_xform ${SOURCES})
-target_link_libraries(booz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES})
+pybind11_add_module(booz_xform ${SOURCES} src/bindings.cpp)
+
+add_library(libbooz_xform ${SOURCES})
+# The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
+set_property(TARGET libbooz_xform PROPERTY OUTPUT_NAME booz_xform)
+
+add_executable(xbooz_xform src/xbooz_xform.cpp)
+#set_property(TARGET xbooz_xform PROPERTY CXX_STANDARD 11)
+
+target_link_libraries(libbooz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES})
+
+# Driver and python module depend on the library:
+target_link_libraries(xbooz_xform PUBLIC libbooz_xform)
+target_link_libraries( booz_xform PUBLIC libbooz_xform)
