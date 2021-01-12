@@ -13,6 +13,7 @@ namespace booz_xform {
   
   class Booz_xform {
   private:
+    void defaults();
     
   public:
     int verbose;
@@ -20,6 +21,8 @@ namespace booz_xform {
     
     Booz_xform();
     void read_boozmn(std::string);
+    void testfunc1();
+    void testfunc2(int);
   };
   
 }
