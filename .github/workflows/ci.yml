@@ -26,6 +26,17 @@ jobs:
     - name: PWD
       run: pwd
 
+    - name: apt-get any needed packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential openmpi-bin libopenmpi-dev libblas-dev git cmake libnetcdf-dev
+
+    - name: Print versions
+      run: |
+        which mpicc
+        which mpiexec
+        cmake --version
+
     - uses: actions/checkout@v2
       # If we want submodules downloaded, uncomment the next 2 lines:
       #with:
