@@ -1,7 +1,41 @@
-cmake_minimum_required(VERSION 3.4)
-project(example LANGUAGES CXX)
+# Versions >= 3.9 have improved support for MPI: https://cliutils.gitlab.io/modern-cmake/chapters/packages/MPI.html
+# The command add_compile_definitions, used in this file, was new in CMake version 3.12.
+cmake_minimum_required(VERSION 3.12)
 
-#include_directories(src)
+# If on a Mac, use the Accelerate framework for BLAS/LAPACK.
+# Otherwise, CMake may use a random BLAS/LAPACK it finds that is not as optimized.
+# To check if we're on a Mac, evaluate 'uname -s'.
+execute_process(COMMAND uname -s
+                OUTPUT_VARIABLE UNAME_S
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+message("Result of uname -s: ${UNAME_S}")
+if ("${UNAME_S}" STREQUAL "Darwin")
+  message("Setting BLA_VENDOR to Apple")
+  set(BLA_VENDOR Apple)
+endif()
+
+#set(CMAKE_MODULE_PATH cmake)
+include(cmake/knownHosts.cmake)
+
+project(booz_xform LANGUAGES CXX)
+
+message("CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
+message("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+find_package (NetCDF REQUIRED)
+message("NETCDF_INCLUDES=${NETCDF_INCLUDES}")
+message("NETCDF_LIBRARIES=${NETCDF_LIBRARIES}")
+
+message("BLA_VENDOR: ${BLA_VENDOR}")
+find_package(MPI REQUIRED)
+find_package(BLAS REQUIRED)
+
+# Tell "make" to print out the commands used for compiling and linking:
+set(CMAKE_VERBOSE_MAKEFILE on)
+
+include_directories(src)
+include_directories("${NETCDF_INCLUDES}")
 
 # Get a list of all sources:
 file(GLOB SOURCES "src/*.cpp")
@@ -20,3 +54,4 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
 pybind11_add_module(booz_xform ${SOURCES})
+target_link_libraries(booz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES})

@@ -1,0 +1,28 @@
+#ifndef BOOZ_NETCDF_READER_H
+#define BOOZ_NETCDF_READER_H
+
+#include "vector_matrix.hpp"
+
+namespace booz_xform {
+  
+  /** A class to streamline the process of reading a NetCDF file.
+   */
+  class NetCDFReader {
+  private:
+    int ncid, ndims, nvars, ngatts, unlimdimid;
+    static void ERR(int);
+    
+  public:
+    NetCDFReader(std::string);
+    
+    // Scalars:
+    void get(std::string, int&);
+    void get(std::string, boozfloat&);
+    // Vectors
+    void get(std::string, Vector&);
+	     
+    void close();
+  };
+}
+
+#endif
