@@ -6,14 +6,13 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  CI:
+  Ubuntu:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-latest]
         python-version: [3.7, 3.8]
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
 
     steps:
     # First print out lots of information. We do this in separate 
@@ -62,7 +61,73 @@ jobs:
       run: env
 
     - name: Install
-      run: pip install -vv .
+      run: pip install -v .
+
+    - name: Try import
+      run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
+
+    #- name: Run unit tests
+    #  run: python3 -m unittest -v
+
+########################################
+
+  MaxOS:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7, 3.8]
+
+    runs-on: macos-latest
+
+    steps:
+    # First print out lots of information. We do this in separate 
+    # "name" blocks because otherwise the output gets mixed together
+    # in the github actions log.
+
+    - name: Print user and group id
+      run: id
+
+    - name: PWD
+      run: pwd
+
+    - name: get any needed packages
+      run: brew install netcdf
+
+    #- name: Print versions
+    #  run: |
+    #    which mpicc
+    #    which mpiexec
+    #    cmake --version
+
+    - uses: actions/checkout@v2
+      # If we want submodules downloaded, uncomment the next 2 lines:
+      #with:
+      #  submodules: true
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: which python after python setup
+      run: python --version
+
+    - name: Update pip
+      run: |
+        python -m pip install --upgrade pip
+    
+    #- name: Install required python packages
+    #  run: |
+    #    pip install wheel numpy jax jaxlib
+    
+    - name: env after adding python
+      run: env
+
+    - name: Install
+      run: pip install -v .
+
+    - name: Try import
+      run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
 
     #- name: Run unit tests
     #  run: python3 -m unittest -v
