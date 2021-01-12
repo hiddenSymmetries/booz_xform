@@ -61,7 +61,7 @@ jobs:
       run: env
 
     - name: Install
-      run: pip install -v .
+      run: pip install .
 
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
@@ -71,7 +71,7 @@ jobs:
 
 ########################################
 
-  MaxOS:
+  MacOS:
     strategy:
       fail-fast: false
       matrix:
@@ -91,13 +91,15 @@ jobs:
       run: pwd
 
     - name: get any needed packages
-      run: brew install netcdf
+      run: |
+        brew install netcdf
+        brew install open-mpi
 
-    #- name: Print versions
-    #  run: |
-    #    which mpicc
-    #    which mpiexec
-    #    cmake --version
+    - name: Print versions
+      run: |
+        which mpicc
+        which mpiexec
+        cmake --version
 
     - uses: actions/checkout@v2
       # If we want submodules downloaded, uncomment the next 2 lines:
@@ -124,7 +126,7 @@ jobs:
       run: env
 
     - name: Install
-      run: pip install -v .
+      run: pip install .
 
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
