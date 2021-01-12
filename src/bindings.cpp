@@ -1,5 +1,6 @@
 #include <iostream>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include "booz_xform.hpp"
 
 namespace py = pybind11;
@@ -25,9 +26,12 @@ PYBIND11_MODULE(booz_xform, m) {
   py::class_<Booz_xform>(m, "Booz_xform")
     .def(py::init())
     .def("read_boozmn", &Booz_xform::read_boozmn)
+    .def("read_wout", &Booz_xform::read_wout)
+    .def("run", &Booz_xform::run)
     .def_readwrite("mboz", &Booz_xform::mboz)
     .def_readwrite("nboz", &Booz_xform::nboz)
     .def_readwrite("verbose", &Booz_xform::verbose)
+    .def_readwrite("jlist", &Booz_xform::jlist)
     .def("testfunc1", &Booz_xform::testfunc1)
     .def("testfunc2", &Booz_xform::testfunc2);
     

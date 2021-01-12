@@ -4,7 +4,8 @@
 using namespace booz_xform;
 
 void Booz_xform::defaults() {
-  verbose = 0;
+  completed = false;
+  verbose = 1;
   mboz = 16;
   nboz = 16;
 }

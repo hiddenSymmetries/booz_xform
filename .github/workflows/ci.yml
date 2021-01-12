@@ -34,6 +34,7 @@ jobs:
       run: |
         which mpicc
         which mpiexec
+        mpicc --version
         cmake --version
 
     - uses: actions/checkout@v2
@@ -61,7 +62,7 @@ jobs:
       run: env
 
     - name: Install
-      run: pip install .
+      run: pip install -v .
 
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
@@ -99,6 +100,7 @@ jobs:
       run: |
         which mpicc
         which mpiexec
+        mpicc --version
         cmake --version
 
     - uses: actions/checkout@v2
@@ -126,7 +128,7 @@ jobs:
       run: env
 
     - name: Install
-      run: pip install .
+      run: pip install -v .
 
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
