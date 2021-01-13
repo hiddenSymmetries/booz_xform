@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <algorithm>
 #include "booz_xform.hpp"
 #include "netcdf_reader.hpp"
 
@@ -26,12 +27,13 @@ void Booz_xform::read_wout(std::string filename) {
   nc.get("lasym__logical__", asym_int);
   asym = (bool) asym_int;
   
+  nc.get("nfp", nfp);
   nc.get("ns", ns);
   nc.get("mpol", mpol);
   nc.get("ntor", ntor);
   nc.get("mnmax", mnmax);
   nc.get("mnmax_nyq", mnmax_nyq);
-
+  
   iotas.resize(ns, 0.0);
   nc.get("iotas", iotas);
 
@@ -47,6 +49,9 @@ void Booz_xform::read_wout(std::string filename) {
   xn_nyq.resize(mnmax_nyq, 0.0);
   nc.get("xm_nyq", xm_nyq);
   nc.get("xn_nyq", xn_nyq);
+  // Maximum values of m_nyq and n_nyq are in the last elements:
+  mpol_nyq = xm_nyq[mnmax_nyq - 1];
+  ntor_nyq = xn_nyq[mnmax_nyq - 1] / nfp;
 
   // Non-Nyquist quantities:
   rmnc.resize(mnmax, ns, 0.0);
@@ -98,6 +103,10 @@ void Booz_xform::read_wout(std::string filename) {
     for (int j = 0; j < 4; j++) std::cout << " " << rmnc(j, 0);
     std::cout << std::endl;
   }
+
+  // Set a guess for the Fourier resolution:
+  mboz = 6 * mpol;
+  nboz = std::max(2 * ntor - 1, 0);
   
   nc.close();
   
