@@ -35,6 +35,7 @@ namespace booz_xform {
     Matrix cosn_nyq; //!< Stores cos(n*theta) for xn_nyq vs zeta_grid
     Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq vs theta_grid
     Matrix sinn_nyq; //!< Stores sin(n*theta) for xn_nyq vs zeta_grid
+    Vector w, d_w_d_theta, d_w_d_zeta, bmod;
     
     void defaults();
     void init_trig(Matrix&, Matrix&, Matrix&, Matrix&, int, int);
@@ -49,12 +50,18 @@ namespace booz_xform {
     Vector iotas, xm, xn, xm_nyq, xn_nyq;
     std::vector<int> jlist;
     Vector xmb, xnb;
+    int ns_b; //!< Number of surface on which the transformation is calculated
+    Matrix pmns, pmnc; //!< Difference between Boozer vs Vmec toroidal angle as function of Vmec angles
+    Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
+    Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
+    Vector Boozer_I, Boozer_G; //!< The covariant components of B in Boozer coordinates.
     
     Booz_xform();
     void read_boozmn(std::string);
     void read_wout(std::string);
     void run();
     void init();
+    void surface_solve(int);
     void testfunc1();
     void testfunc2(int);
   };
@@ -69,6 +76,10 @@ namespace booz_xform {
    scl -> fourier_factor
    thgrd -> theta_grid
    ztgrd -> zeta_grid
+   jsize -> ns_b
+   wp -> w
+   wt -> d_w_d_theta
+   wz -> d_w_d_zeta
  */
 #endif
 

@@ -9,4 +9,7 @@ void Booz_xform::run() {
   std::cout << std::endl;
 
   init();
+
+  for (int j = 0; j < jlist.size(); j++)
+    surface_solve(j);
 }
