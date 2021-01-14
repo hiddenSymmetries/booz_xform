@@ -22,7 +22,6 @@ namespace booz_xform {
     int n_theta_zeta; //!< Number of grid points in the combined theta-zeta grid
     boozfloat hs; //!< Spacing in s between adjacent flux surfaces
     Vector fourier_factor; //!< Normalization factor used in Fourier transforms
-    Vector sfull; //!< Not sure
     bool completed;
     boozfloat ntorsum[2]; //!< The number of VMEC modes with m == 0 and m <= 1.
     Vector theta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
@@ -35,6 +34,7 @@ namespace booz_xform {
     Matrix cosn_nyq; //!< Stores cos(n*theta) for xn_nyq vs zeta_grid
     Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq vs theta_grid
     Matrix sinn_nyq; //!< Stores sin(n*theta) for xn_nyq vs zeta_grid
+    Vector r, z, lambda, d_lambda_d_theta, d_lambda_d_zeta;
     Vector w, d_w_d_theta, d_w_d_zeta, bmod;
     
     void defaults();
@@ -80,6 +80,9 @@ namespace booz_xform {
    wp -> w
    wt -> d_w_d_theta
    wz -> d_w_d_zeta
+   lam -> lambda
+   lt -> d_lambda_d_theta
+   lz -> d_lambda_d_zeta
  */
 #endif
 

@@ -2,6 +2,9 @@
 # The command add_compile_definitions, used in this file, was new in CMake version 3.12.
 cmake_minimum_required(VERSION 3.12)
 
+# Comment out the next line when speed is needed
+set(CMAKE_BUILD_TYPE Debug)
+
 # If on a Mac, use the Accelerate framework for BLAS/LAPACK.
 # Otherwise, CMake may use a random BLAS/LAPACK it finds that is not as optimized.
 # To check if we're on a Mac, evaluate 'uname -s'.

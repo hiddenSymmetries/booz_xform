@@ -57,10 +57,12 @@ void Booz_xform::init() {
   }
 
   hs = 1.0 / (ns - 1.0);
+  /*
   sfull.resize(ns, 0.0);
   for (j = 2; j <= ns; j++) {
     sfull[j-1] = sqrt(hs * (j - 1));
   }
+  */
 
   // Done with the steps from setup.booz.f.
   // Now comes some work from boozer_coords.f.
@@ -129,7 +131,12 @@ void Booz_xform::init() {
     pmnc_b.resize(mnboz, ns_b, 0.0);
     gmns_b.resize(mnboz, ns_b, 0.0);
   }
-
+  
+  r.resize(n_theta_zeta, 0.0);
+  z.resize(n_theta_zeta, 0.0);
+  lambda.resize(n_theta_zeta, 0.0);
+  d_lambda_d_theta.resize(n_theta_zeta, 0.0);
+  d_lambda_d_zeta.resize(n_theta_zeta, 0.0);
   w.resize(n_theta_zeta, 0.0);
   d_w_d_theta.resize(n_theta_zeta, 0.0);
   d_w_d_zeta.resize(n_theta_zeta, 0.0);
