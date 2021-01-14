@@ -4,8 +4,9 @@ import booz_xform as bx
 
 b = bx.Booz_xform()
 b.read_wout("../tests/wout_li383_1.4m.nc")
+#b.read_wout("../tests/wout_n3are_R7.75B5.7.nc")
 
+b.jlist = [2, 3]
 b.run()
 
-#b.jlist = [10, 15]
 #b.run()

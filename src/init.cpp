@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cassert>
 #include "booz_xform.hpp"
 
@@ -22,7 +23,8 @@ void Booz_xform::init() {
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
   xmb.resize(mnboz, 0.0);
   xnb.resize(mnboz, 0.0);
-
+  std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
+  
   // Done with the bits from read_wout_booz.f.
   // Now comes steps from setup_booz.f.
   
@@ -38,23 +40,17 @@ void Booz_xform::init() {
   }
   assert (j == mnboz);
 
-  boozfloat fac;
-  if (asym) {
-    fac = 2.0 / (nu * nv);
-  } else {
-    fac = 2.0 / ((nu2_b - 1) * nv);
-    // Equivalently, fac = 4.0 / (nu * nv)
-  }
+  // A section about "fac" and "scl" has been moved to the end of
+  // surface_solve(). Look for "fourier_factor" there.
 
-  fourier_factor.resize(mnboz, fac);
-  fourier_factor[0] = fac / 2.0;
-
+  /*
   ntorsum[0] = 0.0;
   ntorsum[1] = 1.0;
   for (j = 0; j < mnmax; j++) {
     if (xm[j] == 0) ntorsum[0]++;
     if (xm[j] <= 1) ntorsum[1]++;
   }
+  */
 
   hs = 1.0 / (ns - 1.0);
   /*
@@ -109,22 +105,32 @@ void Booz_xform::init() {
   sinm_nyq.resize(n_theta_zeta, mpol_nyq + 1, 0.0);
   cosn_nyq.resize(n_theta_zeta, ntor_nyq + 1, 0.0);
   sinn_nyq.resize(n_theta_zeta, ntor_nyq + 1, 0.0);
+  cosm_b.resize(n_theta_zeta, mboz + 1, 0.0);
+  sinm_b.resize(n_theta_zeta, mboz + 1, 0.0);
+  cosn_b.resize(n_theta_zeta, nboz + 1, 0.0);
+  sinn_b.resize(n_theta_zeta, nboz + 1, 0.0);
   
-  init_trig(cosm, sinm, cosn, sinn, mpol - 1, ntor);
-  init_trig(cosm_nyq, sinm_nyq, cosn_nyq, sinn_nyq, mpol_nyq, ntor_nyq);
+  init_trig(theta_grid, zeta_grid, cosm, sinm, cosn, sinn, mpol - 1, ntor);
+  init_trig(theta_grid, zeta_grid, cosm_nyq, sinm_nyq, cosn_nyq, sinn_nyq, mpol_nyq, ntor_nyq);
 
+  /*
+  std::cout << std::setprecision(15) << "cosm:" << std::endl << cosm << std::endl;
+  std::cout << std::setprecision(15) << "cosn:" << std::endl << cosn << std::endl;
+  std::cout << std::setprecision(15) << "sinm:" << std::endl << sinm << std::endl;
+  std::cout << std::setprecision(15) << "sinn:" << std::endl << sinn << std::endl;
+  */
   ns_b = jlist.size();
   Boozer_I.resize(ns_b, 0.0);
   Boozer_G.resize(ns_b, 0.0);
   
-  pmns.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
+  wmns.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
   bmnc_b.resize(mnboz, ns_b, 0.0);
   rmnc_b.resize(mnboz, ns_b, 0.0);
   zmns_b.resize(mnboz, ns_b, 0.0);
   pmns_b.resize(mnboz, ns_b, 0.0);
   gmnc_b.resize(mnboz, ns_b, 0.0);
   if (asym) {
-    pmnc.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
+    wmnc.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
     bmns_b.resize(mnboz, ns_b, 0.0);
     rmns_b.resize(mnboz, ns_b, 0.0);
     zmnc_b.resize(mnboz, ns_b, 0.0);
@@ -141,49 +147,11 @@ void Booz_xform::init() {
   d_w_d_theta.resize(n_theta_zeta, 0.0);
   d_w_d_zeta.resize(n_theta_zeta, 0.0);
   bmod.resize(n_theta_zeta, 0.0);
-}
-
-///////////////////////////////////////////////////
-
-/** Evaluate sin(m*theta), cos(m*theta), sin(n*zeta), and cos(n*zeta) for a range
- *  of (m, n, theta, zeta) values.
- *
- *  This function is called trigfunc in the fortran version.
- *
- *  This function assumes that all of the matrices have been allocated
- *  to the appropriate size beforehand.
- */
-void Booz_xform::init_trig(Matrix& cosmx, Matrix& sinmx, Matrix& cosnx, Matrix& sinnx,
-			   int mmax, int nmax) {
-  int j, m, n;
-
-  // Initialize modes with (m,n) = 0 or 1:
-  for (j = 0; j < n_theta_zeta; j++) {
-    cosmx(j, 0) = 1.0;
-    cosnx(j, 0) = 1.0;
-    cosmx(j, 1) = cos(theta_grid[j]);
-    sinmx(j, 1) = sin(theta_grid[j]);
-  }
-  if (nmax >= 1) {
-    for (j = 0; j < n_theta_zeta; j++) {
-      cosnx(j, 1) = cos(nfp * zeta_grid[j]);
-      sinnx(j, 1) = sin(nfp * zeta_grid[j]);
-    }
-  }
-
-  // Evaluate the rest of the m values:
-  for (m = 2; m <= mmax; m++) {
-    for (j = 0; j < n_theta_zeta; j++) {
-      cosmx(j, m) = cosmx(j, m - 1) * cosmx(j, 1) - sinmx(j, m - 1) * sinmx(j, 1);
-      sinmx(j, m) = sinmx(j, m - 1) * cosmx(j, 1) + cosmx(j, m - 1) * sinmx(j, 1);
-    }
-  }
-  
-  // Evaluate the rest of the n values:
-  for (n = 2; n <= nmax; n++) {
-    for (j = 0; j < n_theta_zeta; j++) {
-      cosnx(j, n) = cosnx(j, n - 1) * cosnx(j, 1) - sinnx(j, n - 1) * sinnx(j, 1);
-      sinnx(j, n) = sinnx(j, n - 1) * cosnx(j, 1) + cosnx(j, n - 1) * sinnx(j, 1);
-    }
-  }
+  p.resize(n_theta_zeta, 0.0);
+  d_p_d_theta.resize(n_theta_zeta, 0.0);
+  d_p_d_zeta.resize(n_theta_zeta, 0.0);
+  zeta_Boozer_grid.resize(n_theta_zeta, 0.0);
+  theta_Boozer_grid.resize(n_theta_zeta, 0.0);
+  d_Boozer_d_vmec.resize(n_theta_zeta, 0.0);
+  boozer_jacobian.resize(n_theta_zeta, 0.0);
 }

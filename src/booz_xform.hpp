@@ -21,24 +21,32 @@ namespace booz_xform {
     boozfloat d_theta, d_zeta; //!< Spacing between grid points in the VMEC poloidal and toroidal angles
     int n_theta_zeta; //!< Number of grid points in the combined theta-zeta grid
     boozfloat hs; //!< Spacing in s between adjacent flux surfaces
-    Vector fourier_factor; //!< Normalization factor used in Fourier transforms
     bool completed;
-    boozfloat ntorsum[2]; //!< The number of VMEC modes with m == 0 and m <= 1.
+    //boozfloat ntorsum[2]; //!< The number of VMEC modes with m == 0 and m <= 1. Now obsolete.
     Vector theta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
     Vector zeta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
-    Matrix cosm; //!< Stores cos(m*theta) for xm vs theta_grid
-    Matrix cosn; //!< Stores cos(n*theta) for xn vs zeta_grid
-    Matrix sinm; //!< Stores sin(m*theta) for xm vs theta_grid
-    Matrix sinn; //!< Stores sin(n*theta) for xn vs zeta_grid
-    Matrix cosm_nyq; //!< Stores cos(m*theta) for xm_nyq vs theta_grid
-    Matrix cosn_nyq; //!< Stores cos(n*theta) for xn_nyq vs zeta_grid
-    Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq vs theta_grid
-    Matrix sinn_nyq; //!< Stores sin(n*theta) for xn_nyq vs zeta_grid
+    Matrix cosm; //!< Stores cos(m*theta) for xm
+    Matrix cosn; //!< Stores cos(n*zeta) for xn
+    Matrix sinm; //!< Stores sin(m*theta) for xm
+    Matrix sinn; //!< Stores sin(n*zeta) for xn
+    Matrix cosm_nyq; //!< Stores cos(m*theta) for xm_nyq
+    Matrix cosn_nyq; //!< Stores cos(n*zeta) for xn_nyq
+    Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq
+    Matrix sinn_nyq; //!< Stores sin(n*zeta) for xn_nyq
+    Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xmb
+    Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xnb
+    Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xmb
+    Matrix sinn_b; //!< Stores sin(n*zeta_Boozer) for xnb
     Vector r, z, lambda, d_lambda_d_theta, d_lambda_d_zeta;
-    Vector w, d_w_d_theta, d_w_d_zeta, bmod;
+    Vector w, d_w_d_theta, d_w_d_zeta, bmod, theta_diff;
+    Vector p, d_p_d_theta, d_p_d_zeta;
+    Vector theta_Boozer_grid, zeta_Boozer_grid;
+    Matrix wmns, wmnc; //!< Right-hand side of eq (10) in Fourier space
+    Vector d_Boozer_d_vmec; //!< The Jacobian in eq (12)
+    Vector boozer_jacobian; //!< (G + iota * I) / B^2 on the (theta, zeta) grid.
     
     void defaults();
-    void init_trig(Matrix&, Matrix&, Matrix&, Matrix&, int, int);
+    void init_trig(Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&, int, int);
     
   public:
     int verbose;
@@ -51,7 +59,6 @@ namespace booz_xform {
     std::vector<int> jlist;
     Vector xmb, xnb;
     int ns_b; //!< Number of surface on which the transformation is calculated
-    Matrix pmns, pmnc; //!< Difference between Boozer vs Vmec toroidal angle as function of Vmec angles
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
     Vector Boozer_I, Boozer_G; //!< The covariant components of B in Boozer coordinates.
@@ -83,6 +90,7 @@ namespace booz_xform {
    lam -> lambda
    lt -> d_lambda_d_theta
    lz -> d_lambda_d_zeta
+   xjac -> d_Boozer_d_vmec
  */
 #endif
 
