@@ -17,16 +17,17 @@ void Booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
 			   Matrix& cosmx, Matrix& sinmx, Matrix& cosnx, Matrix& sinnx,
 			   int mmax, int nmax) {
   int j, m, n;
+  int n_theta_zeta_x = theta_grid_x.size();
 
   // Initialize modes with (m,n) = 0 or 1:
-  for (j = 0; j < n_theta_zeta; j++) {
+  for (j = 0; j < n_theta_zeta_x; j++) {
     cosmx(j, 0) = 1.0;
     cosnx(j, 0) = 1.0;
     cosmx(j, 1) = cos(theta_grid_x[j]);
     sinmx(j, 1) = sin(theta_grid_x[j]);
   }
   if (nmax >= 1) {
-    for (j = 0; j < n_theta_zeta; j++) {
+    for (j = 0; j < n_theta_zeta_x; j++) {
       cosnx(j, 1) = cos(nfp * zeta_grid_x[j]);
       sinnx(j, 1) = sin(nfp * zeta_grid_x[j]);
     }
@@ -34,7 +35,7 @@ void Booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
 
   // Evaluate the rest of the m values:
   for (m = 2; m <= mmax; m++) {
-    for (j = 0; j < n_theta_zeta; j++) {
+    for (j = 0; j < n_theta_zeta_x; j++) {
       cosmx(j, m) = cosmx(j, m - 1) * cosmx(j, 1) - sinmx(j, m - 1) * sinmx(j, 1);
       sinmx(j, m) = sinmx(j, m - 1) * cosmx(j, 1) + cosmx(j, m - 1) * sinmx(j, 1);
     }
@@ -42,7 +43,7 @@ void Booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
   
   // Evaluate the rest of the n values:
   for (n = 2; n <= nmax; n++) {
-    for (j = 0; j < n_theta_zeta; j++) {
+    for (j = 0; j < n_theta_zeta_x; j++) {
       cosnx(j, n) = cosnx(j, n - 1) * cosnx(j, 1) - sinnx(j, n - 1) * sinnx(j, 1);
       sinnx(j, n) = sinnx(j, n - 1) * cosnx(j, 1) + cosnx(j, n - 1) * sinnx(j, 1);
     }

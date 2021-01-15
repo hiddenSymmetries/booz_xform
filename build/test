@@ -6,8 +6,8 @@ b = bx.Booz_xform()
 b.read_wout("../tests/wout_li383_1.4m.nc")
 #b.read_wout("../tests/wout_n3are_R7.75B5.7.nc")
 
-#b.mboz=32
-#b.nboz=32
+#b.mboz=53
+#b.nboz=9
 
 b.jlist = [2, 3]
 b.run()

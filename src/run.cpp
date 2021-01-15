@@ -10,6 +10,13 @@ void Booz_xform::run() {
 
   init();
 
+  if (verbose > 0) {
+    std::cout << "             OUTBOARD (u=0)              JS          INBOARD (u=pi)" << std::endl;
+    std::cout << "-----------------------------------------------------------------------------" << std::endl;
+    std::cout << "  v     |B|vmec    |B|booz    Error             |B|vmec    |B|booz    Error"
+	      << std::endl << std::endl;
+  }
+  
   for (int j = 0; j < jlist.size(); j++)
     surface_solve(j);
 }

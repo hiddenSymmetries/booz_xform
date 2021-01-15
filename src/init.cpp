@@ -23,7 +23,10 @@ void Booz_xform::init() {
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
   xmb.resize(mnboz, 0.0);
   xnb.resize(mnboz, 0.0);
-  std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
+  if (verbose > 0) {
+    std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
+    std::cout << "nu = " << nu << ", nv = " << nv << std::endl;
+  }
   
   // Done with the bits from read_wout_booz.f.
   // Now comes steps from setup_booz.f.

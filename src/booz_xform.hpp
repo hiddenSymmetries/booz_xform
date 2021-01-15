@@ -69,6 +69,7 @@ namespace booz_xform {
     void run();
     void init();
     void surface_solve(int);
+    void check_accuracy(int, int);
     void write_boozmn(std::string);
     void testfunc1();
     void testfunc2(int);

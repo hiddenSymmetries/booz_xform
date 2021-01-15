@@ -173,17 +173,6 @@ void Booz_xform::surface_solve(int js_b) {
   
   // End of the part located in harfun.f in the fortran version.
 
-  // Next come a few lines from boozer_coords.f
-  // Here we save |B| from VMEC at a few points, to check accuracy later.
-  boozfloat bmod_vmec[4];
-  int nv2_b = nv / 2 + 1; // Index of zeta = pi. Note nv is even so there is no rounding.
-  // zeta is the fast dimension, with range nv
-  bmod_vmec[0] = bmod[0]; // (v=0, u=0)
-  bmod_vmec[1] = bmod[nu2_b * nv]; // (0, pi)
-  bmod_vmec[2] = bmod[nv2_b]; // (pi, 0)
-  bmod_vmec[3] = bmod[nu2_b * nv + nv2_b]; // (pi, pi)
-
-  // End of lines from boozer_coords.f
   // Now come lines from boozer.f
   // The goal now is to evaluate eq (11).
   
@@ -270,6 +259,10 @@ void Booz_xform::surface_solve(int js_b) {
     }
   }
 
+  // End of the part from boozer.f
+
+  if (verbose > 0) check_accuracy(js, js_b);
+  
   if (js_b == 0) {
     std::ofstream output_file;
     
