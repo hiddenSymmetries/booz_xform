@@ -1,3 +1,4 @@
+#include <cassert>
 #include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
