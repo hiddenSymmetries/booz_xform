@@ -2,7 +2,7 @@
 #define BOOZ_XFORM_H
 
 #include <string>
-#include <vector>
+#include <valarray>
 #include "vector_matrix.hpp"
 
 namespace booz_xform {  
@@ -56,7 +56,7 @@ namespace booz_xform {
     Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns;
     Matrix bsubumnc, bsubumns, bsubvmnc, bsubvmns;
     Vector iotas, xm, xn, xm_nyq, xn_nyq;
-    std::vector<int> jlist;
+    std::valarray<int> jlist;
     Vector xmb, xnb;
     int ns_b; //!< Number of surface on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
@@ -69,6 +69,7 @@ namespace booz_xform {
     void run();
     void init();
     void surface_solve(int);
+    void write_boozmn(std::string);
     void testfunc1();
     void testfunc2(int);
   };

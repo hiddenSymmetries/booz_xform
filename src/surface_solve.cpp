@@ -270,6 +270,13 @@ void Booz_xform::surface_solve(int js_b) {
     }
   }
 
+  if (js_b == 0) {
+    std::ofstream output_file;
+    
+    output_file.open("r_0");
+    output_file << std::setprecision(15) << r;
+    output_file.close();
+  }
   if (false && js_b == 1) {
     std::ofstream output_file;
     

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 #include <stdexcept>
 #include <algorithm>
 #include "booz_xform.hpp"
@@ -210,6 +212,13 @@ void Booz_xform::read_wout(std::string filename) {
       }
     }
   }
+  std::ofstream output_file;
+  output_file.open("rmnc_1");
+  for (j = 0; j < mnmax; j++) output_file << std::setprecision(15) << " " << rmnc(j, 1);
+  output_file.close();
+  output_file.open("rmnc_2");
+  for (j = 0; j < mnmax; j++) output_file << std::setprecision(15) << " " << rmnc(j, 2);
+  output_file.close();
   // End of radial interpolation.
   
   // Set a guess for the Fourier resolution:

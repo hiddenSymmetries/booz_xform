@@ -21,13 +21,14 @@ int add(int i, int j) {
 }
 
 PYBIND11_MODULE(booz_xform, m) {
-  m.doc() = "My first pybind11 module";
+  m.doc() = "Transformation to Boozer coordinates";
   m.def("add", &add, "A little function that adds two numbers.");
   py::class_<Booz_xform>(m, "Booz_xform")
     .def(py::init())
     .def("read_boozmn", &Booz_xform::read_boozmn)
     .def("read_wout", &Booz_xform::read_wout)
     .def("run", &Booz_xform::run)
+    .def("write_boozmn", &Booz_xform::write_boozmn)
     .def_readwrite("mboz", &Booz_xform::mboz)
     .def_readwrite("nboz", &Booz_xform::nboz)
     .def_readwrite("verbose", &Booz_xform::verbose)
