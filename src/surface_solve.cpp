@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
 
@@ -105,6 +106,7 @@ void Booz_xform::surface_solve(int js_b) {
   w = 0;
   d_w_d_theta = 0;
   d_w_d_zeta = 0;
+  bmod = 0;
   for (jmn = 0; jmn < mnmax_nyq; jmn++) {
     m = xm_nyq[jmn];
     n = xn_nyq[jmn];
@@ -147,13 +149,14 @@ void Booz_xform::surface_solve(int js_b) {
   d_p_d_theta = one_over_GI * (d_w_d_theta - Boozer_I[js_b] * d_lambda_d_theta);
 
   // Eq (12):
-  d_Boozer_d_vmec = (1 + d_lambda_d_theta) * (1 + d_p_d_zeta)
+  d_Boozer_d_vmec = (1.0 + d_lambda_d_theta) * (1.0 + d_p_d_zeta)
     + (this_iota - d_lambda_d_zeta) * d_p_d_theta;
 
-  if (js_b == 1) {
+  if (false && js_b == 1) {
     std::cout << std::setprecision(15) << "G: " << Boozer_G[js_b];
     std::cout << "  iota: " << this_iota;
     std::cout << "  I: " << Boozer_I[js_b] << std::endl;
+    std::cout << "r:" << std::endl << r << std::endl;
     std::cout << "p:" << std::endl << p << std::endl;
     std::cout << "theta_Boozer:" << std::endl << theta_Boozer_grid << std::endl;
     std::cout << "zeta_Boozer:" << std::endl << zeta_Boozer_grid << std::endl;
@@ -165,8 +168,8 @@ void Booz_xform::surface_solve(int js_b) {
   }    
 
   // Consider removing this test in the next line for speed:
-  if (d_Boozer_d_vmec.max() * d_Boozer_d_vmec.min() <= 0)
-    throw std::runtime_error("d_Boozer_d_vmec crosses through 0!");
+  //if (d_Boozer_d_vmec.max() * d_Boozer_d_vmec.min() <= 0)
+  //  throw std::runtime_error("d_Boozer_d_vmec crosses through 0!");
   
   // End of the part located in harfun.f in the fortran version.
 
@@ -246,26 +249,66 @@ void Booz_xform::surface_solve(int js_b) {
     
     for (j = 0; j < n_theta_zeta; j++) {
       tcos = (cosm_b(j, m) * cosn_b(j, abs_n)
-	      + sinm_b(j, m) * sinn_b(j, abs_n) * sign) * d_Boozer_d_vmec[j];
+	      + sinm_b(j, m) * sinn_b(j, abs_n) * sign)
+	* d_Boozer_d_vmec[j] * fourier_factor;
       
       tsin = (sinm_b(j, m) * cosn_b(j, abs_n)
-	      - cosm_b(j, m) * sinn_b(j, abs_n) * sign) * d_Boozer_d_vmec[j];
+	      - cosm_b(j, m) * sinn_b(j, abs_n) * sign)
+	* d_Boozer_d_vmec[j] * fourier_factor;
 
-      bmnc_b(jmn, js_b) =  fourier_factor * tcos * bmod[j];
-      rmnc_b(jmn, js_b) =  fourier_factor * tcos * r[j];
-      zmns_b(jmn, js_b) =  fourier_factor * tsin * z[j];
-      pmns_b(jmn, js_b) = -fourier_factor * tsin * p[j];
-      gmnc_b(jmn, js_b) =  fourier_factor * tcos * boozer_jacobian[j];
+      bmnc_b(jmn, js_b) +=  tcos * bmod[j];
+      rmnc_b(jmn, js_b) +=  tcos * r[j];
+      zmns_b(jmn, js_b) +=  tsin * z[j];
+      pmns_b(jmn, js_b) += -tsin * p[j];
+      gmnc_b(jmn, js_b) +=  tcos * boozer_jacobian[j];
       if (!asym) continue;
-      bmns_b(jmn, js_b) =  fourier_factor * tsin * bmod[j];
-      rmns_b(jmn, js_b) =  fourier_factor * tsin * r[j];
-      zmnc_b(jmn, js_b) =  fourier_factor * tcos * z[j];
-      pmnc_b(jmn, js_b) = -fourier_factor * tcos * p[j];
-      gmns_b(jmn, js_b) =  fourier_factor * tsin * boozer_jacobian[j];
+      bmns_b(jmn, js_b) +=  tsin * bmod[j];
+      rmns_b(jmn, js_b) +=  tsin * r[j];
+      zmnc_b(jmn, js_b) +=  tcos * z[j];
+      pmnc_b(jmn, js_b) += -tcos * p[j];
+      gmns_b(jmn, js_b) +=  tsin * boozer_jacobian[j];
     }
   }
 
-  if (js_b == 1) {
+  if (false && js_b == 1) {
+    std::ofstream output_file;
+    
+    output_file.open("bmod");
+    output_file << std::setprecision(15) << bmod;
+    output_file.close();
+    
+    output_file.open("cosm_b");
+    output_file << std::setprecision(15) << cosm_b;
+    output_file.close();
+    
+    output_file.open("cosn_b");
+    output_file << std::setprecision(15) << cosn_b;
+    output_file.close();
+    
+    output_file.open("sinm_b");
+    output_file << std::setprecision(15) << sinm_b;
+    output_file.close();
+    
+    output_file.open("sinn_b");
+    output_file << std::setprecision(15) << sinn_b;
+    output_file.close();
+    
+    output_file.open("r");
+    output_file << std::setprecision(15) << r;
+    output_file.close();
+    
+    output_file.open("d_Boozer_d_vmec");
+    output_file << std::setprecision(15) << d_Boozer_d_vmec;
+    output_file.close();
+
+    output_file.open("xmb");
+    output_file << std::setprecision(15) << xmb;
+    output_file.close();
+
+    output_file.open("xnb");
+    output_file << std::setprecision(15) << xnb;
+    output_file.close();
+
     std::cout << "bmnc_b:" << std::endl << std::setprecision(15);
     for (jmn = 0; jmn < mnboz; jmn++) std::cout << " " << bmnc_b(jmn, js_b);
     std::cout << std::endl;
@@ -277,5 +320,25 @@ void Booz_xform::surface_solve(int js_b) {
     std::cout << "zmns_b:" << std::endl << std::setprecision(15);
     for (jmn = 0; jmn < mnboz; jmn++) std::cout << " " << zmns_b(jmn, js_b);
     std::cout << std::endl;
+    
+    output_file.open("bmnc_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << bmnc_b(jmn, js_b);
+    output_file.close();
+    
+    output_file.open("gmnc_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << gmnc_b(jmn, js_b);
+    output_file.close();
+    
+    output_file.open("rmnc_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << rmnc_b(jmn, js_b);
+    output_file.close();
+    
+    output_file.open("zmns_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << zmns_b(jmn, js_b);
+    output_file.close();
+    
+    output_file.open("pmns_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << pmns_b(jmn, js_b);
+    output_file.close();
   }    
 }

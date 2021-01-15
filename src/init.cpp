@@ -34,7 +34,7 @@ void Booz_xform::init() {
     if (m == 0) nmin = 0;
     for (int n = nmin; n <= nboz; n++) {
       xmb[j] = m;
-      xnb[j] = n;
+      xnb[j] = n * nfp;
       j++;
     }
   }
