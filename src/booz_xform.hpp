@@ -22,7 +22,6 @@ namespace booz_xform {
     int n_theta_zeta; //!< Number of grid points in the combined theta-zeta grid
     boozfloat hs; //!< Spacing in s between adjacent flux surfaces
     bool completed;
-    //boozfloat ntorsum[2]; //!< The number of VMEC modes with m == 0 and m <= 1. Now obsolete.
     Vector theta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
     Vector zeta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
     Matrix cosm; //!< Stores cos(m*theta) for xm
@@ -46,7 +45,6 @@ namespace booz_xform {
     Vector boozer_jacobian; //!< (G + iota * I) / B^2 on the (theta, zeta) grid.
     
     void defaults();
-    void init_trig(Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&, int, int);
     
   public:
     int verbose;
@@ -58,7 +56,7 @@ namespace booz_xform {
     Vector iotas, xm, xn, xm_nyq, xn_nyq;
     std::valarray<int> jlist;
     Vector xmb, xnb;
-    int ns_b; //!< Number of surface on which the transformation is calculated
+    int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
     Vector Boozer_I, Boozer_G; //!< The covariant components of B in Boozer coordinates.

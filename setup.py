@@ -9,7 +9,7 @@ import os
 import sys
 import subprocess
 
-from setuptools import setup, Extension
+from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -117,7 +117,13 @@ setup(
     author_email="matt.landreman@gmail.com",
     description="A test project using pybind11 and CMake",
     long_description=long_description,
+    # tell setuptools to look for any packages under 'src'
+    #packages=find_packages('src'),
+    # tell setuptools that all packages will be under the 'src' directory
+    # and nowhere else
+    #package_dir={'':'src'},
     ext_modules=[CMakeExtension("booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
+    test_suite='tests',
     zip_safe=False,
 )

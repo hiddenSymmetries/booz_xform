@@ -10,3 +10,5 @@ rm -f cmake_install.cmake
 rm -f booz_xform*
 rm -f libbooz_xform*
 rm -f xbooz_xform
+rm -rf temp.*
+rm -rf lib.*

@@ -1,4 +1,4 @@
-#include "booz_xform.hpp"
+#include "init_trig.hpp"
 
 using namespace booz_xform;
 
@@ -13,9 +13,9 @@ using namespace booz_xform;
  *  This function is called both with the 1st two entries (theta_grid, zeta_grid), and
  *  with with the 1st two entries (theta_Boozer_grid, zeta_Boozer_grid).
  */
-void Booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
+void booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
 			   Matrix& cosmx, Matrix& sinmx, Matrix& cosnx, Matrix& sinnx,
-			   int mmax, int nmax) {
+			   int mmax, int nmax, int nfpx) {
   int j, m, n;
   int n_theta_zeta_x = theta_grid_x.size();
 
@@ -28,8 +28,8 @@ void Booz_xform::init_trig(Vector& theta_grid_x, Vector& zeta_grid_x,
   }
   if (nmax >= 1) {
     for (j = 0; j < n_theta_zeta_x; j++) {
-      cosnx(j, 1) = cos(nfp * zeta_grid_x[j]);
-      sinnx(j, 1) = sin(nfp * zeta_grid_x[j]);
+      cosnx(j, 1) = cos(nfpx * zeta_grid_x[j]);
+      sinnx(j, 1) = sin(nfpx * zeta_grid_x[j]);
     }
   }
 

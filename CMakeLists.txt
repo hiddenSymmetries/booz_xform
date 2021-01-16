@@ -37,11 +37,13 @@ find_package(BLAS REQUIRED)
 # Tell "make" to print out the commands used for compiling and linking:
 set(CMAKE_VERBOSE_MAKEFILE on)
 
-include_directories(src)
+set(SOURCE_DIR "src")
+include_directories(${SOURCE_DIR})
+include_directories(externalPackages/doctest)
 include_directories("${NETCDF_INCLUDES}")
 
 # Get a list of all sources:
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES "${SOURCE_DIR}/*.cpp")
 message("Sources: ${SOURCES}")
 # Remove the 2 special files: the standalone executable and the python bindings:
 list(FILTER SOURCES EXCLUDE REGEX ".*xbooz_xform.cpp$")
@@ -57,13 +59,13 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 #message("New pybind11_DIR: ${pybind11_DIR}")
 
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
-pybind11_add_module(booz_xform ${SOURCES} src/bindings.cpp)
+pybind11_add_module(booz_xform ${SOURCES} ${SOURCE_DIR}/bindings.cpp)
 
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
 set_property(TARGET libbooz_xform PROPERTY OUTPUT_NAME booz_xform)
 
-add_executable(xbooz_xform src/xbooz_xform.cpp)
+add_executable(xbooz_xform ${SOURCE_DIR}/xbooz_xform.cpp)
 #set_property(TARGET xbooz_xform PROPERTY CXX_STANDARD 11)
 
 target_link_libraries(libbooz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES})
@@ -71,3 +73,22 @@ target_link_libraries(libbooz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES}
 # Driver and python module depend on the library:
 target_link_libraries(xbooz_xform PUBLIC libbooz_xform)
 target_link_libraries( booz_xform PUBLIC libbooz_xform)
+
+# Set up unitTests executable
+set(BOOZ_TESTS unitTests)
+file(GLOB UNIT_TEST_SOURCES "tests/*.cpp")
+message("Tests: ${UNIT_TEST_SOURCES}")
+add_executable(${BOOZ_TESTS} ${UNIT_TEST_SOURCES})
+target_link_libraries(${BOOZ_TESTS} PUBLIC libbooz_xform)
+# Put the unitTests executable in the "tests" directory:
+#set_property(TARGET ${BOOZ_TESTS} PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)
+# Doctest requires c++11
+set_property(TARGET ${BOOZ_TESTS} PROPERTY CXX_STANDARD 11)
+# Do not build the unit tests by default, since they take some time to build:
+#set_property(TARGET ${BOOZ_TESTS} PROPERTY EXCLUDE_FROM_ALL 1)
+
+
+# Set up "make test" so it runs the scripts I want it to run.
+# See https://cmake.org/cmake/help/latest/command/add_custom_target.html
+#add_custom_target(test COMMAND ./runTests WORKING_DIRECTORY tests DEPENDS ${BOOZ_TESTS})
+#add_custom_target(test COMMAND ./ WORKING_DIRECTORY tests DEPENDS ${BOOZ_TESTS})

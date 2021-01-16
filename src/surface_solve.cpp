@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
+#include "init_trig.hpp"
 
 using namespace booz_xform;
 
@@ -177,7 +178,7 @@ void Booz_xform::surface_solve(int js_b) {
   // The goal now is to evaluate eq (11).
   
   init_trig(theta_Boozer_grid, zeta_Boozer_grid,
-	    cosm_b, sinm_b, cosn_b, sinn_b, mboz, nboz);
+	    cosm_b, sinm_b, cosn_b, sinn_b, mboz, nboz, nfp);
 
   if (!asym) {
     // Only integrate in theta half-way around

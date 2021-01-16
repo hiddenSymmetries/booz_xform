@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cassert>
 #include "booz_xform.hpp"
+#include "init_trig.hpp"
 
 using namespace booz_xform;
 
@@ -113,8 +114,13 @@ void Booz_xform::init() {
   cosn_b.resize(n_theta_zeta, nboz + 1, 0.0);
   sinn_b.resize(n_theta_zeta, nboz + 1, 0.0);
   
-  init_trig(theta_grid, zeta_grid, cosm, sinm, cosn, sinn, mpol - 1, ntor);
-  init_trig(theta_grid, zeta_grid, cosm_nyq, sinm_nyq, cosn_nyq, sinn_nyq, mpol_nyq, ntor_nyq);
+  init_trig(theta_grid, zeta_grid,
+	    cosm, sinm, cosn, sinn,
+	    mpol - 1, ntor, nfp);
+  
+  init_trig(theta_grid, zeta_grid,
+	    cosm_nyq, sinm_nyq, cosn_nyq, sinn_nyq,
+	    mpol_nyq, ntor_nyq, nfp);
 
   /*
   std::cout << std::setprecision(15) << "cosm:" << std::endl << cosm << std::endl;

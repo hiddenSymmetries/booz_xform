@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
+#include "init_trig.hpp"
 
 using namespace booz_xform;
 
@@ -65,7 +66,9 @@ void Booz_xform::check_accuracy(int js, int js_b) {
   // For the next few steps we will re-use cosm_b, sinm_b, cosn_b, and
   // sinn_b. They are larger than necessary, but this is not a
   // problem (except perhaps for memory locality?)
-  init_trig(theta_b_test, zeta_b_test, cosm_b, sinm_b, cosn_b, sinn_b, mboz, nboz);
+  init_trig(theta_b_test, zeta_b_test,
+	    cosm_b, sinm_b, cosn_b, sinn_b,
+	    mboz, nboz, nfp);
 
   int j, jmn, m, n, abs_n, sign;
   boozfloat tcos, tsin;
