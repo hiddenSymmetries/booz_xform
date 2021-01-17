@@ -6,18 +6,6 @@ cmake_minimum_required(VERSION 3.12)
 #set(CMAKE_BUILD_TYPE Debug)
 add_definitions(-O2)
 
-# If on a Mac, use the Accelerate framework for BLAS/LAPACK.
-# Otherwise, CMake may use a random BLAS/LAPACK it finds that is not as optimized.
-# To check if we're on a Mac, evaluate 'uname -s'.
-execute_process(COMMAND uname -s
-                OUTPUT_VARIABLE UNAME_S
-                OUTPUT_STRIP_TRAILING_WHITESPACE)
-message("Result of uname -s: ${UNAME_S}")
-if ("${UNAME_S}" STREQUAL "Darwin")
-  message("Setting BLA_VENDOR to Apple")
-  set(BLA_VENDOR Apple)
-endif()
-
 #set(CMAKE_MODULE_PATH cmake)
 include(cmake/knownHosts.cmake)
 
@@ -30,9 +18,7 @@ find_package (NetCDF REQUIRED)
 message("NETCDF_INCLUDES=${NETCDF_INCLUDES}")
 message("NETCDF_LIBRARIES=${NETCDF_LIBRARIES}")
 
-message("BLA_VENDOR: ${BLA_VENDOR}")
 find_package(MPI REQUIRED)
-find_package(BLAS REQUIRED)
 
 # Tell "make" to print out the commands used for compiling and linking:
 set(CMAKE_VERBOSE_MAKEFILE on)
@@ -68,7 +54,7 @@ set_property(TARGET libbooz_xform PROPERTY OUTPUT_NAME booz_xform)
 add_executable(xbooz_xform ${SOURCE_DIR}/xbooz_xform.cpp)
 #set_property(TARGET xbooz_xform PROPERTY CXX_STANDARD 11)
 
-target_link_libraries(libbooz_xform PUBLIC ${BLAS_LIBRARIES} ${NETCDF_LIBRARIES})
+target_link_libraries(libbooz_xform PUBLIC ${NETCDF_LIBRARIES})
 
 # Driver and python module depend on the library:
 target_link_libraries(xbooz_xform PUBLIC libbooz_xform)

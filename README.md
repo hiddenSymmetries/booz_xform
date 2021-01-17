@@ -1,3 +1,3 @@
 # booz_xform
 
-A python extension using C++ and Pybind11
+Conversion to Boozer coordinates
