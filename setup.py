@@ -115,7 +115,7 @@ setup(
     version="0.0.2",
     author="Matt Landreman",
     author_email="matt.landreman@gmail.com",
-    description="A test project using pybind11 and CMake",
+    description="Transformation",
     long_description=long_description,
     # tell setuptools to look for any packages under 'src'
     #packages=find_packages('src'),
@@ -124,6 +124,10 @@ setup(
     #package_dir={'':'src'},
     ext_modules=[CMakeExtension("booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
+    install_requires=[
+        'numpy',
+        'scipy'
+    ]
     test_suite='tests',
     zip_safe=False,
 )
