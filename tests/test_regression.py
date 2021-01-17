@@ -10,7 +10,11 @@ TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
 
 class RegressionTest(unittest.TestCase):
     def test_regression(self):
-        configurations = ['circular_tokamak', 'up_down_asymmetric_tokamak', 'li383_1.4m']
+        configurations = ['circular_tokamak',
+                          'up_down_asymmetric_tokamak',
+                          'li383_1.4m',
+                          'LandremanSenguptaPlunk_section5p3']
+        
         for configuration in configurations:
             wout_filename = 'wout_' + configuration + '.nc'
             boozmn_filename = 'boozmn_' + configuration + '.nc'
