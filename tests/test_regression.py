@@ -10,7 +10,7 @@ TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
 
 class RegressionTest(unittest.TestCase):
     def test_regression(self):
-        configurations = ['circular_tokamak', 'li383_1.4m']
+        configurations = ['circular_tokamak', 'up_down_asymmetric_tokamak', 'li383_1.4m']
         for configuration in configurations:
             wout_filename = 'wout_' + configuration + '.nc'
             boozmn_filename = 'boozmn_' + configuration + '.nc'
@@ -27,6 +27,9 @@ class RegressionTest(unittest.TestCase):
             b.run()
 
             vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'pmns_b', 'gmnc_b']
+            asym = bool(f.variables['lasym__logical__'][()])
+            if asym:
+                vars += ['bmns_b', 'rmns_b', 'zmnc_b', 'pmnc_b', 'gmns_b']
 
             rtol = 1e-12
             atol = 1e-12
