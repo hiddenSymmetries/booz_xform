@@ -127,7 +127,7 @@ setup(
     install_requires=[
         'numpy',
         'scipy'
-    ]
+    ],
     test_suite='tests',
     zip_safe=False,
 )
