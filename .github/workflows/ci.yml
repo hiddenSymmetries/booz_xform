@@ -133,5 +133,5 @@ jobs:
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
 
-    #- name: Run unit tests
-    #  run: python3 -m unittest -v
+    - name: Run unit tests
+      run: python3 -m unittest -v
