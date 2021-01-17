@@ -67,6 +67,16 @@ PYBIND11_MODULE(booz_xform, m) {
     .def_readwrite("rmnc", &Booz_xform::rmnc)
     .def_readwrite("verbose", &Booz_xform::verbose)
     .def_readwrite("jlist", &Booz_xform::jlist)
+    .def_readwrite("bmnc_b", &Booz_xform::bmnc_b)
+    .def_readwrite("bmns_b", &Booz_xform::bmns_b)
+    .def_readwrite("gmnc_b", &Booz_xform::gmnc_b)
+    .def_readwrite("gmns_b", &Booz_xform::gmns_b)
+    .def_readwrite("rmnc_b", &Booz_xform::rmnc_b)
+    .def_readwrite("rmns_b", &Booz_xform::rmns_b)
+    .def_readwrite("zmnc_b", &Booz_xform::zmnc_b)
+    .def_readwrite("zmns_b", &Booz_xform::zmns_b)
+    .def_readwrite("pmnc_b", &Booz_xform::pmnc_b)
+    .def_readwrite("pmns_b", &Booz_xform::pmns_b)
     .def("testfunc1", &Booz_xform::testfunc1)
     .def("testfunc2", &Booz_xform::testfunc2);
     
