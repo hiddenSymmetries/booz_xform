@@ -31,10 +31,11 @@ release = '0.0.4'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-              'sphinx_rtd_theme',
-              'sphinx.ext.autodoc',
-              'sphinx.ext.mathjax',
-              'sphinx.ext.napoleon',
+    'sphinx_rtd_theme',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'breathe',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -80,3 +81,8 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_type_aliases = None
 napoleon_attr_annotations = True
+
+# ----- Breathe extension configuration ----------------------------
+
+breathe_projects = {"booz_xform": "../xml/"}
+breathe_default_project = "booz_xform"

@@ -38,7 +38,18 @@ jobs:
 
     - name: Install python dependencies for sphinx
       run: |
-        pip install sphinx-autodoc-typehints sphinx-rtd-theme
+        pip install sphinx-autodoc-typehints sphinx-rtd-theme breathe
+
+    - name: Install Doxygen
+      # We download directly rather than use apt-get so we have exactly the same version used to create the Doxyfile
+      run: curl -s https://www.doxygen.nl/files/doxygen-1.8.17.linux.bin.tar.gz | sudo tar -C /usr/local -xz
+
+    - name: Run Doxygen
+      working-directory: ./docs
+      run: /usr/local/doxygen-1.8.17/bin/doxygen
+
+    - name: ls
+      run: ls -l docs
 
     - name: Execute script to build our documentation and update pages
       env:
