@@ -27,7 +27,7 @@ jobs:
     #- name: Install wheel
     #  run: pip install wheel
 
-    - name: Build a binary wheel and a source tarball
+    - name: Build a source tarball
       run: python3 setup.py sdist
       #run: python3 setup.py sdist bdist_wheel
 

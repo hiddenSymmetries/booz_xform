@@ -105,9 +105,14 @@ class CMakeBuild(build_ext):
         )
 
         # Copy unit tests to the repository
-        src_file = os.path.join(self.build_temp, 'unitTests')
+        #src_file = os.path.join(self.build_temp, 'unitTests')
+        #dest_dir = os.path.join(os.path.dirname(
+        #    os.path.abspath(__file__)), 'tests')
+
+        # Copy standalone executable so it can be installed:
+        src_file = os.path.join(self.build_temp, 'xbooz_xform')
         dest_dir = os.path.join(os.path.dirname(
-            os.path.abspath(__file__)), 'tests')
+            os.path.abspath(__file__)))
         dest_file = os.path.join(dest_dir, os.path.basename(src_file))
         print("copying {} -> {}".format(src_file, dest_file))
         copyfile(src_file, dest_file)
@@ -120,7 +125,7 @@ with open("README.md", "r") as fh:
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="booz_xform",
-    version="0.0.2",
+    version="0.0.3",
     author="Matt Landreman",
     author_email="matt.landreman@gmail.com",
     description="Transformation to Boozer coordinates",
@@ -136,6 +141,8 @@ setup(
         'numpy',
         'scipy'
     ],
+    # The next line makes the executable available:
+    data_files = [('bin', ['xbooz_xform'])],
     test_suite='tests',
     zip_safe=False,
 )
