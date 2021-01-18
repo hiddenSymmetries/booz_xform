@@ -68,8 +68,12 @@ add_executable(${BOOZ_TESTS} ${UNIT_TEST_SOURCES})
 target_link_libraries(${BOOZ_TESTS} PUBLIC libbooz_xform)
 # Put the unitTests executable in the "tests" directory:
 #set_property(TARGET ${BOOZ_TESTS} PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)
-# Doctest requires c++11
+
+# We need the c++11 standard both for doctest, and because the Intel compiler
+# does not recognize std::begin/end otherwise.
+set_property(TARGET libbooz_xform PROPERTY CXX_STANDARD 11)
 set_property(TARGET ${BOOZ_TESTS} PROPERTY CXX_STANDARD 11)
+
 # Do not build the unit tests by default, since they take some time to build:
 #set_property(TARGET ${BOOZ_TESTS} PROPERTY EXCLUDE_FROM_ALL 1)
 

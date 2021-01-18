@@ -87,9 +87,9 @@ Then install the package to your local python environment with
 .. code-block::
 
   cd booz_xform
-  python setup.py develop
+  pip install -v .
 
-The last line can be preceded by ``CXX=`` to select a specific compiler, as in the ``pip install`` method above.
+The last line can be preceded by ``CXX=`` to select a specific compiler, as in the PyPI method above.
 
 3. Building outside of the python package system
 ************************************************
