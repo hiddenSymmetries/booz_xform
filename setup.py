@@ -8,7 +8,7 @@
 import os
 import sys
 import subprocess
-
+from shutil import copyfile, copymode # for doctest unitTests
 from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext
 
@@ -104,6 +104,14 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
+        # Copy unit tests to the repository
+        src_file = os.path.join(self.build_temp, 'unitTests')
+        dest_dir = os.path.join(os.path.dirname(
+            os.path.abspath(__file__)), 'tests')
+        dest_file = os.path.join(dest_dir, os.path.basename(src_file))
+        print("copying {} -> {}".format(src_file, dest_file))
+        copyfile(src_file, dest_file)
+        copymode(src_file, dest_file)
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -115,7 +123,7 @@ setup(
     version="0.0.2",
     author="Matt Landreman",
     author_email="matt.landreman@gmail.com",
-    description="Transformation",
+    description="Transformation to Boozer coordinates",
     long_description=long_description,
     # tell setuptools to look for any packages under 'src'
     #packages=find_packages('src'),

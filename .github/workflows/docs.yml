@@ -1,0 +1,52 @@
+name: Docs
+ 
+# execute this workflow automatically when a we push to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+ 
+jobs:
+ 
+  Docs:
+    runs-on: ubuntu-latest
+ 
+    steps:
+ 
+    - name: Prereqs for changing git 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        #sudo apt-get update
+        #sudo apt-get install -y git openmpi-bin libopenmpi-dev rsync
+        git clone --depth 1 "https://token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
+      shell: bash
+ 
+    - name: ls
+      run: ls -l
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Get python and pip information
+      run: |
+        python --version
+        pip --version
+
+    - name: Install python dependencies for sphinx
+      run: |
+        pip install sphinx-autodoc-typehints sphinx-rtd-theme
+
+    - name: Execute script to build our documentation and update pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        ls "$PWD"
+        cd docs
+        ls "$PWD"
+        chmod +x ./build_docs.sh
+        ./build_docs.sh 
+      shell: bash

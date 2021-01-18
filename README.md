@@ -1,3 +1,5 @@
 # booz_xform
 
-Conversion to Boozer coordinates
+`booz_xform` is a package for computing Boozer coordinates in toroidal magnetohydrodynamic
+equilibria, including both stellarators and tokamaks.
+For more information, see the [booz_xform documentation here.](https://landreman.github.io/booz_xform/)
