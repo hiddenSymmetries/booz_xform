@@ -1,3 +1,3 @@
 include README.md LICENSE
 graft src
-global-include CMakeLists.txt *.cmake
+global-include CMakeLists.txt *.cmake *.cpp *.hpp *.h
