@@ -10,4 +10,5 @@ in toroidal magnetohydrodynamic equilibria.
 
    getting_started
    api
+   developer
    source
