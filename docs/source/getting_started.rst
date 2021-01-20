@@ -80,7 +80,7 @@ If you prefer to see or edit the source code, you can first clone the repository
 
 .. code-block::
 
-    git clone https://github.com/landreman/booz_xform.git
+    git clone https://github.com/hiddenSymmetries/booz_xform.git
 
 Then install the package to your local python environment with
 
@@ -100,7 +100,7 @@ of the repository, obtained with
 
 .. code-block::
 
-  git clone https://github.com/landreman/booz_xform.git
+  git clone https://github.com/hiddenSymmetries/booz_xform.git
 
 The code then can be built using the usual approach for a ``cmake`` project::
 

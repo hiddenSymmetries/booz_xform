@@ -49,7 +49,7 @@ namespace booz_xform {
   public:
     int verbose;
     int mboz, nboz;
-    bool asym;
+    bool asym; //!< false if the configuration is stellarator-symmetric, true otherwise.
     int mpol, ntor, mnmax, mpol_nyq, ntor_nyq, mnmax_nyq, ns, nfp, mnboz;
     Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns;
     Matrix bsubumnc, bsubumns, bsubvmnc, bsubvmns;
@@ -59,18 +59,44 @@ namespace booz_xform {
     int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
-    Vector Boozer_I, Boozer_G; //!< The covariant components of B in Boozer coordinates.
-    
+    Vector Boozer_G; //!< The toroidal covariant component of B in Boozer coordinates.
+    Vector Boozer_I; //!< The poloidal covariant component of B in Boozer coordinates.
+
+    //! Constructor
+    /**
+     * Create a Booz_xform object with no data.
+     */
     Booz_xform();
-    void read_boozmn(std::string);
-    void read_wout(std::string);
+
+    //! Read input data from a VMEC wout_*.nc file.
+    /**
+     * This method also handles radial interpolation of the full-grid
+     * quantities rmnc, rmns, zmnc, and zmns onto the half-grid points.
+     *
+     * @param[in] filename The name of the VMEC wout file to load
+     */
+    void read_wout(std::string filename);
+
+    //! Carry out the transformation calculation
+    /**
+     * This method is the main computationally intensive step, and it
+     * should be called after the equilibrium data is loaded.
+     */
     void run();
+
+    //! Write results to a boozmn_*.nc output file
+    /**
+     * This method writes a classic output file, and it should be called
+     * after run() has completed.
+     *
+     * @param[in] filename The full name of the boozmn_*.nc file to write.
+     */
+    void write_boozmn(std::string filename);
+    
     void init();
     void surface_solve(int);
     void check_accuracy(int, int);
-    void write_boozmn(std::string);
-    void testfunc1();
-    void testfunc2(int);
+    void read_boozmn(std::string);
   };
   
 }

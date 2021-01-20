@@ -14,7 +14,7 @@ Matrix::Matrix()
   len_ = 1;
 }
 
-Matrix::Matrix(index_type nrows_in, index_type ncols_in)
+Matrix::Matrix(size_t nrows_in, size_t ncols_in)
   : std::valarray<boozfloat>(nrows_in * ncols_in) // Call constructor of base class.
 {
   nrows_ = nrows_in;
@@ -22,7 +22,7 @@ Matrix::Matrix(index_type nrows_in, index_type ncols_in)
   len_ = nrows_ * ncols_;
 }
 
-void Matrix::resize(index_type nrows_in, index_type ncols_in, boozfloat v) {
+void Matrix::resize(size_t nrows_in, size_t ncols_in, boozfloat v) {
   nrows_ = nrows_in;
   ncols_ = ncols_in;
   len_ = nrows_ * ncols_;
@@ -30,7 +30,7 @@ void Matrix::resize(index_type nrows_in, index_type ncols_in, boozfloat v) {
 }
 	       
 std::ostream& booz_xform::operator<< (std::ostream& os, Vector& v) {
-  for (index_type j = 0; j < v.size(); j++) {
+  for (size_t j = 0; j < v.size(); j++) {
     if (j > 0) os << " ";
     os << v[j];
   }
@@ -38,8 +38,8 @@ std::ostream& booz_xform::operator<< (std::ostream& os, Vector& v) {
 }
 
 std::ostream& booz_xform::operator<< (std::ostream& os, Matrix& m) {
-  for (index_type j = 0; j < m.nrows(); j++) {
-    for (index_type k = 0; k < m.ncols(); k++) {
+  for (size_t j = 0; j < m.nrows(); j++) {
+    for (size_t k = 0; k < m.ncols(); k++) {
       if (k > 0) os << " ";
       os << m[j + m.nrows() * k];
     }

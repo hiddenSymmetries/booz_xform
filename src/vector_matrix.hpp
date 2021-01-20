@@ -10,29 +10,53 @@ namespace booz_xform {
   
   typedef std::valarray<boozfloat> Vector;
   
-  // typedef unsigned index_type;
-  typedef int index_type;
-
   class Matrix : public std::valarray<boozfloat> {
 
   private:
-    index_type nrows_, ncols_, len_;
+    size_t nrows_, ncols_, len_;
 
   public:
+    //! Default constructor
+    /**
+     * Initialize a matrix with 1 row, 1 column, and a single entry 0.0.
+     */
     Matrix();
-    Matrix(index_type, index_type);
-    index_type nrows();
-    index_type ncols();
-    void resize(index_type, index_type, boozfloat);
+
+    //! Constructor: Initialize a matrix and set all entries 0.0.
+    /**
+     * @param[in] nrows The number of rows desired.
+     * @param[in] ncols The number of columns desired.
+     */
+    Matrix(size_t nrows, size_t ncols);
+
+    //! Return the number of rows in the matrix.
+    size_t nrows();
+
+    //! Return the number of columns in the matrix.
+    size_t ncols();
+
+    //! Set the size of the matrix, allocating memory for it.
+    /**
+     * @param[in] nrows The number of rows desired.
+     * @param[in] ncols The number of columns desired.
+     * @param[in] value All the elements of the matrix will be set to this value.
+     */
+    void resize(size_t nrows, size_t ncols, boozfloat value);
+    
     // For info about matrix indexing:
     // https://isocpp.org/wiki/faq/operator-overloading#matrix-subscript-op
-    boozfloat& operator()(index_type, index_type);
-    boozfloat  operator()(index_type, index_type) const;
+    //! Access a specified element of the matrix
+    /**
+     * @param[in] row The 0-based index of the row to access.
+     * @param[in] col The 0-based index of the column to access. 
+     */
+    boozfloat& operator()(size_t row, size_t column);
+    boozfloat  operator()(size_t, size_t) const;
+
     Matrix& operator=(const boozfloat);
     Matrix& operator=(const Matrix&);
   };
 
-  void matrix_vector_product(Matrix&, Vector&, Vector&);
   boozfloat dot_product(Vector&, Vector&);
   
   // These operators should be in the namespace:
@@ -64,19 +88,19 @@ namespace booz_xform {
 
   // inline functions must be included in every file that uses them,
   // so these functions should go in the header file.
-  inline index_type Matrix::nrows() {
+  inline size_t Matrix::nrows() {
     return nrows_;
   }
 
-  inline index_type Matrix::ncols() {
+  inline size_t Matrix::ncols() {
     return ncols_;
   }
 
-  inline boozfloat& Matrix::operator()(index_type m, index_type n) {
+  inline boozfloat& Matrix::operator()(size_t m, size_t n) {
     return (*this)[m + nrows_ * n];
   }
 
-  inline boozfloat Matrix::operator()(index_type m, index_type n) const {
+  inline boozfloat Matrix::operator()(size_t m, size_t n) const {
     return (*this)[m + nrows_ * n];
   }
 

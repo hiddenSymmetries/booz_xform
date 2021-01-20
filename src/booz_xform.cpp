@@ -11,14 +11,6 @@ void Booz_xform::defaults() {
 }
 
 Booz_xform::Booz_xform() {
-  std::cout << "Hello world from constructor" << std::endl;
+  if (verbose > 0) std::cout << "Booz_xform object created." << std::endl;
   defaults();
-}
-
-void Booz_xform::testfunc1() {
-  std::cout << "Hello world from testfunc1" << std::endl;
-}
-
-void Booz_xform::testfunc2(int j) {
-  std::cout << "Hello world from testfunc2. j=" << j << std::endl;
 }

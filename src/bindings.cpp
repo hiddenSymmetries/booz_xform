@@ -76,9 +76,7 @@ PYBIND11_MODULE(booz_xform, m) {
     .def_readwrite("zmnc_b", &Booz_xform::zmnc_b)
     .def_readwrite("zmns_b", &Booz_xform::zmns_b)
     .def_readwrite("pmnc_b", &Booz_xform::pmnc_b)
-    .def_readwrite("pmns_b", &Booz_xform::pmns_b)
-    .def("testfunc1", &Booz_xform::testfunc1)
-    .def("testfunc2", &Booz_xform::testfunc2);
+    .def_readwrite("pmns_b", &Booz_xform::pmns_b);
     
 }
 
