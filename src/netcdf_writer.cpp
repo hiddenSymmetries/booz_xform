@@ -1,5 +1,4 @@
 #include <vector>
-#include <valarray>
 #include <algorithm>
 #include <stdexcept>
 #include <iomanip>
@@ -101,7 +100,7 @@ void booz_xform::NetCDFWriter::put(std::string varname, std::string& val, std::s
   add_attribute(var_id, att, units);
 }
 
-void booz_xform::NetCDFWriter::put(dim_id_type dim_id, std::string varname, std::valarray<int>& val, std::string att, std::string units) {
+void booz_xform::NetCDFWriter::put(dim_id_type dim_id, std::string varname, IntVector& val, std::string att, std::string units) {
   // Variant for 1D int arrays
   int var_id, retval;
   if ((retval = nc_def_var(ncid, varname.c_str(), NC_INT, 1, &dim_id, &var_id)))

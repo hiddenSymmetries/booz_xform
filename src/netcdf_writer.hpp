@@ -42,7 +42,7 @@ namespace booz_xform {
     void put(std::string, boozfloat&, std::string, std::string);
     void put(std::string, std::string&, std::string);
     // 1D vectors:
-    void put(dim_id_type, std::string, std::valarray<int>&, std::string, std::string);
+    void put(dim_id_type, std::string, IntVector&, std::string, std::string);
     void put(dim_id_type, std::string, Vector&, std::string, std::string);
     // ND vectors for N > 1:
     void put(std::vector<dim_id_type>, std::string, boozfloat*, std::string, std::string);

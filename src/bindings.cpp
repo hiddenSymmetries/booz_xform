@@ -39,6 +39,7 @@ PYBIND11_MODULE(booz_xform, m) {
   */
   py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
     .def_buffer([](Matrix &mat) -> py::buffer_info {
+      // This ".def_buffer" section handles conversion from C++ to python
       return py::buffer_info(
 			     &mat[0], // Pointer to buffer
 			     sizeof(boozfloat), // Size of one scalar
@@ -48,7 +49,38 @@ PYBIND11_MODULE(booz_xform, m) {
 			     { sizeof(boozfloat), // Strides (in bytes) for each index
 			       sizeof(boozfloat) * mat.nrows()}
 			     );
-    });
+    })
+    .def(py::init([](py::buffer b) {
+      // This ".def" section handles conversion from python to C++.
+      // This section is based on the pybind11 page
+      // https://pybind11.readthedocs.io/en/stable/advanced/pycpp/numpy.html
+      // specifically the example following "To create a C++ function that can take a Python buffer object as an argument"
+
+      // Request a buffer descriptor from Python
+      py::buffer_info info = b.request();
+
+      // Some sanity checks ...
+      if (info.format != py::format_descriptor<boozfloat>::format())
+	throw std::runtime_error("Incompatible format: expected a double array!");
+
+      if (info.ndim != 2)
+	throw std::runtime_error("Incompatible buffer dimension!");
+
+      Matrix mat(info.shape[0], info.shape[1]);
+      boozfloat * data = static_cast<boozfloat *>(info.ptr);
+      // Strides are in bytes. For convenience, scale by sizeof(boozfloat)
+      info.strides[0] /= sizeof(boozfloat);
+      info.strides[1] /= sizeof(boozfloat);
+      // Copy data. This approach is slow but it should handle both
+      // row-major and col-major numpy arrays with any strides.
+      for (int j = 0; j < info.shape[0]; j++) {
+	for (int k = 0; k < info.shape[1]; k++) {
+	  mat(j, k) = data[j * info.strides[0] + k * info.strides[1]];
+	}
+      }
+
+      return mat;
+    }));
   
   py::class_<Booz_xform>(m, "Booz_xform")
     .def(py::init())

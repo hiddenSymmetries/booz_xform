@@ -53,9 +53,10 @@ namespace booz_xform {
     int mpol, ntor, mnmax, mpol_nyq, ntor_nyq, mnmax_nyq, ns, nfp, mnboz;
     Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns;
     Matrix bsubumnc, bsubumns, bsubvmnc, bsubvmns;
-    Vector iotas, xm, xn, xm_nyq, xn_nyq;
-    std::valarray<int> jlist;
-    Vector xmb, xnb;
+    Vector iotas;
+    IntVector xm, xn, xm_nyq, xn_nyq;
+    IntVector jlist;
+    IntVector xmb, xnb;
     int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;

@@ -37,6 +37,14 @@ std::ostream& booz_xform::operator<< (std::ostream& os, Vector& v) {
   return os;
 }
 
+std::ostream& booz_xform::operator<< (std::ostream& os, IntVector& v) {
+  for (size_t j = 0; j < v.size(); j++) {
+    if (j > 0) os << " ";
+    os << v[j];
+  }
+  return os;
+}
+
 std::ostream& booz_xform::operator<< (std::ostream& os, Matrix& m) {
   for (size_t j = 0; j < m.nrows(); j++) {
     for (size_t k = 0; k < m.ncols(); k++) {

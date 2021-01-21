@@ -20,6 +20,7 @@ namespace booz_xform {
     void get(std::string, boozfloat&);
     // Vectors
     void get(std::string, Vector&);
+    void get(std::string, IntVector&);
     // Matrices
     void get(std::string, Matrix&);
 	     

@@ -9,6 +9,7 @@ namespace booz_xform {
   typedef double boozfloat;
   
   typedef std::valarray<boozfloat> Vector;
+  typedef std::valarray<int> IntVector;
   
   class Matrix : public std::valarray<boozfloat> {
 
@@ -48,7 +49,7 @@ namespace booz_xform {
     //! Access a specified element of the matrix
     /**
      * @param[in] row The 0-based index of the row to access.
-     * @param[in] col The 0-based index of the column to access. 
+     * @param[in] column The 0-based index of the column to access. 
      */
     boozfloat& operator()(size_t row, size_t column);
     boozfloat  operator()(size_t, size_t) const;
@@ -63,6 +64,7 @@ namespace booz_xform {
   // https://stackoverflow.com/questions/3891402/operator-overloading-and-namespaces
   // https://stackoverflow.com/questions/3623631/where-should-non-member-operator-overloads-be-placed
   std::ostream& operator<<(std::ostream&, Vector&);
+  std::ostream& operator<<(std::ostream&, IntVector&);
   std::ostream& operator<<(std::ostream&, Matrix&);
   
   // Multiplication of an int with std::valarray<boozfloat> is not included in some compilers:
@@ -113,6 +115,9 @@ namespace booz_xform {
   inline Matrix& Matrix::operator=(const Matrix &v) {
     // Delegate to parent class:
     std::valarray<boozfloat>::operator=(v);
+    this->nrows_ = v.nrows_;
+    this->ncols_ = v.ncols_;
+    this->len_ = v.len_;
     return *this;
   }
 

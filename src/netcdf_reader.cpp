@@ -36,7 +36,7 @@ void booz_xform::NetCDFReader::get(std::string varname, boozfloat& var) {
       ERR(retval);
 }
 
-/** This subroutine presently assumes the vector has already been
+/** This subroutine presently assumes the Vector has already been
     sized to the correct dimension. If not, there may be a seg fault.
  */
 void booz_xform::NetCDFReader::get(std::string varname, Vector& var) {
@@ -44,6 +44,17 @@ void booz_xform::NetCDFReader::get(std::string varname, Vector& var) {
   if ((retval = nc_inq_varid(ncid, varname.c_str(), &var_id)))
       ERR(retval);
   if ((retval = nc_get_var_double(ncid, var_id, &var[0])))
+      ERR(retval);
+}
+
+/** This subroutine presently assumes the IntVector has already been
+    sized to the correct dimension. If not, there may be a seg fault.
+ */
+void booz_xform::NetCDFReader::get(std::string varname, IntVector& var) {
+  int var_id, retval;
+  if ((retval = nc_inq_varid(ncid, varname.c_str(), &var_id)))
+      ERR(retval);
+  if ((retval = nc_get_var_int(ncid, var_id, &var[0])))
       ERR(retval);
 }
 
