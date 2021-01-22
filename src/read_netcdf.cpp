@@ -37,19 +37,19 @@ void Booz_xform::read_wout(std::string filename) {
   nc.get("mnmax", mnmax);
   nc.get("mnmax_nyq", mnmax_nyq);
   
-  iotas.resize(ns, 0.0);
+  iotas.resize(ns);
   nc.get("iotas", iotas);
 
-  jlist.resize(ns - 1, 0);
+  jlist.resize(ns - 1);
   for (j = 0; j < ns - 1; j++) jlist[j] = j + 2;
   
-  xm.resize(mnmax, 0.0);
-  xn.resize(mnmax, 0.0);
+  xm.resize(mnmax);
+  xn.resize(mnmax);
   nc.get("xm", xm);
   nc.get("xn", xn);
 
-  xm_nyq.resize(mnmax_nyq, 0.0);
-  xn_nyq.resize(mnmax_nyq, 0.0);
+  xm_nyq.resize(mnmax_nyq);
+  xn_nyq.resize(mnmax_nyq);
   nc.get("xm_nyq", xm_nyq);
   nc.get("xn_nyq", xn_nyq);
   // Maximum values of m_nyq and n_nyq are in the last elements:
@@ -57,34 +57,34 @@ void Booz_xform::read_wout(std::string filename) {
   ntor_nyq = xn_nyq[mnmax_nyq - 1] / nfp;
 
   // Non-Nyquist quantities:
-  rmnc.resize(mnmax, ns, 0.0);
-  zmns.resize(mnmax, ns, 0.0);
-  lmns.resize(mnmax, ns, 0.0);
+  rmnc.resize(mnmax, ns);
+  zmns.resize(mnmax, ns);
+  lmns.resize(mnmax, ns);
   nc.get("rmnc", rmnc);
   nc.get("zmns", zmns);
   nc.get("lmns", lmns);
 
   // Nyquist quantities:
-  bmnc.resize(mnmax_nyq, ns, 0.0);
-  bsubumnc.resize(mnmax_nyq, ns, 0.0);
-  bsubvmnc.resize(mnmax_nyq, ns, 0.0);
+  bmnc.resize(mnmax_nyq, ns);
+  bsubumnc.resize(mnmax_nyq, ns);
+  bsubvmnc.resize(mnmax_nyq, ns);
   nc.get("bmnc", bmnc);
   nc.get("bsubumnc", bsubumnc);
   nc.get("bsubvmnc", bsubvmnc);
 
   if (asym) {
     // Non-Nyquist quantities:
-    rmns.resize(mnmax, ns, 0.0);
-    zmnc.resize(mnmax, ns, 0.0);
-    lmnc.resize(mnmax, ns, 0.0);
+    rmns.resize(mnmax, ns);
+    zmnc.resize(mnmax, ns);
+    lmnc.resize(mnmax, ns);
     nc.get("rmns", rmns);
     nc.get("zmnc", zmnc);
     nc.get("lmnc", lmnc);
 
     // Nyquist quantities:
-    bmns.resize(mnmax_nyq, ns, 0.0);
-    bsubumns.resize(mnmax_nyq, ns, 0.0);
-    bsubvmns.resize(mnmax_nyq, ns, 0.0);
+    bmns.resize(mnmax_nyq, ns);
+    bsubumns.resize(mnmax_nyq, ns);
+    bsubvmns.resize(mnmax_nyq, ns);
     nc.get("bmns", bmns);
     nc.get("bsubumns", bsubumns);
     nc.get("bsubvmns", bsubvmns);
@@ -93,10 +93,12 @@ void Booz_xform::read_wout(std::string filename) {
   if (verbose > 0) {
     std::cout << "Read ns=" << ns << ", mpol=" << mpol << ", ntor=" << ntor
 	      << ", mnmax=" << mnmax << ", mnmax_nyq=" << mnmax_nyq << std::endl;
-    
-    std::cout << "iotas = " << iotas << std::endl;
-    std::cout << "xm = " << xm << std::endl;
-    std::cout << "xn = " << xn << std::endl;
+
+    if (verbose > 1) {
+      std::cout << "iotas = " << iotas << std::endl;
+      std::cout << "xm = " << xm << std::endl;
+      std::cout << "xn = " << xn << std::endl;
+    }
     
     std::cout << "rmnc, increasing ns index:";
     for (j = 0; j < 4; j++) std::cout << " " << rmnc(0, j);
@@ -122,13 +124,13 @@ void Booz_xform::read_wout(std::string filename) {
   
   // Copy the full-grid arrays:
   Matrix rmnc_orig, rmns_orig, zmnc_orig, zmns_orig;
-  rmnc_orig.resize(mnmax, ns, 0.0);
-  zmns_orig.resize(mnmax, ns, 0.0);
+  rmnc_orig.resize(mnmax, ns);
+  zmns_orig.resize(mnmax, ns);
   rmnc_orig = rmnc;
   zmns_orig = zmns;
   if (asym) {
-    rmns_orig.resize(mnmax, ns, 0.0);
-    zmnc_orig.resize(mnmax, ns, 0.0);
+    rmns_orig.resize(mnmax, ns);
+    zmnc_orig.resize(mnmax, ns);
     rmns_orig = rmns;
     zmnc_orig = zmnc;
   }
@@ -136,8 +138,8 @@ void Booz_xform::read_wout(std::string filename) {
   // We will need sqrt(s) on the full and half grid:
   hs = 1.0 / (ns - 1.0);
   Vector sqrt_s_full, sqrt_s_half;
-  sqrt_s_full.resize(ns, 0.0);
-  sqrt_s_half.resize(ns - 1, 0.0);
+  sqrt_s_full.resize(ns);
+  sqrt_s_half.resize(ns - 1);
   for (j = 0; j < ns; j++) sqrt_s_full[j] = sqrt(hs * j);
   for (j = 0; j < ns - 1; j++) sqrt_s_half[j] = sqrt(hs * (j + 0.5));
   // To avoid divide-by-zero when we divide by sqrt_s:

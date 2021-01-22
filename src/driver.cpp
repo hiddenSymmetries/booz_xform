@@ -84,7 +84,7 @@ int booz_xform::driver(int argc, char* argv[]) {
   // default jlist initialized by read_netcdf().
   if (jlist.size() > 0) {
     std::sort(jlist.begin(), jlist.end());
-    booz.jlist.resize(jlist.size(), 0);
+    booz.jlist.resize(jlist.size());
     for (j = 0; j < jlist.size(); j++) booz.jlist[j] = jlist[j];
   } else {
     std::cout << "No jlist specified, so including all half-grid surfaces." << std::endl;

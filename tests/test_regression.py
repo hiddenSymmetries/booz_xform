@@ -10,6 +10,7 @@ TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
 
 class RegressionTest(unittest.TestCase):
     def test_regression(self):
+
         configurations = ['circular_tokamak',
                           'up_down_asymmetric_tokamak',
                           'li383_1.4m',
@@ -46,7 +47,7 @@ class RegressionTest(unittest.TestCase):
                 # Reference values:
                 arr1 = f.variables[var_ref][()]
                 # Newly computed values:
-                arr2 = np.array(getattr(b, var)).transpose()
+                arr2 = getattr(b, var).transpose()
 
                 print('abs diff in ' + var + ':', np.max(np.abs(arr1 - arr2)))
                 np.testing.assert_allclose(arr1, arr2,

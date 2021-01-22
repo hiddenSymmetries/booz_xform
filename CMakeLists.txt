@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Comment out the next line when speed is needed
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 add_definitions(-O2)
 
 #set(CMAKE_MODULE_PATH cmake)
@@ -26,6 +26,7 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 set(SOURCE_DIR "src")
 include_directories(${SOURCE_DIR})
 include_directories(externalPackages/doctest)
+include_directories(externalPackages/eigen)
 include_directories("${NETCDF_INCLUDES}")
 
 # Get a list of all sources:

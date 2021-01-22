@@ -1,4 +1,4 @@
-#include <valarray>
+#include <iostream>
 #include <stdexcept>
 #include <netcdf.h>
 #include "vector_matrix.hpp"
@@ -65,7 +65,7 @@ void booz_xform::NetCDFReader::get(std::string varname, Matrix& var) {
   int var_id, retval;
   if ((retval = nc_inq_varid(ncid, varname.c_str(), &var_id)))
       ERR(retval);
-  if ((retval = nc_get_var_double(ncid, var_id, &var[0])))
+  if ((retval = nc_get_var_double(ncid, var_id, &var(0,0))))
       ERR(retval);
 }
 

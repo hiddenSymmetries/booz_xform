@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
@@ -42,20 +43,33 @@ void Booz_xform::check_accuracy(int js, int js_b) {
   assert (std::abs(zeta_grid[index] - 0) < 1.0e-13);
 
   // (theta = 0, zeta = pi / nfp):
-  index = nv / 2; // Note nv is even so there is no rounding.
+  index = nv / 2;
+  // Above, for nonaxisymmetry, nv is even so there is no rounding.
+  // For axisymmetry, nv = 1 so integer division gives index = 0;
   bmod_vmec[2] = bmod[index];
   theta_b_test[2] = theta_Boozer_grid[index];
   zeta_b_test[2] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - 0) < 1.0e-13);
-  assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
+  if (ntor > 0) {
+    assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
+  } else {
+    assert (std::abs(zeta_grid[index]) < 1.0e-13);
+  }
 
   // (theta = 0, zeta = pi / nfp):
-  index = (nu / 2) * nv + (nv / 2); // Note nu and nv are even so there is no rounding.
+  index = (nu / 2) * nv + (nv / 2);
+  // Above, for nonaxisymmetry, nv is even so there is no rounding.
+  // For axisymmetry, nv = 1 so integer division gives index = 0;
+  // nu is always even so there is no rounding in nu / 2.
   bmod_vmec[3] = bmod[index];
   theta_b_test[3] = theta_Boozer_grid[index];
   zeta_b_test[3] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - pi) < 1.0e-13);
-  assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
+  if (ntor > 0) {
+    assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
+  } else {
+    assert (std::abs(zeta_grid[index]) < 1.0e-13);
+  }
 
   // End of parts from boozer_coords.f.
   // Now comes code equivalent to harfun.f::modbooz().

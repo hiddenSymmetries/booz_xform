@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "booz_xform.hpp"
 #include "netcdf_writer.hpp"

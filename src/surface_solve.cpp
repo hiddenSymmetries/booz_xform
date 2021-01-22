@@ -1,3 +1,4 @@
+#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include "booz_xform.hpp"
@@ -14,7 +15,7 @@ void Booz_xform::surface_solve(int js_b) {
   // jlist is the 1-based radial index used in fortran-produced boozmn*.nc files.
   // js is the 0-based radial index into the original VMEC arrays
   // js_b is the 0-based index among the subset of surfaces on which the transformation is done.
-  std::cout << "Solving for js_b=" << js_b << ", js=" << js << std::endl;
+  if (verbose > 1) std::cout << "Solving for js_b=" << js_b << ", js=" << js << std::endl;
     
   int jmn, m, n, abs_n, j;
   
@@ -58,11 +59,11 @@ void Booz_xform::surface_solve(int js_b) {
 
   int sign;
   boozfloat tcos, tsin;
-  r = 0;
-  z = 0;
-  lambda = 0;
-  d_lambda_d_theta = 0;
-  d_lambda_d_zeta = 0;
+  r.setZero();
+  z.setZero();
+  lambda.setZero();
+  d_lambda_d_theta.setZero();
+  d_lambda_d_zeta.setZero();
   //std::cout << "lmns: ";
   for (jmn = 0; jmn < mnmax; jmn++) {
     //std::cout << " " << lmns(jmn, js);
@@ -104,10 +105,10 @@ void Booz_xform::surface_solve(int js_b) {
   // known on the half grid. This section is just like the previous
   // one, but with the difference that we use the Nyquist values for
   // (m,n).
-  w = 0;
-  d_w_d_theta = 0;
-  d_w_d_zeta = 0;
-  bmod = 0;
+  w.setZero();
+  d_w_d_theta.setZero();
+  d_w_d_zeta.setZero();
+  bmod.setZero();
   for (jmn = 0; jmn < mnmax_nyq; jmn++) {
     m = xm_nyq[jmn];
     n = xn_nyq[jmn];

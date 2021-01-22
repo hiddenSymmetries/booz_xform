@@ -21,10 +21,10 @@ TEST_CASE("init_trig") {
     zeta_grid[j] = 0.22 * j;
   }
   Matrix cosm, cosn, sinm, sinn;
-  cosm.resize(n_theta_zeta, mpol + 1, 0.0);
-  sinm.resize(n_theta_zeta, mpol + 1, 0.0);
-  cosn.resize(n_theta_zeta, ntor + 1, 0.0);
-  sinn.resize(n_theta_zeta, ntor + 1, 0.0);
+  cosm.setZero(n_theta_zeta, mpol + 1);
+  sinm.setZero(n_theta_zeta, mpol + 1);
+  cosn.setZero(n_theta_zeta, ntor + 1);
+  sinn.setZero(n_theta_zeta, ntor + 1);
 
   init_trig(theta_grid, zeta_grid,
 	    cosm, sinm, cosn, sinn,

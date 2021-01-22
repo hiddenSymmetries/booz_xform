@@ -22,8 +22,8 @@ void Booz_xform::init() {
   nu2_b = nu / 2 + 1; // Note integer division, although nu is always even so there is never rounding.
   
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
-  xmb.resize(mnboz, 0.0);
-  xnb.resize(mnboz, 0.0);
+  xmb.setZero(mnboz);
+  xnb.setZero(mnboz);
   if (verbose > 0) {
     std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
     std::cout << "nu = " << nu << ", nv = " << nv << std::endl;
@@ -58,7 +58,7 @@ void Booz_xform::init() {
 
   hs = 1.0 / (ns - 1.0);
   /*
-  sfull.resize(ns, 0.0);
+  sfull.setZero(ns);
   for (j = 2; j <= ns; j++) {
     sfull[j-1] = sqrt(hs * (j - 1));
   }
@@ -90,8 +90,8 @@ void Booz_xform::init() {
   d_zeta = twopi / (nfp * nv);
 
   // Initialize grids of (theta, zeta) for integration:
-  theta_grid.resize(nu3_b * nv, 0.0);
-  zeta_grid.resize(nu3_b * nv, 0.0);
+  theta_grid.setZero(nu3_b * nv);
+  zeta_grid.setZero(nu3_b * nv);
   int index = 0;
   for (int j_theta = 0; j_theta < nu3_b; j_theta++) {
     for (int j_zeta = 0; j_zeta < nv; j_zeta++) {
@@ -101,18 +101,18 @@ void Booz_xform::init() {
     }
   }
 
-  cosm.resize(n_theta_zeta, mpol, 0.0);
-  sinm.resize(n_theta_zeta, mpol, 0.0);
-  cosn.resize(n_theta_zeta, ntor + 1, 0.0);
-  sinn.resize(n_theta_zeta, ntor + 1, 0.0);
-  cosm_nyq.resize(n_theta_zeta, mpol_nyq + 1, 0.0);
-  sinm_nyq.resize(n_theta_zeta, mpol_nyq + 1, 0.0);
-  cosn_nyq.resize(n_theta_zeta, ntor_nyq + 1, 0.0);
-  sinn_nyq.resize(n_theta_zeta, ntor_nyq + 1, 0.0);
-  cosm_b.resize(n_theta_zeta, mboz + 1, 0.0);
-  sinm_b.resize(n_theta_zeta, mboz + 1, 0.0);
-  cosn_b.resize(n_theta_zeta, nboz + 1, 0.0);
-  sinn_b.resize(n_theta_zeta, nboz + 1, 0.0);
+  cosm.setZero(n_theta_zeta, mpol);
+  sinm.setZero(n_theta_zeta, mpol);
+  cosn.setZero(n_theta_zeta, ntor + 1);
+  sinn.setZero(n_theta_zeta, ntor + 1);
+  cosm_nyq.setZero(n_theta_zeta, mpol_nyq + 1);
+  sinm_nyq.setZero(n_theta_zeta, mpol_nyq + 1);
+  cosn_nyq.setZero(n_theta_zeta, ntor_nyq + 1);
+  sinn_nyq.setZero(n_theta_zeta, ntor_nyq + 1);
+  cosm_b.setZero(n_theta_zeta, mboz + 1);
+  sinm_b.setZero(n_theta_zeta, mboz + 1);
+  cosn_b.setZero(n_theta_zeta, nboz + 1);
+  sinn_b.setZero(n_theta_zeta, nboz + 1);
   
   init_trig(theta_grid, zeta_grid,
 	    cosm, sinm, cosn, sinn,
@@ -129,38 +129,38 @@ void Booz_xform::init() {
   std::cout << std::setprecision(15) << "sinn:" << std::endl << sinn << std::endl;
   */
   ns_b = jlist.size();
-  Boozer_I.resize(ns_b, 0.0);
-  Boozer_G.resize(ns_b, 0.0);
+  Boozer_I.setZero(ns_b);
+  Boozer_G.setZero(ns_b);
   
-  wmns.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
-  bmnc_b.resize(mnboz, ns_b, 0.0);
-  rmnc_b.resize(mnboz, ns_b, 0.0);
-  zmns_b.resize(mnboz, ns_b, 0.0);
-  pmns_b.resize(mnboz, ns_b, 0.0);
-  gmnc_b.resize(mnboz, ns_b, 0.0);
+  wmns.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
+  bmnc_b.setZero(mnboz, ns_b);
+  rmnc_b.setZero(mnboz, ns_b);
+  zmns_b.setZero(mnboz, ns_b);
+  pmns_b.setZero(mnboz, ns_b);
+  gmnc_b.setZero(mnboz, ns_b);
   if (asym) {
-    wmnc.resize(mnmax_nyq, ns_b, 0.0); // Note mnmax_nyq instead of mnboz for this one.
-    bmns_b.resize(mnboz, ns_b, 0.0);
-    rmns_b.resize(mnboz, ns_b, 0.0);
-    zmnc_b.resize(mnboz, ns_b, 0.0);
-    pmnc_b.resize(mnboz, ns_b, 0.0);
-    gmns_b.resize(mnboz, ns_b, 0.0);
+    wmnc.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
+    bmns_b.setZero(mnboz, ns_b);
+    rmns_b.setZero(mnboz, ns_b);
+    zmnc_b.setZero(mnboz, ns_b);
+    pmnc_b.setZero(mnboz, ns_b);
+    gmns_b.setZero(mnboz, ns_b);
   }
   
-  r.resize(n_theta_zeta, 0.0);
-  z.resize(n_theta_zeta, 0.0);
-  lambda.resize(n_theta_zeta, 0.0);
-  d_lambda_d_theta.resize(n_theta_zeta, 0.0);
-  d_lambda_d_zeta.resize(n_theta_zeta, 0.0);
-  w.resize(n_theta_zeta, 0.0);
-  d_w_d_theta.resize(n_theta_zeta, 0.0);
-  d_w_d_zeta.resize(n_theta_zeta, 0.0);
-  bmod.resize(n_theta_zeta, 0.0);
-  p.resize(n_theta_zeta, 0.0);
-  d_p_d_theta.resize(n_theta_zeta, 0.0);
-  d_p_d_zeta.resize(n_theta_zeta, 0.0);
-  zeta_Boozer_grid.resize(n_theta_zeta, 0.0);
-  theta_Boozer_grid.resize(n_theta_zeta, 0.0);
-  d_Boozer_d_vmec.resize(n_theta_zeta, 0.0);
-  boozer_jacobian.resize(n_theta_zeta, 0.0);
+  r.setZero(n_theta_zeta);
+  z.setZero(n_theta_zeta);
+  lambda.setZero(n_theta_zeta);
+  d_lambda_d_theta.setZero(n_theta_zeta);
+  d_lambda_d_zeta.setZero(n_theta_zeta);
+  w.setZero(n_theta_zeta);
+  d_w_d_theta.setZero(n_theta_zeta);
+  d_w_d_zeta.setZero(n_theta_zeta);
+  bmod.setZero(n_theta_zeta);
+  p.setZero(n_theta_zeta);
+  d_p_d_theta.setZero(n_theta_zeta);
+  d_p_d_zeta.setZero(n_theta_zeta);
+  zeta_Boozer_grid.setZero(n_theta_zeta);
+  theta_Boozer_grid.setZero(n_theta_zeta);
+  d_Boozer_d_vmec.setZero(n_theta_zeta);
+  boozer_jacobian.setZero(n_theta_zeta);
 }
