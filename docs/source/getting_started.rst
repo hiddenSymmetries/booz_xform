@@ -102,6 +102,8 @@ of the repository, obtained with
 
   git clone https://github.com/hiddenSymmetries/booz_xform.git
 
+You must also have the ``pybind11`` and ``ninja`` python packages installed,
+as well as ``cmake``.
 The code then can be built using the usual approach for a ``cmake`` project::
 
   cd booz_xform/build
