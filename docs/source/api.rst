@@ -1,6 +1,28 @@
 API Reference
 =============
 
+Python
+^^^^^^
+
+The ``booz_xform`` module provides a single class, ``Booz_xform``.
+The class provides a small number of functions to drive the calculation.
+In addition, all the input and output data are
+available as properties of the class. The properties are scalars,
+1D numpy arrays, and 2D numpy arrays.
+
+.. autoclass:: booz_xform.Booz_xform
+   :members:
+   :undoc-members:
+   :member-order: groupwise
+
+.. note:: While 1D and 2D array parameters can appear on the left-hand
+          side of assignment operations, individual array elements or
+          array slices cannot. So for instance, if ``b`` is an
+          instance of :class:`booz_xform.Booz_Xform`, ``b.rmnc = [[1,
+          0.1],[1.1, 0.1]]`` will behave as expected, but
+          ``b.rmnc[0,0] = 2.0`` will not. This is due to the copying
+          of data when interfacing python to C++.
+
 
 C++
 ^^^
@@ -30,6 +52,3 @@ The main functionality of the ``booz_xform`` code is contained in a single class
 ..
    :undoc-members:
       
-Python
-^^^^^^
-

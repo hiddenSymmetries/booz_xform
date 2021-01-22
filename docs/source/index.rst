@@ -9,6 +9,7 @@ in toroidal magnetohydrodynamic equilibria.
    :maxdepth: 3
 
    getting_started
+   theory
    api
    developer
    source
