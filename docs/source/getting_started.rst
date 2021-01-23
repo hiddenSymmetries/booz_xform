@@ -73,6 +73,12 @@ If the installation is successful, ``booz_xform`` will be added to your python e
 
   >>> import booz_xform
 
+On some systems, you may not have permission to install packages to the default location. In this case,
+add the ``--user`` flag to ``pip`` so the package can be installed for your user only::
+
+    pip install -v --user booz_xform
+
+  
 2. Installation from a local copy of the repository
 ***************************************************
 
@@ -90,6 +96,12 @@ Then install the package to your local python environment with
   pip install -v .
 
 The last line can be preceded by ``CXX=`` to select a specific compiler, as in the PyPI method above.
+
+Again, if you encounter a permissions error trying to install packages to the default location, 
+add the ``--user`` flag::
+
+    pip install -v --user .
+
 
 3. Building outside of the python package system
 ************************************************
