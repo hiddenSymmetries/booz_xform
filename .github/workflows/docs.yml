@@ -14,6 +14,18 @@ jobs:
  
     steps:
  
+    - name: apt-get any needed packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential openmpi-bin libopenmpi-dev git cmake libnetcdf-dev
+
+    - name: Print versions
+      run: |
+        which mpicc
+        which mpiexec
+        mpicc --version
+        cmake --version
+
     - name: Prereqs for changing git 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,6 +47,18 @@ jobs:
       run: |
         python --version
         pip --version
+
+    - name: Update pip
+      run: |
+        python -m pip install --upgrade pip
+        pip --version
+    
+    # We must install the booz_xform package so sphinx autodoc can get the docstrings.
+    - name: Install booz_xform
+      run: pip install -v .
+
+    - name: Try import of booz_xform
+      run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
 
     - name: Install python dependencies for sphinx
       run: |

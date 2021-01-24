@@ -27,7 +27,7 @@ available as properties of the class. The properties are scalars,
 C++
 ^^^
 
-All definitions for the ``booz_xform`` code reside in the namelist ``booz_xform::``,
+All definitions for the ``booz_xform`` code reside in the namespace ``booz_xform::``,
 which will be omitted for brevity here.
 
 1D and 2D arrays are handled using the `Eigen <http://eigen.tuxfamily.org/>`_ library.
