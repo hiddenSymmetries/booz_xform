@@ -6,13 +6,14 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  Ubuntu:
+  CI:
     strategy:
       fail-fast: false
       matrix:
         python-version: [3.7, 3.8]
+        os: [ubuntu-latest, macos-latest]
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
     # First print out lots of information. We do this in separate 
@@ -26,9 +27,16 @@ jobs:
       run: pwd
 
     - name: apt-get any needed packages
+      if: "contains(matrix.os, 'ubuntu')"
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential openmpi-bin libopenmpi-dev git cmake libnetcdf-dev
+
+    - name: get any needed packages from homebrew
+      if: "contains(matrix.os, 'macos')"
+      run: |
+        brew install netcdf
+        brew install open-mpi
 
     - name: Print versions
       run: |
@@ -57,88 +65,6 @@ jobs:
     #- name: Install required python packages
     #  run: |
     #    pip install wheel numpy jax jaxlib
-    
-    - name: env after adding python
-      run: env
-
-    - name: Install
-      run: pip install -v .
-
-    - name: Try import
-      run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
-
-    - name: Run python unit tests
-      run: python3 -m unittest -v
-
-    # To run the C++ unit tests, it seems best to build them separately from the python package system, because we don't want these unit tests to be installed. It seems unnecessary to build them again, but the little bit of time this takes is not important.
-
-    - name: Install python packages required for standalone build
-      run: pip install pybind11
-
-    - name: Configure CMake
-      run: |
-        cd build
-        cmake ..
-
-    - name: Build C++ unit tests
-      run: |
-        cd build
-        make -j unitTests
-
-    - name: Run C++ unit tests
-      run: |
-        cd build
-        ./unitTests
-
-########################################
-
-  MacOS:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.7, 3.8]
-
-    runs-on: macos-latest
-
-    steps:
-    # First print out lots of information. We do this in separate 
-    # "name" blocks because otherwise the output gets mixed together
-    # in the github actions log.
-
-    - name: Print user and group id
-      run: id
-
-    - name: PWD
-      run: pwd
-
-    - name: get any needed packages
-      run: |
-        brew install netcdf
-        brew install open-mpi
-
-    - name: Print versions
-      run: |
-        which mpicc
-        which mpiexec
-        mpicc --version
-        cmake --version
-
-    - uses: actions/checkout@v2
-      # If we want submodules downloaded, uncomment the next 2 lines:
-      #with:
-      #  submodules: true
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: which python after python setup
-      run: python --version
-
-    - name: Update pip
-      run: |
-        python -m pip install --upgrade pip
     
     - name: env after adding python
       run: env
