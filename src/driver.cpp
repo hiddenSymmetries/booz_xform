@@ -16,7 +16,7 @@ int booz_xform::driver(int argc, char* argv[]) {
     std::cout << std::endl;
     std::cout << "<mboz> <nboz>" << std::endl;
     std::cout << "<extension>" << std::endl;
-    std::cout << "<surfaces>" << std::endl;
+    std::cout << "<compute_surfs>" << std::endl;
     std::cout << std::endl;
     std::cout << "Here, " << std::endl;
     std::cout << std::endl;
@@ -28,10 +28,10 @@ int booz_xform::driver(int argc, char* argv[]) {
     std::cout << "For instance, to process the file wout_li383_1.4m.nc, <extension> should be li383_1.4m" << std::endl;
     std::cout << "Note that the wout file to load must be in the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "<surfaces> is a list of integers giving the surfaces of the VMEC input file to" << std::endl;
+    std::cout << "<compute_surfs> is a list of integers giving the surfaces of the VMEC input file to" << std::endl;
     std::cout << "transform. Note that the transformation is only performed on half-grid surfaces." << std::endl;
-    std::cout << "The first half-grid surface has index 2. The outermost available surface has index NS," << std::endl;
-    std::cout << "where NS is the VMEC input parameter. You can omit <surfaces> from the input file," << std::endl;
+    std::cout << "The first half-grid surface has index 0. The outermost available surface has index NS-2," << std::endl;
+    std::cout << "where NS is the VMEC input parameter. You can omit <compute_surfs> from the input file," << std::endl;
     std::cout << "in which case the transformation will be performed on all half-grid surfaces." << std::endl;
     
     return 0;
@@ -55,7 +55,7 @@ int booz_xform::driver(int argc, char* argv[]) {
   std::cout << "Read extension = " << extension << std::endl;
   if (file.fail()) throw std::runtime_error("Unable to read extension");
 
-  std::vector<int> jlist;
+  std::vector<int> compute_surfs;
   int val;
   while (true) {
     file >> val;
@@ -64,10 +64,10 @@ int booz_xform::driver(int argc, char* argv[]) {
       break;
     }
     std::cout << "Read value " << val << std::endl;
-    jlist.push_back(val);
+    compute_surfs.push_back(val);
   }
-  std::cout << "Read jlist =";
-  for (j = 0; j < jlist.size(); j++) std::cout << " " << jlist[j];
+  std::cout << "Read compute_surfs =";
+  for (j = 0; j < compute_surfs.size(); j++) std::cout << " " << compute_surfs[j];
   std::cout << std::endl;  
   
   file.close();
@@ -81,16 +81,16 @@ int booz_xform::driver(int argc, char* argv[]) {
   booz.nboz = std::max(booz.nboz, nboz_in);
 
   // If no surfaces are specified, we do not need to modify the
-  // default jlist initialized by read_netcdf().
-  if (jlist.size() > 0) {
-    std::sort(jlist.begin(), jlist.end());
-    booz.jlist.resize(jlist.size());
-    for (j = 0; j < jlist.size(); j++) booz.jlist[j] = jlist[j];
+  // default compute_surfs initialized by read_netcdf().
+  if (compute_surfs.size() > 0) {
+    std::sort(compute_surfs.begin(), compute_surfs.end());
+    booz.compute_surfs.resize(compute_surfs.size());
+    for (j = 0; j < compute_surfs.size(); j++) booz.compute_surfs[j] = compute_surfs[j];
   } else {
-    std::cout << "No jlist specified, so including all half-grid surfaces." << std::endl;
+    std::cout << "No compute_surfs specified, so including all half-grid surfaces." << std::endl;
   }
-  std::cout << "About to run transformation with jlist =";
-  for (j = 0; j < booz.jlist.size(); j++) std::cout << " " << booz.jlist[j];
+  std::cout << "About to run transformation with compute_surfs =";
+  for (j = 0; j < booz.compute_surfs.size(); j++) std::cout << " " << booz.compute_surfs[j];
   std::cout << std::endl;
   
   // Run the main calculation:

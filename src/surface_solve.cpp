@@ -11,9 +11,8 @@ using namespace booz_xform;
  *  This subroutine corresponds to boozer_coords.f in the fortran version.
  */
 void Booz_xform::surface_solve(int js_b) {
-  int js = jlist[js_b] - 1; // -1 because jlist contains 1-based values.
-  // jlist is the 1-based radial index used in fortran-produced boozmn*.nc files.
-  // js is the 0-based radial index into the original VMEC arrays
+  int js = compute_surfs[js_b];
+  // js is the 0-based radial index into the input data arrays
   // js_b is the 0-based index among the subset of surfaces on which the transformation is done.
   if (verbose > 1) std::cout << "Solving for js_b=" << js_b << ", js=" << js << std::endl;
     
@@ -136,7 +135,7 @@ void Booz_xform::surface_solve(int js_b) {
   // End of the part corresponding to vcooords_w() in fortran.
 
   // The next part is located in harfun.f in the fortran version.
-  boozfloat this_iota = iotas[js];
+  boozfloat this_iota = iota[js];
   boozfloat one_over_GI = 1.0 / (Boozer_G[js_b] + this_iota * Boozer_I[js_b]);
 
   // Get total p from eq (10):

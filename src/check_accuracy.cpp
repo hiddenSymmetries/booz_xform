@@ -50,7 +50,7 @@ void Booz_xform::check_accuracy(int js, int js_b) {
   theta_b_test[2] = theta_Boozer_grid[index];
   zeta_b_test[2] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - 0) < 1.0e-13);
-  if (ntor > 0) {
+  if (nv > 1) {
     assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
   } else {
     assert (std::abs(zeta_grid[index]) < 1.0e-13);
@@ -65,7 +65,7 @@ void Booz_xform::check_accuracy(int js, int js_b) {
   theta_b_test[3] = theta_Boozer_grid[index];
   zeta_b_test[3] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - pi) < 1.0e-13);
-  if (ntor > 0) {
+  if (nv > 1) {
     assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
   } else {
     assert (std::abs(zeta_grid[index]) < 1.0e-13);
@@ -116,7 +116,7 @@ void Booz_xform::check_accuracy(int js, int js_b) {
 	    << std::setw(11) << bmod_vmec[0]
 	    << std::setw(11) << bmod_boozer[0]
 	    << std::setw(11) << bmod_err[0]
-	    << std::setw(5) << js + 1 << "  "
+	    << std::setw(5) << js << "  "
 	    << std::setw(11) << bmod_vmec[1]
 	    << std::setw(11) << bmod_boozer[1]
 	    << std::setw(11) << bmod_err[1]

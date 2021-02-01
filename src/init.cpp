@@ -56,7 +56,7 @@ void Booz_xform::init() {
   }
   */
 
-  hs = 1.0 / (ns - 1.0);
+  //hs = 1.0 / (ns - 1.0);
   /*
   sfull.setZero(ns);
   for (j = 2; j <= ns; j++) {
@@ -128,7 +128,7 @@ void Booz_xform::init() {
   std::cout << std::setprecision(15) << "sinm:" << std::endl << sinm << std::endl;
   std::cout << std::setprecision(15) << "sinn:" << std::endl << sinn << std::endl;
   */
-  ns_b = jlist.size();
+  ns_b = compute_surfs.size();
   Boozer_I.setZero(ns_b);
   Boozer_G.setZero(ns_b);
   

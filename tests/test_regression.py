@@ -27,7 +27,7 @@ class RegressionTest(unittest.TestCase):
             # calculation
             b.mboz = f.variables['mboz_b'][()]
             b.nboz = f.variables['nboz_b'][()]
-            b.jlist = f.variables['jlist'][()]
+            b.compute_surfs = f.variables['jlist'][()] - 2
 
             b.run()
 

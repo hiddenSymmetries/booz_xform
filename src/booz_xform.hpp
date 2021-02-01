@@ -20,7 +20,6 @@ namespace booz_xform {
     int nu, nv; //!< Number of real-space grid points in the VMEC poloidal and toroidal angles
     boozfloat d_theta, d_zeta; //!< Spacing between grid points in the VMEC poloidal and toroidal angles
     int n_theta_zeta; //!< Number of grid points in the combined theta-zeta grid
-    boozfloat hs; //!< Spacing in s between adjacent flux surfaces
     bool completed;
     Vector theta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
     Vector zeta_grid; //!< Theta values of the (theta, zeta) grid, reshaped from 2D -> 1D.
@@ -50,12 +49,24 @@ namespace booz_xform {
     int verbose;
     int mboz, nboz;
     bool asym; //!< false if the configuration is stellarator-symmetric, true otherwise.
-    int mpol, ntor, mnmax, mpol_nyq, ntor_nyq, mnmax_nyq, ns, nfp, mnboz;
+
+    //! The number of flux surfaces on which input data is stored.
+    /**
+     * The transformation to Boozer coordinates is not necessarily run on all
+     * of these surfaces, only the ones indicated by compute_surfs.
+     */
+    int ns_in;
+    
+    int mpol, ntor, mnmax, mpol_nyq, ntor_nyq, mnmax_nyq, nfp, mnboz;
     Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns;
     Matrix bsubumnc, bsubumns, bsubvmnc, bsubvmns;
-    Vector iotas;
+    Vector iota;
     IntVector xm, xn, xm_nyq, xn_nyq;
-    IntVector jlist;
+
+    /** List of the 0-based indices of the surfaces on which to perform the transformation.
+     */
+    IntVector compute_surfs;
+    
     IntVector xmb, xnb;
     int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;

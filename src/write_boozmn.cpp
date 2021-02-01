@@ -6,13 +6,14 @@
 using namespace booz_xform;
 
 void Booz_xform::write_boozmn(std::string filename) {
+  int j;
   if (verbose > 0) std::cout << "Writing output to " << filename << std::endl;
   NetCDFWriter nc(filename);
 
   // Define dimensions
   dim_id_type mn_modes_dim, compute_surfs_dim;
   mn_modes_dim = nc.dim("mn_modes", mnboz);
-  compute_surfs_dim = nc.dim("compute_surfs", jlist.size());
+  compute_surfs_dim = nc.dim("compute_surfs", compute_surfs.size());
   
   // Scalars
   std::string version = "C++/Python booz_xform v0.0.1";
@@ -21,6 +22,7 @@ void Booz_xform::write_boozmn(std::string filename) {
   int asym_int = (int) asym;
   nc.put("lasym__logical__", asym_int, "0 if the configuration is stellarator-symmetric, 1 if not", "");
 
+  int ns = ns_in + 1;
   nc.put("ns_b", ns, "The number of radial grid points in the equilibrium before the transformation to Boozer coordinates", "dimensionless");
   nc.put("nfp_b", nfp, "The number of identical field periods", "dimensionless");
   nc.put("mboz_b", mboz, "Maximum poloidal mode number m for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
@@ -28,6 +30,8 @@ void Booz_xform::write_boozmn(std::string filename) {
   nc.put("mnboz_b", mnboz, "The total number of (m,n) pairs for which Fourier amplitudes rmnc, bmnc etc are stored.", "dimensionless");
 
   // 1D arrays
+  IntVector jlist(ns_b);
+  for (j = 0; j < ns_b; j++) jlist[j] = compute_surfs[j] + 2;
   nc.put(compute_surfs_dim, "jlist", jlist, "1-based radial indices of the original vmec solution for which the transformation to Boozer coordinates was computed. 2 corresponds to the first half-grid point.", "dimensionless");
   nc.put(mn_modes_dim, "ixm_b", xmb, "Poloidal mode numbers m for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
   nc.put(mn_modes_dim, "ixn_b", xnb, "Toroidal mode numbers n for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");

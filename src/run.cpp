@@ -4,19 +4,21 @@
 using namespace booz_xform;
 
 void Booz_xform::run() {
-  std::cout << "jlist: ";
-  for (int j = 0; j < jlist.size(); j++) std::cout << " " << jlist[j];
-  std::cout << std::endl;
+  if (verbose > 0) {
+    std::cout << "compute_surfs (0-based indices): ";
+    for (int j = 0; j < compute_surfs.size(); j++) std::cout << " " << compute_surfs[j];
+    std::cout << std::endl;
+  }
 
   init();
 
   if (verbose > 0) {
-    std::cout << "             OUTBOARD (u=0)              JS          INBOARD (u=pi)" << std::endl;
-    std::cout << "-----------------------------------------------------------------------------" << std::endl;
-    std::cout << "  v     |B|vmec    |B|booz    Error             |B|vmec    |B|booz    Error"
+    std::cout << "             OUTBOARD (theta=0)        SURFACE         INBOARD (theta=pi)" << std::endl;
+    std::cout << "------------------------------------------------------------------------------" << std::endl;
+    std::cout << "zeta    |B|input  |B|Boozer    Error            |B|input  |B|Boozer    Error"
 	      << std::endl << std::endl;
   }
   
-  for (int j = 0; j < jlist.size(); j++)
+  for (int j = 0; j < compute_surfs.size(); j++)
     surface_solve(j);
 }
