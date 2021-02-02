@@ -33,8 +33,8 @@ void Booz_xform::write_boozmn(std::string filename) {
   IntVector jlist(ns_b);
   for (j = 0; j < ns_b; j++) jlist[j] = compute_surfs[j] + 2;
   nc.put(compute_surfs_dim, "jlist", jlist, "1-based radial indices of the original vmec solution for which the transformation to Boozer coordinates was computed. 2 corresponds to the first half-grid point.", "dimensionless");
-  nc.put(mn_modes_dim, "ixm_b", xmb, "Poloidal mode numbers m for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
-  nc.put(mn_modes_dim, "ixn_b", xnb, "Toroidal mode numbers n for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
+  nc.put(mn_modes_dim, "ixm_b", xm_b, "Poloidal mode numbers m for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
+  nc.put(mn_modes_dim, "ixn_b", xn_b, "Toroidal mode numbers n for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
 
   // ND arrays for N > 1:
   std::vector<dim_id_type> bmnc_dim;

@@ -24,6 +24,10 @@ Read input information from a VMEC ``wout*.nc`` file.
 )",
 	 "filename"_a)
     
+    .def("init_from_vmec", &Booz_xform::init_from_vmec, R"(
+Handle radial interpolation of vmec results to the half grid.
+)")
+    
     .def("run", &Booz_xform::run, R"( 
 Run the transformation to Boozer coordinates on all the selected
 flux surfaces. The input arrays should be initialized before this step.)")
@@ -40,6 +44,8 @@ NetCDF file. This function should only be called after
 Set this to 0 for no output to stdout, 1 for some output, 2 for lots
 of output)")
     
+    .def_readwrite("asym", &Booz_xform::asym) 
+    .def_readwrite("nfp", &Booz_xform::nfp)
     .def_readwrite("mpol", &Booz_xform::mpol, R"(
 Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     
@@ -48,6 +54,10 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     .def_readwrite("mpol_nyq", &Booz_xform::mpol_nyq)
     .def_readwrite("ntor_nyq", &Booz_xform::ntor_nyq)
     .def_readwrite("mnmax_nyq", &Booz_xform::mnmax_nyq)
+    .def_readwrite("xm", &Booz_xform::xm)
+    .def_readwrite("xn", &Booz_xform::xn)
+    .def_readwrite("xm_nyq", &Booz_xform::xm_nyq)
+    .def_readwrite("xn_nyq", &Booz_xform::xn_nyq)
     .def_readwrite("ns_in", &Booz_xform::ns_in)
     .def_readwrite("iota", &Booz_xform::iota)
     .def_readwrite("rmnc", &Booz_xform::rmnc)
@@ -67,8 +77,8 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     .def_readwrite("compute_surfs", &Booz_xform::compute_surfs)
     // End of inputs. Now come the outputs.
     .def_readonly("mnboz", &Booz_xform::mnboz)
-    .def_readonly("xmb", &Booz_xform::xmb)
-    .def_readonly("xnb", &Booz_xform::xnb)
+    .def_readonly("xm_b", &Booz_xform::xm_b)
+    .def_readonly("xn_b", &Booz_xform::xn_b)
     .def_readonly("bmnc_b", &Booz_xform::bmnc_b)
     .def_readonly("bmns_b", &Booz_xform::bmns_b)
     .def_readonly("gmnc_b", &Booz_xform::gmnc_b)

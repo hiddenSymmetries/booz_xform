@@ -31,10 +31,10 @@ namespace booz_xform {
     Matrix cosn_nyq; //!< Stores cos(n*zeta) for xn_nyq
     Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq
     Matrix sinn_nyq; //!< Stores sin(n*zeta) for xn_nyq
-    Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xmb
-    Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xnb
-    Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xmb
-    Matrix sinn_b; //!< Stores sin(n*zeta_Boozer) for xnb
+    Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xm_b
+    Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xn_b
+    Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xm_b
+    Matrix sinn_b; //!< Stores sin(n*zeta_Boozer) for xn_b
     Vector r, z, lambda, d_lambda_d_theta, d_lambda_d_zeta;
     Vector w, d_w_d_theta, d_w_d_zeta, bmod, theta_diff;
     Vector p, d_p_d_theta, d_p_d_zeta;
@@ -67,7 +67,7 @@ namespace booz_xform {
      */
     IntVector compute_surfs;
     
-    IntVector xmb, xnb;
+    IntVector xm_b, xn_b;
     int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
@@ -82,13 +82,34 @@ namespace booz_xform {
 
     //! Read input data from a VMEC wout_*.nc file.
     /**
-     * This method also handles radial interpolation of the full-grid
-     * quantities rmnc, rmns, zmnc, and zmns onto the half-grid points.
+     * This method also calls init_from_vmec().
      *
      * @param[in] filename The name of the VMEC wout file to load
      */
     void read_wout(std::string filename);
 
+    //! Handle radial dimension of vmec arrays.
+    /**
+     * This method also handles radial interpolation of the full-grid
+     * quantities rmnc, rmns, zmnc, and zmns onto the half-grid
+     * points.  It also discards the first radial index for half-grid
+     * quantities, which is populated with zeros in vmec.
+     */
+    void init_from_vmec(int ns,
+			Vector& iotas,
+			Matrix& rmnc,
+			Matrix& rmns,
+			Matrix& zmnc,
+			Matrix& zmns,
+			Matrix& lmnc,
+			Matrix& lmns,
+			Matrix& bmnc,
+			Matrix& bmns,
+			Matrix& bsubumnc,
+			Matrix& bsubumns,
+			Matrix& bsubvmnc,
+			Matrix& bsubvmns);
+    
     //! Carry out the transformation calculation
     /**
      * This method is the main computationally intensive step, and it

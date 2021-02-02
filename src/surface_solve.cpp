@@ -225,8 +225,8 @@ void Booz_xform::surface_solve(int js_b) {
   // There is a factor of 1/2 for the m=0 element which now appears at
   // the end of surface_solve().
   for (jmn = 0; jmn < mnboz; jmn++) {
-    m = xmb[jmn];
-    n = xnb[jmn];
+    m = xm_b[jmn];
+    n = xn_b[jmn];
     abs_n = std::abs(n / nfp);
     if (n < 0) {
       sign = -1;
@@ -302,12 +302,12 @@ void Booz_xform::surface_solve(int js_b) {
     output_file << std::setprecision(15) << d_Boozer_d_vmec;
     output_file.close();
 
-    output_file.open("xmb");
-    output_file << std::setprecision(15) << xmb;
+    output_file.open("xm_b");
+    output_file << std::setprecision(15) << xm_b;
     output_file.close();
 
-    output_file.open("xnb");
-    output_file << std::setprecision(15) << xnb;
+    output_file.open("xn_b");
+    output_file << std::setprecision(15) << xn_b;
     output_file.close();
 
     std::cout << "bmnc_b:" << std::endl << std::setprecision(15);

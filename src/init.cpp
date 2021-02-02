@@ -22,8 +22,8 @@ void Booz_xform::init() {
   nu2_b = nu / 2 + 1; // Note integer division, although nu is always even so there is never rounding.
   
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
-  xmb.setZero(mnboz);
-  xnb.setZero(mnboz);
+  xm_b.setZero(mnboz);
+  xn_b.setZero(mnboz);
   if (verbose > 0) {
     std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
     std::cout << "nu = " << nu << ", nv = " << nv << std::endl;
@@ -37,8 +37,8 @@ void Booz_xform::init() {
     nmin = -nboz;
     if (m == 0) nmin = 0;
     for (int n = nmin; n <= nboz; n++) {
-      xmb[j] = m;
-      xnb[j] = n * nfp;
+      xm_b[j] = m;
+      xn_b[j] = n * nfp;
       j++;
     }
   }

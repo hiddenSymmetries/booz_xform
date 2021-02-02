@@ -88,8 +88,8 @@ void Booz_xform::check_accuracy(int js, int js_b) {
   boozfloat tcos, tsin;
   for (j = 0; j < n_check; j++) bmod_boozer[j] = 0.0;
   for (jmn = 0; jmn < mnboz; jmn++) {
-    m = xmb[jmn];
-    n = xnb[jmn];
+    m = xm_b[jmn];
+    n = xn_b[jmn];
     abs_n = std::abs(n / nfp);
     if (n < 0) {
       sign = -1;
