@@ -264,7 +264,7 @@ void Booz_xform::surface_solve(int js_b) {
 
   if (verbose > 0) check_accuracy(js, js_b);
   
-  if (js_b == 0) {
+  if (false && js_b == 0) {
     std::ofstream output_file;
     
     output_file.open("r_0");

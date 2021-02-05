@@ -25,6 +25,64 @@ void Booz_xform::init_from_vmec(int ns,
   int j, k;
   ns_in = ns - 1;
 
+  // Do some validation.
+  
+  if (ns < 2) throw std::runtime_error("ns must be at least 2");
+  if (nfp < 1) throw std::runtime_error("nfp must be at least 1");
+  if (iotas.size() != ns) throw std::runtime_error("iotas.size() is not ns");
+  if (xm.size() != mnmax) throw std::runtime_error("Size of xm is not mnmax");
+  if (xn.size() != mnmax) throw std::runtime_error("Size of xn is not mnmax");
+  if (xm_nyq.size() != mnmax_nyq) throw std::runtime_error("Size of xm_nyq is not mnmax_nyq");
+  if (xn_nyq.size() != mnmax_nyq) throw std::runtime_error("Size of xn_nyq is not mnmax_nyq");
+
+  // if (mnmax != (ntor * 2 + 1) * mpol + ntor + 1) throw std::runtime_error("ntor, mpol, and mnmax are not consistent");
+  // if (mnmax_nyq != (ntor_nyq * 2 + 1) * mpol_nyq + ntor_nyq + 1) throw std::runtime_error("ntor, mpol, and mnmax are not consistent");
+  if (xm[0] != 0) throw std::runtime_error("xm does not seem correct");
+  if (xn[0] != 0) throw std::runtime_error("xn does not seem correct");
+  if (xm_nyq[0] != 0) throw std::runtime_error("xm_nyq does not seem correct");
+  if (xn_nyq[0] != 0) throw std::runtime_error("xn_nyq does not seem correct");
+  // if (xm[mnmax - 1] != mpol) throw std::runtime_error("xm does not seem correct");
+  if (xn[mnmax - 1] != nfp * ntor) throw std::runtime_error("xn does not seem correct");
+  // if (xm_nyq[mnmax_nyq - 1] != mpol_nyq) throw std::runtime_error("xm_nyq does not seem correct");
+  if (xn_nyq[mnmax_nyq - 1] != nfp * ntor_nyq) throw std::runtime_error("xn_nyq does not seem correct");
+
+  if (rmnc0.cols() != ns) throw std::runtime_error("rmnc0 has wrong number of cols");
+  if (zmns0.cols() != ns) throw std::runtime_error("zmns0 has wrong number of cols");
+  if (lmns0.cols() != ns) throw std::runtime_error("lmns0 has wrong number of cols");
+  if (bmnc0.cols() != ns) throw std::runtime_error("bmnc0 has wrong number of cols");
+  if (bsubumnc0.cols() != ns) throw std::runtime_error("bsubumnc0 has wrong number of cols");
+  if (bsubvmnc0.cols() != ns) throw std::runtime_error("bsubvmnc0 has wrong number of cols");
+  
+  if (rmnc0.rows() != mnmax) throw std::runtime_error("rmnc0 has the wrong number of rows");
+  if (zmns0.rows() != mnmax) throw std::runtime_error("zmns0 has the wrong number of rows");
+  if (lmns0.rows() != mnmax) throw std::runtime_error("lmns0 has the wrong number of rows");
+  if (bmnc0.rows() != mnmax_nyq) throw std::runtime_error("bmnc0 has the wrong number of rows");
+  if (bsubumnc0.rows() != mnmax_nyq) throw std::runtime_error("bsubumnc0 has the wrong number of rows");
+  if (bsubvmnc0.rows() != mnmax_nyq) throw std::runtime_error("bsubvmnc0 has the wrong number of rows");
+  
+  if (asym) {
+    if (rmns0.cols() != ns) throw std::runtime_error("rmns0 has wrong number of cols");
+    if (zmnc0.cols() != ns) throw std::runtime_error("zmnc0 has wrong number of cols");
+    if (lmnc0.cols() != ns) throw std::runtime_error("lmnc0 has wrong number of cols");
+    if (bmns0.cols() != ns) throw std::runtime_error("bmns0 has wrong number of cols");
+    if (bsubumns0.cols() != ns) throw std::runtime_error("bsubumns0 has wrong number of cols");
+    if (bsubvmns0.cols() != ns) throw std::runtime_error("bsubvmns0 has wrong number of cols");
+
+    if (rmns0.rows() != mnmax) throw std::runtime_error("rmns0 has the wrong number of rows");
+    if (zmnc0.rows() != mnmax) throw std::runtime_error("zmnc0 has the wrong number of rows");
+    if (lmnc0.rows() != mnmax) throw std::runtime_error("lmnc0 has the wrong number of rows");
+    if (bmns0.rows() != mnmax_nyq) throw std::runtime_error("bmns0 has the wrong number of rows");
+    if (bsubumns0.rows() != mnmax_nyq) throw std::runtime_error("bsubumns0 has the wrong number of rows");
+    if (bsubvmns0.rows() != mnmax_nyq) throw std::runtime_error("bsubvmns0 has the wrong number of rows");
+  }
+
+  for (j = 0; j < compute_surfs.size(); j++) {
+    if (compute_surfs[j] < 0) throw std::runtime_error("compute_surfs cannot be negative");
+    if (compute_surfs[j] >= ns - 1) throw std::runtime_error("compute_surfs has an entry that is too large for the given ns");
+  }
+  
+  // Done with validation.
+  
   iota.resize(ns_in);
   for (j = 0; j < ns_in; j++) iota[j] = iotas[j + 1];
 
@@ -204,5 +262,5 @@ void Booz_xform::init_from_vmec(int ns,
   // Set a guess for the Fourier resolution:
   mboz = 6 * mpol;
   nboz = std::max(2 * ntor - 1, 0);
-  
+
 }
