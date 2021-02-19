@@ -95,3 +95,7 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
 // https://github.com/pybind/pybind11/issues/2271
 
 // https://github.com/pybind/pybind11/issues/1042
+
+// Possible ways to wrap a custom Matrix class, without using Eigen:
+// https://github.com/tdegeus/pybind11_examples/tree/master/09_numpy_cpp-custom-matrix
+// https://stackoverflow.com/questions/42645228/cast-numpy-array-to-from-custom-c-matrix-class-using-pybind11
