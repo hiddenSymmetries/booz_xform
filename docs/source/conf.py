@@ -87,3 +87,9 @@ napoleon_attr_annotations = True
 
 breathe_projects = {"booz_xform": "../xml/"}
 breathe_default_project = "booz_xform"
+
+# This next function is for fixing equation numbers.
+# See links in _static/equation_numbers.css for details.
+
+def setup(app):
+    app.add_css_file('equation_numbers.css')
