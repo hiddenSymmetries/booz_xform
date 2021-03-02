@@ -1,2 +1,2 @@
-from ._booz_xform import Booz_xform
-from .plots import surfplot
+from ._booz_xform import *
+from .plots import *

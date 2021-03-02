@@ -82,7 +82,7 @@ void Booz_xform::init_from_vmec(int ns,
   }
   
   // Done with validation.
-  
+
   iota.resize(ns_in);
   for (j = 0; j < ns_in; j++) iota[j] = iotas[j + 1];
 
@@ -181,8 +181,12 @@ void Booz_xform::init_from_vmec(int ns,
   Vector sqrt_s_full, sqrt_s_half;
   sqrt_s_full.resize(ns);
   sqrt_s_half.resize(ns - 1);
+  s_in.resize(ns - 1);
   for (j = 0; j < ns; j++) sqrt_s_full[j] = sqrt(hs * j);
-  for (j = 0; j < ns - 1; j++) sqrt_s_half[j] = sqrt(hs * (j + 0.5));
+  for (j = 0; j < ns - 1; j++) {
+    s_in[j] = hs * (j + 0.5);
+    sqrt_s_half[j] = sqrt(s_in[j]);
+  }
   // To avoid divide-by-zero when we divide by sqrt_s:
   sqrt_s_full[0] = 1.0;
 

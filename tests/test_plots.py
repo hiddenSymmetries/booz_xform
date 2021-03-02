@@ -24,6 +24,8 @@ class PlotTest(unittest.TestCase):
             b.compute_surfs = [2, 4]
             b.run()
             bx.surfplot(b)
+            bx.symplot(b)
+            bx.symplot(b, marker='.', sqrts=True, log=False)
 
 if __name__ == '__main__':
     unittest.main()

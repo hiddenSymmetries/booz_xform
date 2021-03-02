@@ -46,6 +46,7 @@ of output)")
     
     .def_readwrite("asym", &Booz_xform::asym) 
     .def_readwrite("nfp", &Booz_xform::nfp)
+    .def_readwrite("s_in", &Booz_xform::s_in)
     .def_readwrite("mpol", &Booz_xform::mpol, R"(
 Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     
@@ -76,6 +77,7 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     .def_readwrite("nboz", &Booz_xform::nboz)
     .def_readwrite("compute_surfs", &Booz_xform::compute_surfs)
     // End of inputs. Now come the outputs.
+    .def_readonly("s_b", &Booz_xform::s_b)
     .def_readonly("mnboz", &Booz_xform::mnboz)
     .def_readonly("xm_b", &Booz_xform::xm_b)
     .def_readonly("xn_b", &Booz_xform::xn_b)

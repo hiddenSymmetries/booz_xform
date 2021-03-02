@@ -129,6 +129,8 @@ void Booz_xform::init() {
   std::cout << std::setprecision(15) << "sinn:" << std::endl << sinn << std::endl;
   */
   ns_b = compute_surfs.size();
+  s_b.resize(ns_b);
+  for (j = 0; j < ns_b; j++) s_b[j] = s_in[compute_surfs[j]];
   Boozer_I.setZero(ns_b);
   Boozer_G.setZero(ns_b);
   

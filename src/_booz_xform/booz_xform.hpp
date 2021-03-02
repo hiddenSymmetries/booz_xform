@@ -66,6 +66,16 @@ namespace booz_xform {
     /** List of the 0-based indices of the surfaces on which to perform the transformation.
      */
     IntVector compute_surfs;
+
+    /** Values of normalized toroidal flux for which the input data is
+	stored. These numbers are used only for plotting.
+     */
+    Vector s_in;
+    
+    /** Values of normalized toroidal flux for which the output data is
+	stored. These numbers are used only for plotting.
+     */
+    Vector s_b;
     
     IntVector xm_b, xn_b;
     int ns_b; //!< Number of surfaces on which the transformation is calculated
