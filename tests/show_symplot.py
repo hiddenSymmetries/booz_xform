@@ -13,6 +13,6 @@ plt.figure()
 bx.symplot(b)
 
 plt.figure()
-bx.symplot(b, marker='.', sqrts=True, log=False)
+bx.symplot(b, marker='.', sqrts=True, log=False, B0=False)
 
 plt.show()

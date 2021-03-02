@@ -25,6 +25,12 @@ def surfplot(bx,
       nphi (int): Number of grid points in the toroidal angle.
       ncontours (int): Number of contours to show.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``contourf`` command.
+
+    This function can generate figures like this:
+
+    .. image:: surfplot.png
+       :width: 400
+
     """
 
     theta1d = np.linspace(0, 2 * np.pi, ntheta)
@@ -54,6 +60,7 @@ def symplot(bx,
             ymin = None,
             sqrts = False,
             log = True,
+            B0 = True,
             legend_loc = "best",
             **kwargs):
     """
@@ -68,6 +75,7 @@ def symplot(bx,
       ymin (float): Lower limit for the y-axis. Only used if ``log==True``.
       sqrts (bool): If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.
       log (bool): Whether to use a logarithmic y axis.
+      B0 (bool): Whether to include the m=n=0 mode in the figure.
       legend_loc (str): Location of the legend.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``plot`` command.
     """
@@ -81,7 +89,7 @@ def symplot(bx,
     # plot mostly shows the largest modes, not all the modes down to
     # machine precision.
     if ymin is None:
-        ymin = np.max(bx.bmnc_b) * 1e-5
+        ymin = np.max(bx.bmnc_b) * 1e-4
     
     nmodes = len(bx.xm_b)
 
@@ -104,11 +112,12 @@ def symplot(bx,
         plt.plot([0, 1], [0, 0], ':k')
         
     # First, plot just the 1st mode of each type, so the legend looks nice.
-    for imode in range(nmodes):
-        if bx.xn_b[imode] == 0 and bx.xm_b[imode] == 0:
-            plt.plot(rad, my_abs(bx.bmnc_b[imode, :]), color=background_color,
-                         label='m = 0, n = 0 (Background)', **kwargs)
-            break
+    if B0:
+        for imode in range(nmodes):
+            if bx.xn_b[imode] == 0 and bx.xm_b[imode] == 0:
+                plt.plot(rad, my_abs(bx.bmnc_b[imode, :]), color=background_color,
+                             label='m = 0, n = 0 (Background)', **kwargs)
+                break
     for imode in range(nmodes):
         if bx.xn_b[imode] == 0 and bx.xm_b[imode] != 0:
             plt.plot(rad, my_abs(bx.bmnc_b[imode, :]), color=QA_color,
@@ -136,6 +145,8 @@ def symplot(bx,
         if bx.xn_b[imode] == 0:
             if bx.xm_b[imode] == 0:
                 mycolor = background_color
+                if not B0:
+                    continue
             else:
                 mycolor = QA_color
         else:
