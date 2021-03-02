@@ -5,7 +5,7 @@ Theory
 ******
 
 The code is based on an unpublished 1995 note by Steve Hirshman,
-:download:`"Transformation from VMEC to Boozer coordinates".<_static/Transformation_from_VMEC_to_Boozer_coordinates.pdf>`
+:download:`"Transformation from VMEC to Boozer coordinates".<Transformation_from_VMEC_to_Boozer_coordinates.pdf>`
 (The method is not specific to VMEC, and can be applied to other equilibrium representations.)
 The calculation has two steps. In the first step, the difference is
 computed between the original toroidal and poloidal angles and the Boozer angles.
