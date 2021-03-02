@@ -6,6 +6,10 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_BUILD_TYPE Debug)
 add_definitions(-O2)
 
+# This next compile flag is needed to avoid a compile error on some systems. See
+# https://pybind11.readthedocs.io/en/stable/faq.html#recursive-template-instantiation-exceeded-maximum-depth-of-256
+add_definitions(-ftemplate-depth=1024)
+
 #set(CMAKE_MODULE_PATH cmake)
 include(cmake/knownHosts.cmake)
 
