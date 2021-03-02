@@ -4,17 +4,15 @@ API Reference
 Python
 ^^^^^^
 
-The ``booz_xform`` module provides a class ``Booz_xform``
-that can drive the transformation, as well as hold the input and output data.
-The module also includes several functions for plotting.
+The ``booz_xform`` module provides a class ``Booz_xform``, described
+in detail here.  The same python module also includes several
+functions for plotting, described on the :doc:`plotting` page.
 
-Coordinate transformation
--------------------------
-
-The class ``Booz_xform`` provides a small number of functions to drive
-the calculation.  In addition, all the input and output data are
-available as properties of the class. The properties are scalars, 1D
-numpy arrays, and 2D numpy arrays.
+The class ``Booz_xform`` provides a small number of functions to load
+input data, drive the calculation, and save output data.  In addition,
+all the input and output data are available as properties of the
+class. The properties are scalars, 1D numpy arrays, and 2D numpy
+arrays.
 
 .. autoclass:: booz_xform.Booz_xform
    :members:
@@ -28,12 +26,6 @@ numpy arrays, and 2D numpy arrays.
           0.1],[1.1, 0.1]]`` will behave as expected, but
           ``b.rmnc[0,0] = 2.0`` will not. This is due to the copying
           of data when interfacing python to C++.
-
-Plotting
---------
-
-.. automodule:: booz_xform
-   :members: surfplot, symplot
 
 
 C++

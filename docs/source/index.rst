@@ -16,6 +16,7 @@ It is also equipped with unit and regression tests and continuous integration.
 
    getting_started
    theory
+   plotting
    api
    developer
    source

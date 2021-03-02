@@ -39,6 +39,13 @@ NetCDF file. This function should only be called after
 
 :param filename: The full name of the file to save.)",
 	 "filename"_a)
+
+    .def("read_boozmn", &Booz_xform::read_boozmn, R"(
+Read in the results of an earlier transformation from a classic
+``boozmn_*.nc`` NetCDF file.
+
+:param filename: The full name of the file to load.)",
+	 "filename"_a)
     
     .def_readwrite("verbose", &Booz_xform::verbose, R"(
 Set this to 0 for no output to stdout, 1 for some output, 2 for lots
