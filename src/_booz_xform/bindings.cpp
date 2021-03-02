@@ -8,7 +8,7 @@ namespace py = pybind11;
 using namespace booz_xform;
 using namespace pybind11::literals; // For documenting function arguments
 
-PYBIND11_MODULE(booz_xform, m) {
+PYBIND11_MODULE(_booz_xform, m) {
   m.doc() = "Transformation to Boozer coordinates";
   
   py::class_<Booz_xform>(m, "Booz_xform", R"(

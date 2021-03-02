@@ -12,3 +12,4 @@ rm -f libbooz_xform*
 rm -f xbooz_xform
 rm -rf temp.*
 rm -rf lib.*
+rm -rf bdist.*

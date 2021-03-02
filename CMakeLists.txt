@@ -27,7 +27,7 @@ find_package(MPI REQUIRED)
 # Tell "make" to print out the commands used for compiling and linking:
 set(CMAKE_VERBOSE_MAKEFILE on)
 
-set(SOURCE_DIR "src")
+set(SOURCE_DIR "src/_booz_xform")
 include_directories(${SOURCE_DIR})
 include_directories(externalPackages/doctest)
 include_directories(externalPackages/eigen)
@@ -50,7 +50,7 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 #message("New pybind11_DIR: ${pybind11_DIR}")
 
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
-pybind11_add_module(booz_xform ${SOURCES} ${SOURCE_DIR}/bindings.cpp)
+pybind11_add_module(_booz_xform ${SOURCES} ${SOURCE_DIR}/bindings.cpp)
 
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
@@ -63,7 +63,7 @@ target_link_libraries(libbooz_xform PUBLIC ${NETCDF_LIBRARIES})
 
 # Driver and python module depend on the library:
 target_link_libraries(xbooz_xform PUBLIC libbooz_xform)
-target_link_libraries( booz_xform PUBLIC libbooz_xform)
+target_link_libraries(_booz_xform PUBLIC libbooz_xform)
 
 # Set up unitTests executable
 set(BOOZ_TESTS unitTests)

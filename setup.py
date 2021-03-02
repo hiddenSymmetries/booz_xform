@@ -130,12 +130,13 @@ setup(
     author_email="matt.landreman@gmail.com",
     description="Transformation to Boozer coordinates",
     long_description=long_description,
+    packages=['booz_xform'],
     # tell setuptools to look for any packages under 'src'
     #packages=find_packages('src'),
-    # tell setuptools that all packages will be under the 'src' directory
+    # Tell setuptools that all packages will be under the 'src' directory
     # and nowhere else
-    #package_dir={'':'src'},
-    ext_modules=[CMakeExtension("booz_xform")],
+    package_dir={'':'src'},
+    ext_modules=[CMakeExtension("booz_xform._booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
     install_requires=[
         'numpy',
@@ -146,3 +147,6 @@ setup(
     test_suite='tests',
     zip_safe=False,
 )
+
+# For guidance about packages involving both pure python and a pybind11 extension, see
+# https://stackoverflow.com/questions/47599162/pybind11-how-to-package-c-and-python-code-into-a-single-package
