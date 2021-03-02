@@ -75,6 +75,10 @@ jobs:
     - name: Try import
       run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
 
+    - name: Install matplotlib, which is required for the tests.
+      run: |
+        pip install matplotlib
+    
     - name: Run python unit tests
       run: python3 -m unittest -v
 

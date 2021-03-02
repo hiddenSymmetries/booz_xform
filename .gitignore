@@ -1,3 +1,8 @@
 *~
 build/*
 xbooz_xform
+unitTests
+__pycache__
+*.so
+*.a
+*.egg-info
