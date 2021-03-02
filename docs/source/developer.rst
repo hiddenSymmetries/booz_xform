@@ -46,3 +46,6 @@ Continuous integration
 The C++ and python tests are automatically run after every commit to
 the repository.  This automation is handled by GitHub Actions, and
 controlled by the script ``.github/workflows/ci.yml``.
+To view the results of the continuous integration runs, you can click on the "Actions"
+link from the `GitHub repository page <https://github.com/hiddenSymmetries/booz_xform>`_,
+or you can directly visit `<https://github.com/hiddenSymmetries/booz_xform/actions>`_.

@@ -12,6 +12,7 @@ It is also equipped with unit and regression tests and continuous integration.
 
 .. toctree::
    :maxdepth: 3
+   :caption: Contents
 
    getting_started
    theory

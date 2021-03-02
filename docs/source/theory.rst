@@ -162,16 +162,16 @@ and
 
 Equations :eq:`nus1`-:eq:`nuc2` enable :math:`\nu` to be calculated from the input data.
 To see that :eq:`nus1`-:eq:`nus2` are consistent with each other, the curl of
-:math:`\vec{B} = B_\psi\nabla\psi + B_{\theta_V}\nabla\theta_V + B_{\zeta_V}\nabla\zeta_V`
+:math:`\vec{B} = B_\psi\nabla\psi + B_{\theta_0}\nabla\theta_0 + B_{\zeta_0}\nabla\zeta_0`
 can be plugged into the MHD equilibrium property :math:`\vec{J}\cdot\nabla\psi=0`,
-yielding :math:`\partial B_{\zeta_V}/\partial\theta_V - \partial B_{\theta_V}/\partial\zeta_V=0`.
+yielding :math:`\partial B_{\zeta_0}/\partial\theta_0 - \partial B_{\theta_0}/\partial\zeta_0=0`.
 In Fourier space, then,
 
 .. math::
    :label: radial_current
 
-   m \hat{B}_{\zeta_V,m,n}^s = -n \hat{B}_{\zeta_V,m,n}^s, \;\;
-   m \hat{B}_{\zeta_V,m,n}^c = -n \hat{B}_{\zeta_V,m,n}^c.
+   m \hat{B}_{\zeta_0,m,n}^s = -n \hat{B}_{\zeta_0,m,n}^s, \;\;
+   m \hat{B}_{\zeta_0,m,n}^c = -n \hat{B}_{\zeta_0,m,n}^c.
 
 The modes of :math:`\nu` with :math:`m \ne 0` can be computed from :eq:`nus1` and :eq:`nuc1`.
 The modes of :math:`\nu` with :math:`n \ne 0` can be computed from :eq:`nus2` and :eq:`nuc2`.
@@ -194,8 +194,8 @@ with :math:`\hat{w}_{0,0}^c=0` (assuming :math:`\lambda_{0,0}^c=0`) and
 .. math::
    :label: w_modes
 	   
-   \hat{w}_{m,n}^s = \hat{B}_{\theta_V,m,n}^c / m = -\hat{B}_{\zeta_V,m,n}^c / n, \\
-   \hat{w}_{m,n}^c = -\hat{B}_{\theta_V,m,n}^s / m = \hat{B}_{\zeta_V,m,n}^s / n.
+   \hat{w}_{m,n}^s = \hat{B}_{\theta_0,m,n}^c / m = -\hat{B}_{\zeta_0,m,n}^c / n, \\
+   \hat{w}_{m,n}^c = -\hat{B}_{\theta_0,m,n}^s / m = \hat{B}_{\zeta_0,m,n}^s / n.
 
    
 2. Transforming other quantities
