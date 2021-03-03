@@ -14,6 +14,8 @@ namespace booz_xform {
     
   public:
     NetCDFReader(std::string);
+
+    size_t getdim(std::string);
     
     // Scalars:
     void get(std::string, int&);

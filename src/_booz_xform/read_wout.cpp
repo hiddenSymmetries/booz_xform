@@ -8,19 +8,6 @@
 
 using namespace booz_xform;
 
-void Booz_xform::read_boozmn(std::string filename) {
-  if (verbose > 0) std::cout << "About to try reading boozmn netcdf file " << filename << std::endl;
-  booz_xform::NetCDFReader nc(filename);
-
-  nc.get("mboz_b", mboz);
-  nc.get("nboz_b", nboz);
-
-  if (verbose > 0) std::cout << "Read mboz=" << mboz << " , nboz=" << nboz << std::endl;
-  
-  nc.close();
-  
-}
-
 void Booz_xform::read_wout(std::string filename) {
   int j, k;
   if (verbose > 0) std::cout << "About to try reading VMEC wout file " << filename << std::endl;

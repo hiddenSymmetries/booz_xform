@@ -10,6 +10,11 @@ package <https://pybind11.readthedocs.io/en/stable/>`_, which is
 installed automatically by the ``pip install`` step described in the
 next section.
 
+The :doc:`plotting` routines require the `matplotlib
+<https://matplotlib.org/>`_ package, which must be installed
+separately. This package is not needed for carrying out the coordinate
+transformation.
+
 ``booz_xform`` also requires the NetCDF library. The C++ or fortran
 interfaces to NetCDF are not required, only the standard C interface.
 

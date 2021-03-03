@@ -20,6 +20,16 @@ void booz_xform::NetCDFReader::ERR(int e) {
   throw std::runtime_error(nc_strerror(e));
 }
 
+size_t booz_xform::NetCDFReader::getdim(std::string dimname) {
+  int dim_id, retval;
+  size_t dimval;
+  if ((retval = nc_inq_dimid(ncid, dimname.c_str(), &dim_id)))
+      ERR(retval);
+  if ((retval = nc_inq_dimlen(ncid, dim_id, &dimval)))
+      ERR(retval);
+  return dimval;
+}
+
 void booz_xform::NetCDFReader::get(std::string varname, int& var) {
   int var_id, retval;
   if ((retval = nc_inq_varid(ncid, varname.c_str(), &var_id)))
