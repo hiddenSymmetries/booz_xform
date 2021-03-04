@@ -2,10 +2,15 @@
 
 import numpy as np
 # No error is raised if matplotlib cannot be imported here, because
-# matplotlib is not needed for core operation of booz_xform, so we
-# don't want to make it a mandatory requirement.
+# matplotlib and plotly are not needed for core operation of
+# booz_xform, so we don't want to make them mandatory requirements.
 try:
     import matplotlib.pyplot as plt
+except:
+    pass
+
+try:
+    import plotly.graph_objects as go
 except:
     pass
 
@@ -105,6 +110,14 @@ def symplot(b,
       legend_args (dict): Any arguments to pass to ``plt.legend()``.
          Useful for setting the legend font size and location.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``plot`` command.
+
+    This function can generate figures like this:
+
+    .. image:: symplot1.png
+       :width: 400
+
+    .. image:: symplot2.png
+       :width: 400
     """
 
     b = handle_b_input(b)
@@ -218,6 +231,14 @@ def modeplot(b,
       legend_args (dict): Any arguments to pass to ``plt.legend()``.
          Useful for setting the legend font size and location.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``plot`` command.
+
+    This function can generate figures like this:
+
+    .. image:: modeplot1.png
+       :width: 400
+
+    .. image:: modeplot2.png
+       :width: 400
     """
     b = handle_b_input(b)
 
@@ -277,3 +298,158 @@ def modeplot(b,
     if log:
         plt.yscale("log")
         plt.gca().set_ylim(bottom=ymin)
+
+
+def wireplot(b,
+             js = None,
+             ntheta = 30,
+             nphi = 80,
+             refine = 3,
+             surf = True,
+             orig = True):
+    """
+    Make a 3D figure showing the curves of constant Boozer angles.
+
+    Args:
+      b (Booz_xform, str): The Booz_xform instance to plot,
+        or a filename of a boozmn_*.nc file.
+      js (int): The index among the output surfaces to plot. If
+        None, the outermost surface is shown.
+      ntheta (int): Number of contours in the poloidal angle.
+      nphi (int): Number of contours in the toroidal angle.
+      refine (int): Number of grid points per curve segment between the contours.
+      surf (bool): Whether to display a solid surface.
+      orig (bool): Whether to also display coordinate curves for the original angles
+    """
+
+    b = handle_b_input(b)
+    
+    ntheta0 = ntheta * refine + 1;
+    nphi0 = nphi * refine + 1;
+
+    theta1D = np.linspace(0, 2 * np.pi, ntheta0)
+    phi1D = np.linspace(0, 2 * np.pi, nphi0)
+    varphi, theta = np.meshgrid(phi1D, theta1D)
+
+    R = np.zeros_like(theta)
+    Z = np.zeros_like(theta)
+    nu = np.zeros_like(theta)
+
+    # If not otherwise specified, choose the outermost surface:
+    if js is None:
+        js = b.ns_b - 1
+
+    for jmn in range(b.mnboz):
+        angle = b.xm_b[jmn] * theta - b.xn_b[jmn] * varphi
+        sinangle = np.sin(angle)
+        cosangle = np.cos(angle)
+        R += b.rmnc_b[jmn, js] * cosangle
+        Z += b.zmns_b[jmn, js] * sinangle
+        nu -= b.pmns_b[jmn, js] * sinangle
+        if b.asym:
+            R += b.rmns_b[jmn, js] * sinangle
+            Z += b.zmnc_b[jmn, js] * cosangle
+            nu -= b.pmnc_b[jmn, js] * cosangle
+            
+    phi = varphi - nu # Check this
+    X = R * np.cos(phi)
+    Y = R * np.sin(phi)
+
+    color = '#FF9999'
+    # Hack to get a uniform surface color:
+    colorscale = [[0, color],
+                  [1, color]]
+
+    if surf:
+        data = [go.Surface(x=X, y=Y, z=Z,
+                           colorscale=colorscale,
+                           showscale=False, # Turns off colorbar
+                           lighting={"specular": 0.3, "diffuse":0.9})]
+    else:
+        data = []
+        
+    # Wireframes in plotly: https://plotly.com/python/v3/3d-wireframe-plots/
+    if surf:
+        line_width = 4
+    else:
+        line_width = 2
+    line_marker = dict(color='red', width=line_width)
+    index = 0
+    for i, j, k in zip(X, Y, Z):
+        index += 1
+        showlegend = True
+        if index > 1:
+            showlegend = False
+        if np.mod(index, refine) == 1:
+            data.append(go.Scatter3d(x=i, y=j, z=k,
+                                     mode='lines', line=line_marker,
+                                     showlegend=showlegend,
+                                     name="Boozer coordinates"))
+    index = 0
+    for i, j, k in zip(X.T, Y.T, Z.T):
+        index += 1
+        if np.mod(index, refine) == 1:
+            data.append(go.Scatter3d(x=i, y=j, z=k,
+                                     mode='lines', line=line_marker,
+                                     showlegend=False))
+
+    # Also show curves along which the original angles are constant:
+    if orig:
+        js = b.compute_surfs[js]
+        R = np.zeros_like(theta)
+        Z = np.zeros_like(theta)
+        phi = varphi
+        
+        for jmn in range(b.mnmax):
+            angle = b.xm[jmn] * theta - b.xn[jmn] * phi
+            sinangle = np.sin(angle)
+            cosangle = np.cos(angle)
+            R += b.rmnc[jmn, js] * cosangle
+            Z += b.zmns[jmn, js] * sinangle
+            if b.asym:
+                R += b.rmns[jmn, js] * sinangle
+                Z += b.zmnc[jmn, js] * cosangle
+                
+        X = R * np.cos(phi)
+        Y = R * np.sin(phi)
+        line_marker = dict(color='black', width=line_width)
+            
+        index = 0
+        for i, j, k in zip(X, Y, Z):
+            index += 1
+            showlegend = True
+            if index > 1:
+                showlegend = False
+            if np.mod(index, refine) == 1:
+                data.append(go.Scatter3d(x=i, y=j, z=k,
+                                         mode='lines', line=line_marker,
+                                         showlegend=showlegend,
+                                         name="Original coordinates"))
+        index = 0
+        for i, j, k in zip(X.T, Y.T, Z.T):
+            index += 1
+            if np.mod(index, refine) == 1:
+                data.append(go.Scatter3d(x=i, y=j, z=k,
+                                         mode='lines', line=line_marker,
+                                         showlegend=False))
+            
+    fig = go.Figure(data=data)
+    
+    # Turn off hover contours on the surface:
+    fig.update_traces(contours_x_highlight=False,
+                  contours_y_highlight=False,
+                  contours_z_highlight=False,
+                  selector={"type":"surface"})
+
+    # Make x, y, z coordinate scales equal, and turn off more hover stuff
+    fig.update_layout(scene={"aspectmode": "data",
+                             "xaxis_showspikes": False,
+                             "yaxis_showspikes": False,
+                             "zaxis_showspikes": False,
+                             "xaxis_visible": False,
+                             "yaxis_visible": False,
+                             "zaxis_visible": False},
+                      hovermode=False,
+                      title="Curves of constant poloidal or toroidal angle")
+
+    return fig

@@ -84,6 +84,7 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     .def_readwrite("nboz", &Booz_xform::nboz)
     .def_readwrite("compute_surfs", &Booz_xform::compute_surfs)
     // End of inputs. Now come the outputs.
+    .def_readonly("ns_b", &Booz_xform::ns_b)
     .def_readonly("s_b", &Booz_xform::s_b)
     .def_readonly("mnboz", &Booz_xform::mnboz)
     .def_readonly("xm_b", &Booz_xform::xm_b)
