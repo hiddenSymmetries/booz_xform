@@ -17,6 +17,7 @@ It is also equipped with unit and regression tests and continuous integration.
 
    getting_started
    theory
+   usage
    plotting
    api
    developer

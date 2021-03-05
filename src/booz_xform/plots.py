@@ -56,6 +56,9 @@ def surfplot(b,
     .. image:: surfplot.png
        :width: 400
 
+    .. image:: surfplot2.png
+       :width: 400
+
     """
     b = handle_b_input(b)
     
@@ -333,6 +336,8 @@ def wireplot(b,
 
     R = np.zeros_like(theta)
     Z = np.zeros_like(theta)
+    d_R_d_theta = np.zeros_like(theta)
+    d_Z_d_theta = np.zeros_like(theta)
     nu = np.zeros_like(theta)
 
     # If not otherwise specified, choose the outermost surface:
@@ -340,11 +345,15 @@ def wireplot(b,
         js = b.ns_b - 1
 
     for jmn in range(b.mnboz):
-        angle = b.xm_b[jmn] * theta - b.xn_b[jmn] * varphi
+        m = b.xm_b[jmn]
+        n = b.xn_b[jmn]
+        angle = m * theta - n * varphi
         sinangle = np.sin(angle)
         cosangle = np.cos(angle)
         R += b.rmnc_b[jmn, js] * cosangle
         Z += b.zmns_b[jmn, js] * sinangle
+        d_R_d_theta += -m * b.rmnc_b[jmn, js] * sinangle
+        d_Z_d_theta += m * b.zmns_b[jmn, js] * cosangle
         nu -= b.pmns_b[jmn, js] * sinangle
         if b.asym:
             R += b.rmns_b[jmn, js] * sinangle
@@ -361,7 +370,15 @@ def wireplot(b,
                   [1, color]]
 
     if surf:
-        data = [go.Surface(x=X, y=Y, z=Z,
+        # Shrink the surface ever so slightly, so the coordinate
+        # curves are slightly outside of the surface.
+        epsilon = 0.002
+        denom = np.sqrt(d_R_d_theta * d_R_d_theta + d_Z_d_theta * d_Z_d_theta)
+        Rsurf = R - epsilon * (d_Z_d_theta / denom)
+        Zsurf = Z + epsilon * (d_R_d_theta / denom)
+        Xsurf = Rsurf * np.cos(phi)
+        Ysurf = Rsurf * np.sin(phi)
+        data = [go.Surface(x=Xsurf, y=Ysurf, z=Zsurf,
                            colorscale=colorscale,
                            showscale=False, # Turns off colorbar
                            lighting={"specular": 0.3, "diffuse":0.9})]
@@ -450,6 +467,7 @@ def wireplot(b,
                              "yaxis_visible": False,
                              "zaxis_visible": False},
                       hovermode=False,
+                      margin={"l":0, "r":0, "t":25, "b":0},
                       title="Curves of constant poloidal or toroidal angle")
 
     return fig

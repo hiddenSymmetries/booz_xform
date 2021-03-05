@@ -3,6 +3,7 @@
 import booz_xform as bx
 
 wout_filename = 'test_files/wout_li383_1.4m.nc'
+#wout_filename = 'test_files/wout_LandremanSenguptaPlunk_section5p3.nc'
 b = bx.Booz_xform()
 b.read_wout(wout_filename)
 #b.mboz = 64
