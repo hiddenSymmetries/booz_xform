@@ -30,20 +30,22 @@ jobs:
       if: "contains(matrix.os, 'ubuntu')"
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential openmpi-bin libopenmpi-dev git cmake libnetcdf-dev
+        sudo apt-get install -y build-essential git cmake libnetcdf-dev
+        # In the future, if we want to add MPI, we'd need to also install "openmpi-bin libopenmpi-dev"
 
     - name: get any needed packages from homebrew
       if: "contains(matrix.os, 'macos')"
       run: |
         brew install netcdf
-        brew install open-mpi
+        # If we want to add MPI in the future, uncomment the next line:
+        #brew install open-mpi
 
     - name: Print versions
       run: |
-        which mpicc
-        which mpiexec
-        mpicc --version
         cmake --version
+        #which mpicc
+        #which mpiexec
+        #mpicc --version
 
     - uses: actions/checkout@v2
       # If we want submodules downloaded, uncomment the next 2 lines:
