@@ -2,6 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#ifdef OPENMP
+#include <omp.h>
+#endif
 #include "booz_xform.hpp"
 #include "init_trig.hpp"
 
@@ -18,8 +21,8 @@ void Booz_xform::check_accuracy(int js, int js_b,
   const int n_check = 4;
   Vector bmod_vmec(n_check), bmod_boozer(n_check), bmod_err(n_check);
   Vector theta_b_test(n_check), zeta_b_test(n_check);
-  int index;
-  
+  int index, thread;
+
   // Recall nu2_b = nu / 2 + 1 regardless of asym.
   // int nv2_b = nv / 2 + 1; // Index of zeta = pi. Note nv is even so there is no rounding.
 
@@ -108,28 +111,38 @@ void Booz_xform::check_accuracy(int js, int js_b,
     }
   }
 
+  thread = 0;
+#ifdef OPENMP
+  thread = omp_get_thread_num();
+#endif
+  
   // Here we copy the error definition used in boozer_coords.f, which is
   // err = ABS(bmodb - bmodv)/MAX(bmodb,bmodv)
   for (j = 0; j < n_check; j++) {
     bmod_err[j] = std::abs(bmod_boozer[j] - bmod_vmec[j])
       / std::max(bmod_boozer[j], bmod_vmec[j]);
   }
-  std::cout << "  0  " << std::setprecision(3) << std::scientific
+  // Only 1 thread should print at a time:
+  #pragma omp critical
+  {
+  std::cout << std::setprecision(3) << std::scientific
+	    << std::setw(4) << thread << std::setw(6) << js_b
+	    << std::setw(4) << js
+	    << "   0" << std::setprecision(3) << std::scientific
 	    << std::setw(11) << bmod_vmec[0]
 	    << std::setw(11) << bmod_boozer[0]
 	    << std::setw(11) << bmod_err[0]
-	    << std::setw(5) << js << "  "
 	    << std::setw(11) << bmod_vmec[1]
 	    << std::setw(11) << bmod_boozer[1]
 	    << std::setw(11) << bmod_err[1]
 	    << std::endl;
-  std::cout << " pi  " << std::setprecision(3)
+  std::cout << "                pi" << std::setprecision(3)
 	    << std::setw(11) << bmod_vmec[2]
 	    << std::setw(11) << bmod_boozer[2]
 	    << std::setw(11) << bmod_err[2]
-	    << "       "
 	    << std::setw(11) << bmod_vmec[3]
 	    << std::setw(11) << bmod_boozer[3]
 	    << std::setw(11) << bmod_err[3]
             << std::endl;
+  }
 }

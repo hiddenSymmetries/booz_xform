@@ -1,7 +1,4 @@
 #include <iostream>
-#ifdef OPENMP
-#include <omp.h>
-#endif
 #include "booz_xform.hpp"
 
 using namespace booz_xform;
@@ -16,17 +13,14 @@ void Booz_xform::run() {
   init();
 
   if (verbose > 0) {
-    std::cout << "             OUTBOARD (theta=0)        SURFACE         INBOARD (theta=pi)" << std::endl;
-    std::cout << "------------------------------------------------------------------------------" << std::endl;
-    std::cout << "zeta    |B|input  |B|Boozer    Error            |B|input  |B|Boozer    Error"
-	      << std::endl << std::endl;
+    std::cout << "                   |        outboard (theta=0)      |      inboard (theta=pi)      |" << std::endl;
+    std::cout << "thread js_b js zeta| |B|input  |B|Boozer    Error   | |B|input  |B|Boozer    Error |" << std::endl;
+    std::cout << "------------------------------------------------------------------------------------" << std::endl;
   }
 
-  #pragma omp parallel for
+  // In the next line would could try to add something like "schedule(static, 1)" for more order.
+#pragma omp parallel for
   for (int j = 0; j < compute_surfs.size(); j++) {
-#ifdef OPENMP
-    std::cout << "Thread " << omp_get_thread_num() << " is handling index " << j << std::endl;
-#endif
     surface_solve(j);
   }
 }

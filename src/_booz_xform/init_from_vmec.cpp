@@ -152,15 +152,15 @@ void Booz_xform::init_from_vmec(int ns,
       std::cout << "iota = " << iotas << std::endl;
       std::cout << "xm = " << xm << std::endl;
       std::cout << "xn = " << xn << std::endl;
+    
+      std::cout << "rmnc, increasing ns index:";
+      for (j = 0; j < 4; j++) std::cout << " " << rmnc0(0, j);
+      std::cout << std::endl;
+    
+      std::cout << "rmnc, ncreasing mnmax index:";
+      for (j = 0; j < 4; j++) std::cout << " " << rmnc0(j, 0);
+      std::cout << std::endl;
     }
-    
-    std::cout << "rmnc, increasing ns index:";
-    for (j = 0; j < 4; j++) std::cout << " " << rmnc0(0, j);
-    std::cout << std::endl;
-    
-    std::cout << "rmnc, ncreasing mnmax index:";
-    for (j = 0; j < 4; j++) std::cout << " " << rmnc0(j, 0);
-    std::cout << std::endl;
   }
 
   // Handle radial interpolation of the full-grid quantities rmnc,

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#ifdef OPENMP
+#include <omp.h>
+#endif
 #include "booz_xform.hpp"
 #include "init_trig.hpp"
 
@@ -24,9 +27,14 @@ void Booz_xform::init() {
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
   xm_b.setZero(mnboz);
   xn_b.setZero(mnboz);
+  int nthreads = 0;
+#ifdef OPENMP
+  nthreads = omp_get_max_threads();
+#endif
   if (verbose > 0) {
     std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
-    std::cout << "nu = " << nu << ", nv = " << nv << std::endl;
+    std::cout << "nu = " << nu << ", nv = " << nv
+	      << ", # threads = " << nthreads << std::endl;
   }
   
   // Done with the bits from read_wout_booz.f.

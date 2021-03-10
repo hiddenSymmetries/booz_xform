@@ -18,8 +18,8 @@ transformation.
 ``booz_xform`` also requires the NetCDF library. The C++ or fortran
 interfaces to NetCDF are not required, only the standard C interface.
 
-Finally, ``booz_xform`` requires MPI.
-
+OpenMP is an optional dependency. If found, OpenMP is used to
+parallelize the calculation over magnetic surfaces.  MPI is not used.
 
 Installation
 ^^^^^^^^^^^^

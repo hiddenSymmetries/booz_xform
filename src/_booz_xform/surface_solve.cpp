@@ -1,9 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#ifdef OPENMP
-#include <omp.h>
-#endif
 #include "booz_xform.hpp"
 #include "init_trig.hpp"
 
@@ -21,6 +18,14 @@ void Booz_xform::surface_solve(int js_b) {
     
   int jmn, m, n, abs_n, j;
 
+  // Next come a bunch of work arrays that need to be independent on
+  // each thread, so threads do not over-write each other's
+  // arrays. There is some time spent allocating the memory here, on
+  // each surface, rather than allocating just once in init(). However
+  // then it is trickier to have these arrays independent on each
+  // thread. The time spent is small compared to the loops that come
+  // later. So for simplicity, the work arrays are just allocated
+  // here.
   Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xm_b
   Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xn_b
   Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xm_b
@@ -54,7 +59,6 @@ void Booz_xform::surface_solve(int js_b) {
   if (asym) {
     wmnc.setZero(mnmax_nyq); // Note mnmax_nyq instead of mnboz for this one.
   }
-    
   r.setZero(n_theta_zeta);
   z.setZero(n_theta_zeta);
   lambda.setZero(n_theta_zeta);
@@ -73,11 +77,6 @@ void Booz_xform::surface_solve(int js_b) {
   boozer_jacobian.setZero(n_theta_zeta);
 
     
-  // 20210310 OMP debugging stuff:
-  r[0] = omp_get_thread_num();
-  std::cout << "thread " << omp_get_thread_num() << " &r:" << (&r) << " r(0):" << r(0) << std::endl;
-  //std::cout << "thread " << omp_get_thread_num() << " r:" << r << " *r(0):" << (*r)[0] << std::endl;
-  
   // This next bit corresponds to transpmn.f in the fortran version.
   
   // Compute the part of p that is independent of lambda (the
