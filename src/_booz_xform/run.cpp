@@ -1,4 +1,7 @@
 #include <iostream>
+#ifdef OPENMP
+#include <omp.h>
+#endif
 #include "booz_xform.hpp"
 
 using namespace booz_xform;
@@ -18,7 +21,12 @@ void Booz_xform::run() {
     std::cout << "zeta    |B|input  |B|Boozer    Error            |B|input  |B|Boozer    Error"
 	      << std::endl << std::endl;
   }
-  
-  for (int j = 0; j < compute_surfs.size(); j++)
+
+  #pragma omp parallel for
+  for (int j = 0; j < compute_surfs.size(); j++) {
+#ifdef OPENMP
+    std::cout << "Thread " << omp_get_thread_num() << " is handling index " << j << std::endl;
+#endif
     surface_solve(j);
+  }
 }

@@ -109,10 +109,6 @@ void Booz_xform::init() {
   sinm_nyq.setZero(n_theta_zeta, mpol_nyq + 1);
   cosn_nyq.setZero(n_theta_zeta, ntor_nyq + 1);
   sinn_nyq.setZero(n_theta_zeta, ntor_nyq + 1);
-  cosm_b.setZero(n_theta_zeta, mboz + 1);
-  sinm_b.setZero(n_theta_zeta, mboz + 1);
-  cosn_b.setZero(n_theta_zeta, nboz + 1);
-  sinn_b.setZero(n_theta_zeta, nboz + 1);
   
   init_trig(theta_grid, zeta_grid,
 	    cosm, sinm, cosn, sinn,
@@ -134,35 +130,19 @@ void Booz_xform::init() {
   Boozer_I.setZero(ns_b);
   Boozer_G.setZero(ns_b);
   
-  wmns.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
+  //wmns.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
   bmnc_b.setZero(mnboz, ns_b);
   rmnc_b.setZero(mnboz, ns_b);
   zmns_b.setZero(mnboz, ns_b);
   pmns_b.setZero(mnboz, ns_b);
   gmnc_b.setZero(mnboz, ns_b);
   if (asym) {
-    wmnc.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
+    //wmnc.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
     bmns_b.setZero(mnboz, ns_b);
     rmns_b.setZero(mnboz, ns_b);
     zmnc_b.setZero(mnboz, ns_b);
     pmnc_b.setZero(mnboz, ns_b);
     gmns_b.setZero(mnboz, ns_b);
   }
-  
-  r.setZero(n_theta_zeta);
-  z.setZero(n_theta_zeta);
-  lambda.setZero(n_theta_zeta);
-  d_lambda_d_theta.setZero(n_theta_zeta);
-  d_lambda_d_zeta.setZero(n_theta_zeta);
-  w.setZero(n_theta_zeta);
-  d_w_d_theta.setZero(n_theta_zeta);
-  d_w_d_zeta.setZero(n_theta_zeta);
-  bmod.setZero(n_theta_zeta);
-  p.setZero(n_theta_zeta);
-  d_p_d_theta.setZero(n_theta_zeta);
-  d_p_d_zeta.setZero(n_theta_zeta);
-  zeta_Boozer_grid.setZero(n_theta_zeta);
-  theta_Boozer_grid.setZero(n_theta_zeta);
-  d_Boozer_d_vmec.setZero(n_theta_zeta);
-  boozer_jacobian.setZero(n_theta_zeta);
+
 }

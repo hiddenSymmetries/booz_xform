@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#ifdef OPENMP
+#include <omp.h>
+#endif
 #include "booz_xform.hpp"
 #include "init_trig.hpp"
 
@@ -17,6 +20,63 @@ void Booz_xform::surface_solve(int js_b) {
   if (verbose > 1) std::cout << "Solving for js_b=" << js_b << ", js=" << js << std::endl;
     
   int jmn, m, n, abs_n, j;
+
+  Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xm_b
+  Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xn_b
+  Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xm_b
+  Matrix sinn_b; //!< Stores sin(n*zeta_Boozer) for xn_b
+  Vector r;
+  Vector z;
+  Vector lambda;
+  Vector d_lambda_d_theta;
+  Vector d_lambda_d_zeta;
+  Vector w;
+  Vector d_w_d_theta;
+  Vector d_w_d_zeta;
+  Vector bmod;
+  Vector theta_diff;
+  Vector p;
+  Vector d_p_d_theta;
+  Vector d_p_d_zeta;
+  Vector theta_Boozer_grid;
+  Vector zeta_Boozer_grid;
+  Vector wmns;
+  Vector wmnc; //!< Right-hand side of eq (10) in Fourier space
+  Vector d_Boozer_d_vmec; //!< The Jacobian in eq (12)
+  Vector boozer_jacobian; //!< (G + iota * I) / B^2 on the (theta, zeta) grid.
+  
+  cosm_b.setZero(n_theta_zeta, mboz + 1);
+  sinm_b.setZero(n_theta_zeta, mboz + 1);
+  cosn_b.setZero(n_theta_zeta, nboz + 1);
+  sinn_b.setZero(n_theta_zeta, nboz + 1);
+
+  wmns.setZero(mnmax_nyq); // Note mnmax_nyq instead of mnboz for this one.
+  if (asym) {
+    wmnc.setZero(mnmax_nyq); // Note mnmax_nyq instead of mnboz for this one.
+  }
+    
+  r.setZero(n_theta_zeta);
+  z.setZero(n_theta_zeta);
+  lambda.setZero(n_theta_zeta);
+  d_lambda_d_theta.setZero(n_theta_zeta);
+  d_lambda_d_zeta.setZero(n_theta_zeta);
+  w.setZero(n_theta_zeta);
+  d_w_d_theta.setZero(n_theta_zeta);
+  d_w_d_zeta.setZero(n_theta_zeta);
+  bmod.setZero(n_theta_zeta);
+  p.setZero(n_theta_zeta);
+  d_p_d_theta.setZero(n_theta_zeta);
+  d_p_d_zeta.setZero(n_theta_zeta);
+  zeta_Boozer_grid.setZero(n_theta_zeta);
+  theta_Boozer_grid.setZero(n_theta_zeta);
+  d_Boozer_d_vmec.setZero(n_theta_zeta);
+  boozer_jacobian.setZero(n_theta_zeta);
+
+    
+  // 20210310 OMP debugging stuff:
+  r[0] = omp_get_thread_num();
+  std::cout << "thread " << omp_get_thread_num() << " &r:" << (&r) << " r(0):" << r(0) << std::endl;
+  //std::cout << "thread " << omp_get_thread_num() << " r:" << r << " *r(0):" << (*r)[0] << std::endl;
   
   // This next bit corresponds to transpmn.f in the fortran version.
   
@@ -31,11 +91,11 @@ void Booz_xform::surface_solve(int js_b) {
     n = xn_nyq[jmn];
     
     if (m != 0) {
-      wmns(jmn, js_b) = bsubumnc(jmn, js) / m;
-      if (asym) wmnc(jmn, js_b) = -bsubumns(jmn, js) / m;
+      wmns(jmn) = bsubumnc(jmn, js) / m;
+      if (asym) wmnc(jmn) = -bsubumns(jmn, js) / m;
     } else if (n != 0) {
-      wmns(jmn, js_b) = -bsubvmnc(jmn, js) / n;
-      if (asym) wmnc(jmn, js_b) = bsubvmns(jmn, js) / n;
+      wmns(jmn) = -bsubvmnc(jmn, js) / n;
+      if (asym) wmnc(jmn) = bsubvmns(jmn, js) / n;
     } else {
       // So m = n = 0.
       Boozer_I[js_b] = bsubumnc(jmn, js);
@@ -121,14 +181,14 @@ void Booz_xform::surface_solve(int js_b) {
     for (j = 0; j < n_theta_zeta; j++) {
       tcos = cosm_nyq(j, m) * cosn_nyq(j, abs_n) + sinm_nyq(j, m) * sinn_nyq(j, abs_n) * sign;
       tsin = sinm_nyq(j, m) * cosn_nyq(j, abs_n) - cosm_nyq(j, m) * sinn_nyq(j, abs_n) * sign;
-      w[j]           +=  tsin * wmns(jmn, js_b);
-      d_w_d_theta[j] +=  tcos * wmns(jmn, js_b) * m;
-      d_w_d_zeta[j]  += -tcos * wmns(jmn, js_b) * n;
+      w[j]           +=  tsin * wmns(jmn);
+      d_w_d_theta[j] +=  tcos * wmns(jmn) * m;
+      d_w_d_zeta[j]  += -tcos * wmns(jmn) * n;
       bmod[j]        +=  tcos * bmnc(jmn, js);
       if (!asym) continue;
-      w[j]           +=  tcos * wmnc(jmn, js_b);
-      d_w_d_theta[j] += -tsin * wmnc(jmn, js_b) * m;
-      d_w_d_zeta[j]  +=  tsin * wmnc(jmn, js_b) * n;
+      w[j]           +=  tcos * wmnc(jmn);
+      d_w_d_theta[j] += -tsin * wmnc(jmn) * m;
+      d_w_d_zeta[j]  +=  tsin * wmnc(jmn) * n;
       bmod[j]        +=  tsin * bmns(jmn, js);
     }
   }
@@ -262,7 +322,9 @@ void Booz_xform::surface_solve(int js_b) {
 
   // End of the part from boozer.f
 
-  if (verbose > 0) check_accuracy(js, js_b);
+  if (verbose > 0) check_accuracy(js, js_b, bmod,
+				  theta_Boozer_grid, zeta_Boozer_grid,
+				  cosm_b, cosn_b, sinm_b, sinn_b);
   
   if (false && js_b == 0) {
     std::ofstream output_file;

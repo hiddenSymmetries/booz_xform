@@ -22,7 +22,9 @@ find_package (NetCDF REQUIRED)
 message("NETCDF_INCLUDES=${NETCDF_INCLUDES}")
 message("NETCDF_LIBRARIES=${NETCDF_LIBRARIES}")
 
-find_package(MPI REQUIRED)
+# If in the future we want to use MPI, uncomment this next line:
+#find_package(MPI REQUIRED)
+find_package(OpenMP)
 
 # Tell "make" to print out the commands used for compiling and linking:
 set(CMAKE_VERBOSE_MAKEFILE on)
@@ -32,6 +34,11 @@ include_directories(${SOURCE_DIR})
 include_directories(externalPackages/doctest)
 include_directories(externalPackages/eigen)
 include_directories("${NETCDF_INCLUDES}")
+if(OpenMP_CXX_FOUND)
+  message("OpenMP_CXX_INCLUDE_DIRS is ${OpenMP_CXX_INCLUDE_DIRS}")
+  include_directories(${OpenMP_CXX_INCLUDE_DIRS})
+  add_definitions(-DOPENMP)
+endif()
 
 # Get a list of all sources:
 file(GLOB SOURCES "${SOURCE_DIR}/*.cpp")
@@ -60,7 +67,10 @@ add_executable(xbooz_xform ${SOURCE_DIR}/xbooz_xform.cpp)
 #set_property(TARGET xbooz_xform PROPERTY CXX_STANDARD 11)
 
 target_link_libraries(libbooz_xform PUBLIC ${NETCDF_LIBRARIES})
-
+if(OpenMP_CXX_FOUND)
+  target_link_libraries(libbooz_xform PUBLIC OpenMP::OpenMP_CXX)
+endif()
+  
 # Driver and python module depend on the library:
 target_link_libraries(xbooz_xform PUBLIC libbooz_xform)
 target_link_libraries(_booz_xform PUBLIC libbooz_xform)

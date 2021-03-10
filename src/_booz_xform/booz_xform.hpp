@@ -31,19 +31,9 @@ namespace booz_xform {
     Matrix cosn_nyq; //!< Stores cos(n*zeta) for xn_nyq
     Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq
     Matrix sinn_nyq; //!< Stores sin(n*zeta) for xn_nyq
-    Matrix cosm_b; //!< Stores cos(m*theta_Boozer) for xm_b
-    Matrix cosn_b; //!< Stores cos(n*zeta_Boozer) for xn_b
-    Matrix sinm_b; //!< Stores sin(m*theta_Boozer) for xm_b
-    Matrix sinn_b; //!< Stores sin(n*zeta_Boozer) for xn_b
-    Vector r, z, lambda, d_lambda_d_theta, d_lambda_d_zeta;
-    Vector w, d_w_d_theta, d_w_d_zeta, bmod, theta_diff;
-    Vector p, d_p_d_theta, d_p_d_zeta;
-    Vector theta_Boozer_grid, zeta_Boozer_grid;
-    Matrix wmns, wmnc; //!< Right-hand side of eq (10) in Fourier space
-    Vector d_Boozer_d_vmec; //!< The Jacobian in eq (12)
-    Vector boozer_jacobian; //!< (G + iota * I) / B^2 on the (theta, zeta) grid.
     
     void defaults();
+    void check_accuracy(int, int, Vector&, Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&);
     
   public:
     int verbose;
@@ -138,7 +128,6 @@ namespace booz_xform {
     
     void init();
     void surface_solve(int);
-    void check_accuracy(int, int);
     void read_boozmn(std::string);
   };
   

@@ -11,7 +11,9 @@ using namespace booz_xform;
  *
  *  This subroutine corresponds to parts of boozer_coords.f and harfun.f::modbooz().
  */
-void Booz_xform::check_accuracy(int js, int js_b) {
+void Booz_xform::check_accuracy(int js, int js_b,
+				Vector& bmod, Vector& theta_Boozer_grid, Vector& zeta_Boozer_grid,
+				Matrix& cosm_b, Matrix& cosn_b, Matrix& sinm_b, Matrix& sinn_b) {
 
   const int n_check = 4;
   Vector bmod_vmec(n_check), bmod_boozer(n_check), bmod_err(n_check);
