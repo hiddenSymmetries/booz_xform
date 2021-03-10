@@ -23,6 +23,9 @@ the ``build`` directory.
 Python tests
 ************
 
+The python tests require the packages ``scipy`` and ``matplotlib``,
+which the core part of ``booz_xform`` does not require.
+
 Python tests are based on the standard ``unittest`` python module.
 Source code for the python tests is located in the ``tests`` directory.
 The python tests will use the installed version of the ``booz_xform`` python package,

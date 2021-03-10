@@ -138,10 +138,7 @@ setup(
     package_dir={'':'src'},
     ext_modules=[CMakeExtension("booz_xform._booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
-    install_requires=[
-        'numpy',
-        'scipy'
-    ],
+    install_requires=['numpy'],
     # The next line makes the executable available:
     data_files = [('bin', ['xbooz_xform'])],
     test_suite='tests',

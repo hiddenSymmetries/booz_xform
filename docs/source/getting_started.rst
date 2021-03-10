@@ -5,15 +5,12 @@ Getting started
 Requirements
 ^^^^^^^^^^^^
 
-``booz_xform`` requires a C++ compiler and python3. It uses `pybind11
-package <https://pybind11.readthedocs.io/en/stable/>`_, which is
+``booz_xform`` requires a C++ compiler and python3.  The python
+interface uses arrays from the ``numpy`` package, and building
+``booz_xform`` requires the `pybind11 package
+<https://pybind11.readthedocs.io/en/stable/>`_.  These packages are
 installed automatically by the ``pip install`` step described in the
 next section.
-
-The :doc:`plotting` routines require the `matplotlib
-<https://matplotlib.org/>`_ package, which must be installed
-separately. This package is not needed for carrying out the coordinate
-transformation.
 
 ``booz_xform`` also requires the NetCDF library. The C++ or fortran
 interfaces to NetCDF are not required, only the standard C interface.
@@ -21,12 +18,20 @@ interfaces to NetCDF are not required, only the standard C interface.
 OpenMP is an optional dependency. If found, OpenMP is used to
 parallelize the calculation over magnetic surfaces.  MPI is not used.
 
+There are some additional python packages that are optional dependencies.
+The :doc:`plotting` routines require the `matplotlib
+<https://matplotlib.org/>`_ package.  The python unit tests require
+``matplotlib`` as well as ``scipy``.  These packages are not needed for
+carrying out the coordinate transformation, so they are not
+automatically installed by ``pip``, and you should install them
+separately if you want to use these features.
+
 Installation
 ^^^^^^^^^^^^
 
-Before attempting to install ``booz_xform``, make sure NetCDF and MPI
-are available on your system. On some HPC systems, this may require
-loading the relevant modules.
+Before attempting to install ``booz_xform``, make sure NetCDF 
+is available on your system. On some HPC systems, this may require
+loading the relevant module.
 
 There are several ways you can install ``booz_xform``, depending on
 whether you are a user or developer.
@@ -65,16 +70,15 @@ similar to the following in the output::
   -- Found NetCDF: /opt/local/lib/libnetcdf.dylib
   NETCDF_INCLUDES=/opt/local/include
   NETCDF_LIBRARIES=/opt/local/lib/libnetcdf.dylib
-  -- Found MPI_CXX: /opt/local/lib/mpich-gcc8/libmpicxx.dylib (found version "3.1")
   ...
 
 To change the compiler that is used to build the code, you can insert
 ``CXX=`` followed by the compiler name before ``pip``. For example, to
-use the Intel compiler ``mpiicpc``, use
+use the Intel compiler ``icpc``, use
 
 .. code-block::
 
-  CXX=mpiicpc pip install -v booz_xform
+  CXX=icpc pip install -v booz_xform
   
 If the installation is successful, ``booz_xform`` will be added to
 your python environment. You should now be able to import the module
