@@ -1,6 +1,74 @@
 Typical usage
 =============
 
+..
+   Reference a python variable: :obj:`~booz_xform.Booz_xform.ns_b`
+   Reference a python function: :meth:`~booz_xform.Booz_xform.run`
+   Reference a C++ variable: :cpp:var:`~booz_xform.Booz_xform.ns_b`
+   Reference a C++ function: :func:`~booz_xform.Booz_xform.run`
+
+Overview
+--------
+
+From the :doc:`theory` section, we see that the input quantities to
+the transformation are the following. To compute :math:`\nu` (the
+difference between the old and new toroidal angle) we need
+:math:`\iota`, :math:`\lambda`, :math:`B_{\theta_0}`, and
+:math:`B_{\zeta_0}`. Also we need any scalars that we wish to
+transform from the old coordinates to the new ones, typically
+:math:`R`, :math:`Z`, and :math:`B`.  All of these quantities must be
+supplied on each magnetic surface for which we want to execute the
+transformation.
+
+A common situation is that these input quantities are known on many
+magnetic surfaces, but we only wish to execute the transformation on a
+subset of the surfaces.  For this reason, there are two radial grids
+in ``booz_xform``. First, there is a grid for input quantities, with
+:cpp:var:`~booz_xform::Booz_xform::ns_in` surfaces, for which the
+normalized toroidal flux has values
+:cpp:var:`~booz_xform::Booz_xform::s_in`.  Second, there is a generally
+different grid for output quantities, with
+:cpp:var:`~booz_xform::Booz_xform::ns_b` surfaces.  The 0-based
+indices of the input radial grid on which the transformation will be
+executed is determined by
+:cpp:var:`~booz_xform::Booz_xform::compute_surfs`, a vector of
+integers.  If any radial interpolation of the input data needs to be
+done, it should be done before setting the input data on the
+:cpp:var:`~booz_xform::Booz_xform::ns_in` grid; no radial
+interpolation is performed during the transformation itself.  For
+input from a VMEC ``wout`` file, radial interpolation from full-grid
+quantities to the half-grid is automatically performed by the
+:cpp:func:`~booz_xform::Booz_xform::read_wout` or
+:cpp:func:`~booz_xform::Booz_xform::init_from_vmec` functions when
+they set the input arrays.
+
+For the input and output quantities that vary on a flux surface, the
+dependence on the poloidal and toroidal angles is represented using a
+double Fourier series.  There are three different Fourier resolutions
+used in the code.  The input data for :math:`R`, :math:`Z`, and
+:math:`\lambda` use poloidal mode numbers
+:cpp:var:`~booz_xform::Booz_xform::xm` and toroidal mode numbers
+:cpp:var:`~booz_xform::Booz_xform::xn`, with a total of
+:cpp:var:`~booz_xform::Booz_xform::mnmax` modes.  The input data for
+:math:`B_{\theta_0}`, :math:`B_{\zeta_0}`, and :math:`B` use poloidal
+mode numbers :cpp:var:`~booz_xform::Booz_xform::xm_nyq` and toroidal
+mode numbers :cpp:var:`~booz_xform::Booz_xform::xn_nyq`, with a total
+of :cpp:var:`~booz_xform::Booz_xform::mnmax_nyq` modes.  These two
+resolutions could be the same, but they are allowed to be different in
+case some quantities are known with different resolution than the others,
+as is the case in VMEC. Finally, output quantities (functions of the Boozer angles)
+are computed using
+poloidal mode numbers
+:cpp:var:`~booz_xform::Booz_xform::xm_b` and toroidal mode numbers
+:cpp:var:`~booz_xform::Booz_xform::xn_b`, with a total of
+:cpp:var:`~booz_xform::Booz_xform::mnmax_b` modes.
+This third Fourier resolution is controlled by specifying the maximum poloidal mode number
+:cpp:var:`~booz_xform::Booz_xform::mpol_b` and the maximum toroidal mode number
+:cpp:var:`~booz_xform::Booz_xform::ntor_b`.
+     
+
+
+
 Python
 ------
 

@@ -53,7 +53,9 @@ namespace booz_xform {
     Vector iota;
     IntVector xm, xn, xm_nyq, xn_nyq;
 
-    /** List of the 0-based indices of the surfaces on which to perform the transformation.
+    /** List of the 0-based indices of the surfaces on which to
+	perform the transformation.  Users should set this vector
+	before calling run().
      */
     IntVector compute_surfs;
 
@@ -66,8 +68,21 @@ namespace booz_xform {
 	stored. These numbers are used only for plotting.
      */
     Vector s_b;
+
+    /** Poloidal mode numbers used for the Fourier representation of
+	output quantities, i.e. functions of the Boozer angles. This
+	array is populated automatically when the transformation is
+	executed.
+    */
+    IntVector xm_b;
+
+    /** Toroidal mode numbers used for the Fourier representation of
+	output quantities, i.e. functions of the Boozer angles. This
+        array is populated automatically when the transformation is
+        executed.                                              
+    */
+    IntVector xn_b;
     
-    IntVector xm_b, xn_b;
     int ns_b; //!< Number of surfaces on which the transformation is calculated
     Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
     Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
