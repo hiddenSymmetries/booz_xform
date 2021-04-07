@@ -17,7 +17,8 @@ namespace booz_xform {
   private:
     int nu2_b; //!< Not sure
     int nu3_b; //!< Not sure
-    int nu, nv; //!< Number of real-space grid points in the VMEC poloidal and toroidal angles
+    int ntheta; //!< Number of real-space grid points in the original poloidal angle
+    int nzeta; //!< Number of real-space grid points in the original toroidal angle
     boozfloat d_theta, d_zeta; //!< Spacing between grid points in the VMEC poloidal and toroidal angles
     int n_theta_zeta; //!< Number of grid points in the combined theta-zeta grid
     bool completed;
@@ -84,8 +85,8 @@ namespace booz_xform {
     IntVector xn_b;
     
     int ns_b; //!< Number of surfaces on which the transformation is calculated
-    Matrix bmnc_b, rmnc_b, zmns_b, pmns_b, gmnc_b;
-    Matrix bmns_b, rmns_b, zmnc_b, pmnc_b, gmns_b;
+    Matrix bmnc_b, rmnc_b, zmns_b, numns_b, gmnc_b;
+    Matrix bmns_b, rmns_b, zmnc_b, numnc_b, gmns_b;
     Vector Boozer_G; //!< The toroidal covariant component of B in Boozer coordinates.
     Vector Boozer_I; //!< The poloidal covariant component of B in Boozer coordinates.
 
@@ -150,7 +151,7 @@ namespace booz_xform {
 
 /* Translating between fortran and C++ variable names:
 
-   nu_b, nv_b -> nu, nv
+   nu_b, nv_b -> ntheta, nzeta
    nunv -> n_theta_zeta
    dth, dzt -> d_theta, d_zeta
    scl -> fourier_factor

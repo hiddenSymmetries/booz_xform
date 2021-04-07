@@ -31,10 +31,10 @@ class RegressionTest(unittest.TestCase):
 
             b.run()
 
-            vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'pmns_b', 'gmnc_b']
+            vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'numns_b', 'gmnc_b']
             asym = bool(f.variables['lasym__logical__'][()])
             if asym:
-                vars += ['bmns_b', 'rmns_b', 'zmnc_b', 'pmnc_b', 'gmns_b']
+                vars += ['bmns_b', 'rmns_b', 'zmnc_b', 'numnc_b', 'gmns_b']
 
             rtol = 1e-12
             atol = 1e-12
@@ -44,13 +44,21 @@ class RegressionTest(unittest.TestCase):
                 if var == 'gmnc_b':
                     var_ref = 'gmn_b'
 
+                # Handle the issue that we now use the variable nu,
+                # whereas the boozmn format uses the variable
+                # p = -nu.
+                sign = 1
+                if var[:2] == 'nu':
+                    sign = -1
+                    var_ref = 'p' + var[2:]
+
                 # Reference values:
                 arr1 = f.variables[var_ref][()]
                 # Newly computed values:
                 arr2 = getattr(b, var).transpose()
 
-                print('abs diff in ' + var + ':', np.max(np.abs(arr1 - arr2)))
-                np.testing.assert_allclose(arr1, arr2,
+                print('abs diff in ' + var + ':', np.max(np.abs(arr1 - sign * arr2)))
+                np.testing.assert_allclose(arr1, sign * arr2,
                                            rtol=rtol, atol=atol)
             f.close()
 

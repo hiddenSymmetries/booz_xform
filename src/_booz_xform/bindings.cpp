@@ -97,8 +97,8 @@ Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, and zmns)")
     .def_readonly("rmns_b", &Booz_xform::rmns_b)
     .def_readonly("zmnc_b", &Booz_xform::zmnc_b)
     .def_readonly("zmns_b", &Booz_xform::zmns_b)
-    .def_readonly("pmnc_b", &Booz_xform::pmnc_b)
-    .def_readonly("pmns_b", &Booz_xform::pmns_b);
+    .def_readonly("numnc_b", &Booz_xform::numnc_b)
+    .def_readonly("numns_b", &Booz_xform::numns_b);
     
 }
 

@@ -40,9 +40,9 @@ void Booz_xform::surface_solve(int js_b) {
   Vector d_w_d_zeta;
   Vector bmod;
   Vector theta_diff;
-  Vector p;
-  Vector d_p_d_theta;
-  Vector d_p_d_zeta;
+  Vector nu;
+  Vector d_nu_d_theta;
+  Vector d_nu_d_zeta;
   Vector theta_Boozer_grid;
   Vector zeta_Boozer_grid;
   Vector wmns;
@@ -68,9 +68,9 @@ void Booz_xform::surface_solve(int js_b) {
   d_w_d_theta.setZero(n_theta_zeta);
   d_w_d_zeta.setZero(n_theta_zeta);
   bmod.setZero(n_theta_zeta);
-  p.setZero(n_theta_zeta);
-  d_p_d_theta.setZero(n_theta_zeta);
-  d_p_d_zeta.setZero(n_theta_zeta);
+  nu.setZero(n_theta_zeta);
+  d_nu_d_theta.setZero(n_theta_zeta);
+  d_nu_d_zeta.setZero(n_theta_zeta);
   zeta_Boozer_grid.setZero(n_theta_zeta);
   theta_Boozer_grid.setZero(n_theta_zeta);
   d_Boozer_d_vmec.setZero(n_theta_zeta);
@@ -197,31 +197,31 @@ void Booz_xform::surface_solve(int js_b) {
   boozfloat this_iota = iota[js];
   boozfloat one_over_GI = 1.0 / (Boozer_G[js_b] + this_iota * Boozer_I[js_b]);
 
-  // Get total p from eq (10):
-  p = one_over_GI * (w - Boozer_I[js_b] * lambda);
+  // Get total nu from eq (10):
+  nu = one_over_GI * (w - Boozer_I[js_b] * lambda);
 
   // Get Boozer poloidal and toroidal angles from eq (3):
-  theta_Boozer_grid = theta_grid + lambda + this_iota * p;
-  zeta_Boozer_grid = zeta_grid + p;
+  theta_Boozer_grid = theta_grid + lambda + this_iota * nu;
+  zeta_Boozer_grid = zeta_grid + nu;
   
   // Derivatives of Eq (10) with respect to theta or zeta:
-  d_p_d_zeta  = one_over_GI * (d_w_d_zeta  - Boozer_I[js_b] * d_lambda_d_zeta);
-  d_p_d_theta = one_over_GI * (d_w_d_theta - Boozer_I[js_b] * d_lambda_d_theta);
+  d_nu_d_zeta  = one_over_GI * (d_w_d_zeta  - Boozer_I[js_b] * d_lambda_d_zeta);
+  d_nu_d_theta = one_over_GI * (d_w_d_theta - Boozer_I[js_b] * d_lambda_d_theta);
 
   // Eq (12):
-  d_Boozer_d_vmec = (1.0 + d_lambda_d_theta) * (1.0 + d_p_d_zeta)
-    + (this_iota - d_lambda_d_zeta) * d_p_d_theta;
+  d_Boozer_d_vmec = (1.0 + d_lambda_d_theta) * (1.0 + d_nu_d_zeta)
+    + (this_iota - d_lambda_d_zeta) * d_nu_d_theta;
 
   if (false && js_b == 1) {
     std::cout << std::setprecision(15) << "G: " << Boozer_G[js_b];
     std::cout << "  iota: " << this_iota;
     std::cout << "  I: " << Boozer_I[js_b] << std::endl;
     std::cout << "r:" << std::endl << r << std::endl;
-    std::cout << "p:" << std::endl << p << std::endl;
+    std::cout << "nu:" << std::endl << nu << std::endl;
     std::cout << "theta_Boozer:" << std::endl << theta_Boozer_grid << std::endl;
     std::cout << "zeta_Boozer:" << std::endl << zeta_Boozer_grid << std::endl;
-    std::cout << "d_p_d_theta:" << std::endl << d_p_d_theta << std::endl;
-    std::cout << "d_p_d_zeta:" << std::endl << d_p_d_zeta << std::endl;
+    std::cout << "d_nu_d_theta:" << std::endl << d_nu_d_theta << std::endl;
+    std::cout << "d_nu_d_zeta:" << std::endl << d_nu_d_zeta << std::endl;
     std::cout << "d_lambda_d_theta:" << std::endl << d_lambda_d_theta << std::endl;
     std::cout << "d_lambda_d_zeta:" << std::endl << d_lambda_d_zeta << std::endl;
     std::cout << "d_Boozer_d_vmec:" << std::endl << d_Boozer_d_vmec << std::endl;
@@ -241,10 +241,10 @@ void Booz_xform::surface_solve(int js_b) {
 
   if (!asym) {
     // Only integrate in theta half-way around
-    int i = nv * (nu2_b - 1) + 1;
-    int imax = i - 1 + nv;
+    int i = nzeta * (nu2_b - 1) + 1;
+    int imax = i - 1 + nzeta;
     for (int jmn = 0; jmn <= mboz; jmn++) {
-      for (j = 0; j < nv; j++) {
+      for (j = 0; j < nzeta; j++) {
 	cosm_b(j, jmn) = 0.5 * cosm_b(j, jmn);   // theta = 0
 	sinm_b(j, jmn) = 0.5 * sinm_b(j, jmn);   // Should be 0
       }
@@ -276,10 +276,10 @@ void Booz_xform::surface_solve(int js_b) {
   // This "fourier_factor0" quantity is called "fac" and "scl" in the
   // fortran version.
   if (asym) {
-    fourier_factor0 = 2.0 / (nu * nv);
+    fourier_factor0 = 2.0 / (ntheta * nzeta);
   } else {
-    fourier_factor0 = 2.0 / ((nu2_b - 1) * nv);
-    // Equivalently, fac = 4.0 / (nu * nv)
+    fourier_factor0 = 2.0 / ((nu2_b - 1) * nzeta);
+    // Equivalently, fac = 4.0 / (ntheta * nzeta)
   }
   // There is a factor of 1/2 for the m=0 element which now appears at
   // the end of surface_solve().
@@ -308,13 +308,13 @@ void Booz_xform::surface_solve(int js_b) {
       bmnc_b(jmn, js_b) +=  tcos * bmod[j];
       rmnc_b(jmn, js_b) +=  tcos * r[j];
       zmns_b(jmn, js_b) +=  tsin * z[j];
-      pmns_b(jmn, js_b) += -tsin * p[j];
+      numns_b(jmn, js_b) += tsin * nu[j];
       gmnc_b(jmn, js_b) +=  tcos * boozer_jacobian[j];
       if (!asym) continue;
       bmns_b(jmn, js_b) +=  tsin * bmod[j];
       rmns_b(jmn, js_b) +=  tsin * r[j];
       zmnc_b(jmn, js_b) +=  tcos * z[j];
-      pmnc_b(jmn, js_b) += -tcos * p[j];
+      numnc_b(jmn, js_b) += tcos * nu[j];
       gmns_b(jmn, js_b) +=  tsin * boozer_jacobian[j];
     }
   }
@@ -399,8 +399,8 @@ void Booz_xform::surface_solve(int js_b) {
     for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << zmns_b(jmn, js_b);
     output_file.close();
     
-    output_file.open("pmns_b");
-    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << pmns_b(jmn, js_b);
+    output_file.open("numns_b");
+    for (jmn = 0; jmn < mnboz; jmn++) output_file << std::setprecision(15) << " " << numns_b(jmn, js_b);
     output_file.close();
   }    
 }

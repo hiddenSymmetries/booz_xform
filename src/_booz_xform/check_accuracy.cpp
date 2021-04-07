@@ -23,13 +23,13 @@ void Booz_xform::check_accuracy(int js, int js_b,
   Vector theta_b_test(n_check), zeta_b_test(n_check);
   int index, thread;
 
-  // Recall nu2_b = nu / 2 + 1 regardless of asym.
-  // int nv2_b = nv / 2 + 1; // Index of zeta = pi. Note nv is even so there is no rounding.
+  // Recall nu2_b = ntheta / 2 + 1 regardless of asym.
+  // int nv2_b = nzeta / 2 + 1; // Index of zeta = pi. Note nzeta is even so there is no rounding.
 
   // First, store |B|, theta_Boozer, and zeta_Boozer at the 4 points
   // given by theta_vmec = (0, pi) and zeta_vmec = (0, pi / nfp):
   
-  // zeta is the fast dimension, with range nv.
+  // zeta is the fast dimension, with range nzeta.
   
   // (theta = 0, zeta = 0):
   index = 0;
@@ -40,7 +40,7 @@ void Booz_xform::check_accuracy(int js, int js_b,
   assert (std::abs(zeta_grid[index] - 0) < 1.0e-13);
   
   // (theta = pi, zeta = 0):
-  index = (nu / 2) * nv; // Note nu is even so there is no rounding.
+  index = (ntheta / 2) * nzeta; // Note ntheta is even so there is no rounding.
   bmod_vmec[1] = bmod[index];
   theta_b_test[1] = theta_Boozer_grid[index];
   zeta_b_test[1] = zeta_Boozer_grid[index];
@@ -48,29 +48,29 @@ void Booz_xform::check_accuracy(int js, int js_b,
   assert (std::abs(zeta_grid[index] - 0) < 1.0e-13);
 
   // (theta = 0, zeta = pi / nfp):
-  index = nv / 2;
-  // Above, for nonaxisymmetry, nv is even so there is no rounding.
-  // For axisymmetry, nv = 1 so integer division gives index = 0;
+  index = nzeta / 2;
+  // Above, for nonaxisymmetry, nzeta is even so there is no rounding.
+  // For axisymmetry, nzeta = 1 so integer division gives index = 0;
   bmod_vmec[2] = bmod[index];
   theta_b_test[2] = theta_Boozer_grid[index];
   zeta_b_test[2] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - 0) < 1.0e-13);
-  if (nv > 1) {
+  if (nzeta > 1) {
     assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
   } else {
     assert (std::abs(zeta_grid[index]) < 1.0e-13);
   }
 
   // (theta = 0, zeta = pi / nfp):
-  index = (nu / 2) * nv + (nv / 2);
-  // Above, for nonaxisymmetry, nv is even so there is no rounding.
-  // For axisymmetry, nv = 1 so integer division gives index = 0;
-  // nu is always even so there is no rounding in nu / 2.
+  index = (ntheta / 2) * nzeta + (nzeta / 2);
+  // Above, for nonaxisymmetry, nzeta is even so there is no rounding.
+  // For axisymmetry, nzeta = 1 so integer division gives index = 0;
+  // ntheta is always even so there is no rounding in ntheta / 2.
   bmod_vmec[3] = bmod[index];
   theta_b_test[3] = theta_Boozer_grid[index];
   zeta_b_test[3] = zeta_Boozer_grid[index];
   assert (std::abs(theta_grid[index] - pi) < 1.0e-13);
-  if (nv > 1) {
+  if (nzeta > 1) {
     assert (std::abs(zeta_grid[index] - pi / nfp) < 1.0e-13);
   } else {
     assert (std::abs(zeta_grid[index]) < 1.0e-13);

@@ -49,7 +49,8 @@ void Booz_xform::write_boozmn(std::string filename) {
   
   nc.put(bmnc_dim, "zmns_b", &zmns_b(0, 0),
 	 "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the Cartesian coordinate Z", "meter");
-  
+
+  Vector pmns_b = -numns_b;
   nc.put(bmnc_dim, "pmns_b", &pmns_b(0, 0),
 	 "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the angle difference zeta_VMEC - zeta_Boozer", "dimensionless");
   

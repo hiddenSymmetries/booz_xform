@@ -43,24 +43,26 @@ void Booz_xform::read_boozmn(std::string filename) {
   bmnc_b.resize(mnboz, ns_b);
   rmnc_b.resize(mnboz, ns_b);
   zmns_b.resize(mnboz, ns_b);
-  pmns_b.resize(mnboz, ns_b);
+  numns_b.resize(mnboz, ns_b);
   gmnc_b.resize(mnboz, ns_b);
   nc.get("bmnc_b", bmnc_b);
   nc.get("rmnc_b", rmnc_b);
   nc.get("zmns_b", zmns_b);
-  nc.get("pmns_b", pmns_b);
+  nc.get("pmns_b", numns_b);
+  numns_b = -numns_b; // p in the boozmn format is -nu in this new booz_xform.
   nc.get("gmn_b", gmnc_b);
 
   if (asym) {
     bmns_b.resize(mnboz, ns_b);
     rmns_b.resize(mnboz, ns_b);
     zmnc_b.resize(mnboz, ns_b);
-    pmnc_b.resize(mnboz, ns_b);
+    numnc_b.resize(mnboz, ns_b);
     gmns_b.resize(mnboz, ns_b);
     nc.get("bmns_b", bmns_b);
     nc.get("rmns_b", rmns_b);
     nc.get("zmnc_b", zmnc_b);
-    nc.get("pmnc_b", pmnc_b);
+    nc.get("pmnc_b", numnc_b);
+    numnc_b = -numnc_b;
     nc.get("gmns_b", gmns_b);
     
   } else {
@@ -69,7 +71,7 @@ void Booz_xform::read_boozmn(std::string filename) {
     bmns_b.resize(0, 0);
     rmns_b.resize(0, 0);
     zmnc_b.resize(0, 0);
-    pmnc_b.resize(0, 0);
+    numnc_b.resize(0, 0);
     gmns_b.resize(0, 0);    
   }
 

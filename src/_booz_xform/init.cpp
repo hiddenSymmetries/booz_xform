@@ -19,10 +19,10 @@ void Booz_xform::init() {
   // First comes some initialization from read_wout_booz.f:
   
   // Set resolution for the real-space grids:
-  nu = 2 * (2 * mboz + 1);
-  nv = 2 * (2 * nboz + 1);
-  if (nboz == 0) nv = 1;
-  nu2_b = nu / 2 + 1; // Note integer division, although nu is always even so there is never rounding.
+  ntheta = 2 * (2 * mboz + 1);
+  nzeta = 2 * (2 * nboz + 1);
+  if (nboz == 0) nzeta = 1;
+  nu2_b = ntheta / 2 + 1; // Note integer division, although ntheta is always even so there is never rounding.
   
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
   xm_b.setZero(mnboz);
@@ -33,7 +33,7 @@ void Booz_xform::init() {
 #endif
   if (verbose > 0) {
     std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
-    std::cout << "nu = " << nu << ", nv = " << nv
+    std::cout << "ntheta = " << ntheta << ", nzeta = " << nzeta
 	      << ", # threads = " << nthreads << std::endl;
   }
   
@@ -76,11 +76,11 @@ void Booz_xform::init() {
   // Now comes some work from boozer_coords.f.
 
   if (asym) {
-    nu3_b = nu;
+    nu3_b = ntheta;
   } else {
     nu3_b = nu2_b;
   }
-  n_theta_zeta = nu3_b * nv;
+  n_theta_zeta = nu3_b * nzeta;
 
   // Done with the steps from boozer_coords.f.
   // Now come the steps from foranl.f.
@@ -88,21 +88,21 @@ void Booz_xform::init() {
   
   if (asym) {
     d_theta = twopi / nu3_b;
-    // But nu3_b = nu in this case, so d_theta = twopi / nu;
+    // But nu3_b = ntheta in this case, so d_theta = twopi / ntheta;
   } else {
     d_theta = twopi / (2 * (nu3_b - 1));
-    // But nu3_b = nu2_b = nu / 2 + 1 in this case, so
-    // d_theta = twopi / (2 * (nu / 2)) = twopi / nu.
+    // But nu3_b = nu2_b = ntheta / 2 + 1 in this case, so
+    // d_theta = twopi / (2 * (ntheta / 2)) = twopi / ntheta.
   }
 
-  d_zeta = twopi / (nfp * nv);
+  d_zeta = twopi / (nfp * nzeta);
 
   // Initialize grids of (theta, zeta) for integration:
-  theta_grid.setZero(nu3_b * nv);
-  zeta_grid.setZero(nu3_b * nv);
+  theta_grid.setZero(nu3_b * nzeta);
+  zeta_grid.setZero(nu3_b * nzeta);
   int index = 0;
   for (int j_theta = 0; j_theta < nu3_b; j_theta++) {
-    for (int j_zeta = 0; j_zeta < nv; j_zeta++) {
+    for (int j_zeta = 0; j_zeta < nzeta; j_zeta++) {
       theta_grid[index] = j_theta * d_theta;
       zeta_grid[index] = j_zeta * d_zeta;
       index++;
@@ -142,14 +142,14 @@ void Booz_xform::init() {
   bmnc_b.setZero(mnboz, ns_b);
   rmnc_b.setZero(mnboz, ns_b);
   zmns_b.setZero(mnboz, ns_b);
-  pmns_b.setZero(mnboz, ns_b);
+  numns_b.setZero(mnboz, ns_b);
   gmnc_b.setZero(mnboz, ns_b);
   if (asym) {
     //wmnc.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
     bmns_b.setZero(mnboz, ns_b);
     rmns_b.setZero(mnboz, ns_b);
     zmnc_b.setZero(mnboz, ns_b);
-    pmnc_b.setZero(mnboz, ns_b);
+    numnc_b.setZero(mnboz, ns_b);
     gmns_b.setZero(mnboz, ns_b);
   }
 
