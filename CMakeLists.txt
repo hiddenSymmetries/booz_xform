@@ -2,6 +2,8 @@
 # The command add_compile_definitions, used in this file, was new in CMake version 3.12.
 cmake_minimum_required(VERSION 3.12)
 
+set( CMAKE_EXPORT_COMPILE_COMMANDS 1 )
+
 # Comment out the next line when speed is needed
 set(CMAKE_BUILD_TYPE Debug)
 add_definitions(-O2)
