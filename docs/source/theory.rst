@@ -124,7 +124,7 @@ The :math:`m=n=0` modes of :eq:`find_nu1`-:eq:`find_nu2` then give
    :label: GI
 
    I = \hat{B}_{\theta_0, 0, 0}^c, \;\;
-   G = \hat{B}_{\zeta_0, 0, 0}^s,
+   G = \hat{B}_{\zeta_0, 0, 0}^c,
 
 allowing the flux functions :math:`I` and :math:`G` to be computed from the input data.
 When at least one of :math:`m` or :math:`n` is nonzero, the :math:`\cos(m \theta_0 - n \zeta_0)`

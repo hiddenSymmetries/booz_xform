@@ -84,7 +84,7 @@ def surfplot(b,
     cbar = plt.colorbar()
     plt.xlabel(r'Boozer toroidal angle $\varphi$')
     plt.ylabel(r'Boozer poloidal angle $\theta$')
-    plt.title('|B| on surface $s$={:.4} [Tesla]'.format(b.s_b[js]))
+    plt.title('|B| [Tesla] on surface $s$={:.4}'.format(b.s_b[js]))
 
 
 def symplot(b,
