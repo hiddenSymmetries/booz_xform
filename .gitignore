@@ -6,3 +6,9 @@ __pycache__
 *.so
 *.a
 *.egg-info
+venv/
+requirements.txt
+.ctags*
+.ycm_extra_conf.py
+examples/data/
+tags
