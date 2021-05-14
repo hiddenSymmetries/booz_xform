@@ -14,7 +14,7 @@ try:
 except:
     pass
 
-from ._booz_xform import Booz_xform
+from .booz_xform_python import Booz_xform
 
 def handle_b_input(b):
     if isinstance(b, str):
