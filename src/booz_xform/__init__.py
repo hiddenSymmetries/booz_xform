@@ -3,14 +3,14 @@ from ._booz_xform import Booz_xform as Booz_xform_cpp
 from .plots import surfplot, symplot, modeplot, wireplot
 
 
-
 class Booz_xform(Booz_xform_cpp):
 
-    def calculate_modB_boozer(self, js, phi, theta):
+    def calculate_modB_boozer_on_surface(self, js, phi, theta):
         """
-        Calculates :math:`|B|` on a surface in Boozer poloidal and toroidal angles.
+        Calculates :math:`|B|` on a surface in Boozer poloidal and toroidal
+        angles.
         Args:
-          js (int): The index among the output surfaces to plot.
+          js (int): The index among the output surfaces.
           phi (array-like): The toroidal angle values.
           theta (array-like): The poloidal angle values.
         """
@@ -28,5 +28,3 @@ class Booz_xform(Booz_xform_cpp):
             if self.asym:
                 modB += self.bmns_b[jmn, js] * np.sin(angle)
         return modB
-
-

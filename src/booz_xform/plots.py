@@ -30,31 +30,6 @@ def handle_b_input(b):
         raise ValueError("b argument must be a booz_xform.Booz_xform instance or string")
 
 
-def calculate_modB_boozer(b, js, phi, theta):
-    """
-    Calculates :math:`|B|` on a surface in Boozer poloidal and toroidal angles.
-    Args:
-      b (Booz_xform): The Booz_xform instance to plot
-      js (int): The index among the output surfaces to plot.
-      phi (array-like): The toroidal angle values.
-      theta (array-like): The poloidal angle values.
-    """
-
-    phi = np.asanyarray(phi)
-    theta = np.asanyarray(theta)
-
-    modB = np.zeros_like(phi)
-
-    for jmn in range(len(b.xm_b)):
-        m = b.xm_b[jmn]
-        n = b.xn_b[jmn]
-        angle = m * theta - n * phi
-        modB += b.bmnc_b[jmn, js] * np.cos(angle)
-        if b.asym:
-            modB += b.bmns_b[jmn, js] * np.sin(angle)
-    return modB
-
-
 def surfplot(b,
              js = 0,
              fill = True,
@@ -92,7 +67,7 @@ def surfplot(b,
     phi1d = np.linspace(0, 2 * np.pi / b.nfp, nphi)
     phi, theta = np.meshgrid(phi1d, theta1d)
 
-    modB = calculate_modB_boozer(b, js, phi, theta)
+    modB = b.calculate_modB_boozer_on_surface(js, phi, theta)
 
     plt.rcParams.update({'font.size': 16})
     if fill:
