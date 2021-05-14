@@ -15,8 +15,8 @@ class Booz_xform(Booz_xform_cpp):
           theta (array-like): The poloidal angle values.
         """
 
-        phi = np.asanyarray(phi)
-        theta = np.asanyarray(theta)
+        phi = np.asanyarray(phi, dtype=np.float)
+        theta = np.asanyarray(theta, dtype=np.float)
 
         modB = np.zeros_like(phi)
 
