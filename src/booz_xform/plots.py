@@ -354,13 +354,16 @@ def wireplot(b,
         Z += b.zmns_b[jmn, js] * sinangle
         d_R_d_theta += -m * b.rmnc_b[jmn, js] * sinangle
         d_Z_d_theta += m * b.zmns_b[jmn, js] * cosangle
-        nu -= b.pmns_b[jmn, js] * sinangle
+        nu += b.numns_b[jmn, js] * sinangle
         if b.asym:
             R += b.rmns_b[jmn, js] * sinangle
             Z += b.zmnc_b[jmn, js] * cosangle
-            nu -= b.pmnc_b[jmn, js] * cosangle
-            
-    phi = varphi - nu # Check this
+            nu += b.numnc_b[jmn, js] * cosangle
+
+    # Following the sign convention in the code, to convert from the
+    # Boozer toroidal angle to the standard toroidal angle, we
+    # *subtract* nu:
+    phi = varphi - nu
     X = R * np.cos(phi)
     Y = R * np.sin(phi)
 
