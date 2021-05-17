@@ -34,15 +34,17 @@ class Booz_xform(Booz_xform_cpp):
         phi = np.asanyarray(phi, dtype=np.float)
         theta = np.asanyarray(theta, dtype=np.float)
 
+        cos_ampl = self.bmnc_b[:, js]
+
         if self.asym:
-            bmns_b = self.bmns_b[:, js]
+            sin_ampl = self.bmns_b[:, js]
         else:
-            bmns_b = np.array([])
+            sin_ampl = np.array([])
 
         return _calculate_fourier_series(self.xm_b,
                                          self.xn_b,
-                                         self.bmnc_b[:, js],
-                                         bmns_b,
+                                         cos_ampl,
+                                         sin_ampl,
                                          phi,
                                          theta,
                                          )
