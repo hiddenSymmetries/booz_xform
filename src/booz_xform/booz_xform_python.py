@@ -35,7 +35,7 @@ class Booz_xform(Booz_xform_cpp):
         theta = np.asanyarray(theta, dtype=np.float)
 
         if self.asym:
-            bmns_b = self.bmns[:, js]
+            bmns_b = self.bmns_b[:, js]
         else:
             bmns_b = np.array([])
 
