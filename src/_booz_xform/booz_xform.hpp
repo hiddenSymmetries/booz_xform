@@ -37,58 +37,308 @@ namespace booz_xform {
     void check_accuracy(int, int, Vector&, Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&);
     
   public:
-    int verbose;
-    int mboz, nboz;
-    bool asym; //!< false if the configuration is stellarator-symmetric, true otherwise.
+    /* Public variables are labeled below as being an input or
+       output. The input quantities should be set before calling
+       run(). (Many of these input quantities can be set by calling
+       read_wout()).  The output quantities are populated when run()
+       is called.
+    */
 
-    //! The number of flux surfaces on which input data is stored.
-    /**
-     * The transformation to Boozer coordinates is not necessarily run on all
-     * of these surfaces, only the ones indicated by compute_surfs.
+    /** (input) Set this to 0 for no output to stdout, 1 for some
+	output, 2 for lots of output.
+    */
+    int verbose;
+
+    /** (input) false if the configuration is stellarator-symmetric,
+	true otherwise.
+     */
+    bool asym;
+
+    /** (input) Number of field periods, i.e. the discrete toroidal
+	rotation symmetry.
+     */
+    int nfp;
+
+    /** (input) Maximum poloidal mode number for the input arrays
+	rmnc, rmns, zmnc, zmns, lmnc, and lmns.
+    */
+    int mpol;
+
+    /** (input) Maximum toroidal mode number (divided by nfp) for the
+	input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.
+    */
+    int ntor;
+
+    /** (input) mnmax Number of Fourier modes for the input arrays
+	rmnc, rmns, zmnc, zmns, lmnc, and lmns.
+     */
+    int mnmax;
+
+    /** (input) Maximum poloidal mode number for the input arrays
+	bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.
+     */
+    int mpol_nyq;
+
+    /** (input) Maximum toroidal mode number (divided by nfp) for the
+	input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and
+	bsubvmns.
+     */
+    int ntor_nyq;
+
+    /** (input) Total number of Fourier modes for the input arrays
+	bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.
+     */
+    int mnmax_nyq;
+
+    /** (size mnmax, input) The poloidal Fourier mode numbers for the
+	input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.
+    */
+    IntVector xm;
+
+    /** (size mnmax, input) The toroidal Fourier mode numbers for the
+	input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. The
+	values should all be integer multiples of nfp.
+    */
+    IntVector xn;
+
+    /** (size mnmax_nyq, input) The poloidal Fourier mode numbers for
+	the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and
+	bsubvmns.
+    */
+    IntVector xm_nyq;
+
+    /** (size mnmax_nyq, input) The toroidal Fourier mode numbers for
+	the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and
+	bsubvmns. The values should all be integer multiples of nfp.
+    */
+    IntVector xn_nyq;
+
+    /** (input) The number of flux surfaces on which input data is
+	supplied.  The transformation to Boozer coordinates is not
+	necessarily run on all of these surfaces, only the ones
+	indicated by compute_surfs.
      */
     int ns_in;
     
-    int mpol, ntor, mnmax, mpol_nyq, ntor_nyq, mnmax_nyq, nfp, mnboz;
-    Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns;
-    Matrix bsubumnc, bsubumns, bsubvmnc, bsubvmns;
-    Vector iota;
-    IntVector xm, xn, xm_nyq, xn_nyq;
+    /** (size ns_in, input) Values of normalized toroidal flux for
+	which the input data is stored. These numbers are used only
+	for plotting.
+     */
+    Vector s_in;
 
-    /** List of the 0-based indices of the surfaces on which to
+    /** (size ns_in, input) Rotational transform on the input radial
+	surfaces.
+    */
+    Vector iota;
+
+    /** (size mnmax x ns_in, input) cos(m * theta_0 - n * zeta_0)
+	Fourier modes of the major radius R.
+     */
+    Matrix rmnc;
+    
+    /** (size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0)
+	Fourier modes of the major radius R. For stellarator-symmetric
+	configurations, this array is not used and need not be
+	specified.
+     */
+    Matrix rmns;
+
+    /** (size mnmax x ns_in, input) cos(m * theta_0 - n * zeta_0)
+	Fourier modes of the Cartesian coordinate Z of the flux
+	surfaces. For stellarator-symmetric configurations, this array
+	is not used and need not be specified.
+     */
+    Matrix zmnc;
+    
+    /** (size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0)
+	Fourier modes of the Cartesian coordinate Z of the flux
+	surfaces.
+     */
+    Matrix zmns;
+
+    /** (size mnmax x ns_in, input) cos(m * theta_0 - n zeta_0)
+	Fourier modes of lambda = theta^* - theta_0, the difference
+	between the original poloidal angle theta_0 and the straight
+	field line poloidal angle theta^*. For stellarator-symmetric
+	configurations, this array is not used and need not be
+	specified.
+    */
+    Matrix lmnc;
+    
+    /** (size mnmax x ns_in, input) sin(m * theta_0 - n zeta_0)
+	Fourier modes of lambda = theta^* - theta_0, the difference
+	between the original poloidal angle theta_0 and the straight
+	field line poloidal angle theta^*.
+    */
+    Matrix lmns;
+
+    /** (size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0)
+	Fourier modes of the magnetic field strength B.
+     */
+    Matrix bmnc;
+    
+    /** (size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0)
+	Fourier modes of the magnetic field strength B. For
+	stellarator-symmetric configurations, this array is not used
+	and need not be specified.
+     */
+    Matrix bmns;
+
+    /** (size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0)
+	Fourier modes of B dot (d r / d theta_0) where r is the
+	position vector.
+    */
+    Matrix bsubumnc;
+
+    /** (size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0)
+	Fourier modes of B dot (d r / d theta_0) where r is the
+	position vector.  For stellarator-symmetric configurations,
+	this array is not used and need not be specified.
+    */
+    Matrix bsubumns;
+    
+    /** (size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0)
+	Fourier modes of B dot (d r / d zeta_0) where r is the
+	position vector.
+    */
+    Matrix bsubvmnc;
+
+    /** (size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0)
+	Fourier modes of B dot (d r / d zeta_0) where r is the
+	position vector.  For stellarator-symmetric configurations,
+	this array is not used and need not be specified.
+    */
+    Matrix bsubvmns;
+
+    /** (input) Maximum poloidal mode number for representing output
+	quantities in Boozer coordinates.
+    */
+    int mboz;
+
+    /** (input) Maximum toroidal mode number (divided by nfp) for
+	representing output quantities in Boozer coordinates. For
+	example, if nboz=2 and nfp=10, the toroidal modes used will be
+	n=-20, -10, 0, 10, 20.
+     */
+    int nboz;
+    
+    /** (input) List of the 0-based indices of the surfaces on which to
 	perform the transformation.  Users should set this vector
 	before calling run().
      */
     IntVector compute_surfs;
 
-    /** Values of normalized toroidal flux for which the input data is
-	stored. These numbers are used only for plotting.
+    // End of the inputs. Now come the outputs.
+
+    /** (output) Number of surfaces on which the transformation is
+	calculated.
      */
-    Vector s_in;
-    
-    /** Values of normalized toroidal flux for which the output data is
-	stored. These numbers are used only for plotting.
+    int ns_b;
+
+    /** (size ns_b, output) Values of normalized toroidal flux for
+	which the output data is stored. These numbers are used only
+	for plotting.
      */
     Vector s_b;
 
-    /** Poloidal mode numbers used for the Fourier representation of
-	output quantities, i.e. functions of the Boozer angles. This
-	array is populated automatically when the transformation is
-	executed.
+    /** (output) Total number of Fourier modes for output data.
+     */    
+    int mnboz;
+
+    /** (size mnboz, output) Poloidal mode numbers used for the
+	Fourier representation of output quantities, i.e. functions of
+	the Boozer angles.
     */
     IntVector xm_b;
 
-    /** Toroidal mode numbers used for the Fourier representation of
-	output quantities, i.e. functions of the Boozer angles. This
-        array is populated automatically when the transformation is
-        executed.                                              
+    /** (size mnboz, output) Toroidal mode numbers used for the
+	Fourier representation of output quantities, i.e. functions of
+	the Boozer angles.
     */
     IntVector xn_b;
-    
-    int ns_b; //!< Number of surfaces on which the transformation is calculated
-    Matrix bmnc_b, rmnc_b, zmns_b, numns_b, gmnc_b;
-    Matrix bmns_b, rmns_b, zmnc_b, numnc_b, gmns_b;
-    Vector Boozer_G; //!< The toroidal covariant component of B in Boozer coordinates.
-    Vector Boozer_I; //!< The poloidal covariant component of B in Boozer coordinates.
+
+    /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
+	Fourier modes of the magnetic field strength in Boozer
+	coordinates.
+    */
+    Matrix bmnc_b;
+
+    /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
+	Fourier modes of the magnetic field strength in Boozer
+	coordinates. If the configuration is stellarator-symmetric,
+	this quantity is zero so the array will have size 0 x 0.
+    */
+    Matrix bmns_b;
+
+    /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	Jacobian of (s, theta_B, zeta_B) coordinates.
+    */
+    Matrix gmnc_b;
+
+    /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	Jacobian of (s, theta_B, zeta_B) coordinates. If the
+	configuration is stellarator-symmetric, this quantity is zero
+	so this array will have size 0 x 0.
+    */
+    Matrix gmns_b;
+
+    /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	major radius R of the flux surfaces.
+    */
+    Matrix rmnc_b;
+
+    /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	major radius R of the flux surfaces. If the configuration is
+	stellarator-symmetric, this quantity is zero so this array
+	will have size 0 x 0.
+    */
+    Matrix rmns_b;
+
+    /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	Cartesian coordinate Z of the flux surfaces. If the
+	configuration is stellarator-symmetric, this quantity is zero
+	so array will have size 0 x 0.
+    */
+    Matrix zmnc_b;
+
+    /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	Cartesian coordinate Z of the flux surfaces.
+    */
+    Matrix zmns_b;
+
+    /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	toroidal angle difference nu = zeta_B - zeta_0. If the
+	configuration is stellarator-symmetric, this quantity is zero
+	so this array will have size 0 x 0.
+    */
+    Matrix numnc_b;
+
+    /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
+	Fourier modes (with respect to Boozer coordinates) of the
+	toroidal angle difference nu = zeta_B - zeta_0.
+    */
+    Matrix numns_b;
+
+    /** (size ns_b, output) Coefficient of grad zeta_B in the
+	covariant representation of the magnetic field vector B in
+	Boozer coordinates, evaluated on the magnetic surfaces used
+	for output quantities.
+    */
+    Vector Boozer_G;
+
+    /** (size ns_b, output) Coefficient of grad theta_B in the
+	covariant representation of the magnetic field vector B in
+	Boozer coordinates, evaluated on the magnetic surfaces used
+	for output quantities.
+    */
+    Vector Boozer_I;
 
     //! Constructor
     /**
@@ -110,6 +360,9 @@ namespace booz_xform {
      * quantities rmnc, rmns, zmnc, and zmns onto the half-grid
      * points.  It also discards the first radial index for half-grid
      * quantities, which is populated with zeros in vmec.
+     *
+     * The input parameters to this function are the variables of the
+     * same name in a VMEC wout file.
      */
     void init_from_vmec(int ns,
 			Vector& iotas,
@@ -142,9 +395,16 @@ namespace booz_xform {
      */
     void write_boozmn(std::string filename);
     
+    //! Read previously calculated results from a boozmn_*.nc output file
+    /**
+     * @param[in] filename The full name of the boozmn_*.nc file to read.
+     */
+    void read_boozmn(std::string filename);
+
     void init();
-    void surface_solve(int);
-    void read_boozmn(std::string);
+    
+    void surface_solve(int js_b);
+    
   };
   
 }

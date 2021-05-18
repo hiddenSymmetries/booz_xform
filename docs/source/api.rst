@@ -55,6 +55,11 @@ desired, the entire code could be switched to single precision by
 changing these ``typedef`` statements, which are defined in
 ``vector_matrix.hpp``.
 
+Public variables below are labeled below as being an input or
+output. The input quantities should be set before calling run(). (Many
+of these input quantities can be set by calling read_wout()).  The
+output quantities are populated when run() is called.
+
 The main functionality of the ``booz_xform`` code is contained in a single class,
 ``Booz_xform``:
 

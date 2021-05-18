@@ -35,26 +35,26 @@ need to call this function directly.
 :param ns: The number of radial vmec surfaces.
 :param iotas: Iota on vmec's half grid.
 :param rmnc0: Vmec's original rmnc array, on the full grid.
-:param rmns0: Vmec's original rmns array, on the half grid.
+:param rmns0: Vmec's original rmns array, on the full grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
-:param zmnc0: Vmec's original zmnc array, on the half grid.
+:param zmnc0: Vmec's original zmnc array, on the full grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
-:param zmns0: Vmec's original zmns array, on the half grid.
+:param zmns0: Vmec's original zmns array, on the full grid.
 :param lmnc0: Vmec's original lmnc array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
 :param lmns0: Vmec's original lmns array, on the half grid.
-:param bmnc0: Vmec's original bmnc array, on the full grid.
+:param bmnc0: Vmec's original bmnc array, on the half grid.
 :param bmns0: Vmec's original bmns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
-:param bsubumnc0: Vmec's original bsubumnc array, on the full grid.
+:param bsubumnc0: Vmec's original bsubumnc array, on the half grid.
 :param bsubumns0: Vmec's original bsubumns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
-:param bsubvmnc0: Vmec's original bsubvmnc array, on the full grid.
+:param bsubvmnc0: Vmec's original bsubvmnc array, on the half grid.
 :param bsubvmns0: Vmec's original bsubvmns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
@@ -96,7 +96,7 @@ Read in the results of an earlier transformation from a classic
     // End of functions. Now come properties that are inputs.
     
     .def_readwrite("verbose", &Booz_xform::verbose, R"(
-(bool, input) Set this to 0 for no output to stdout, 1 for some
+(int, input) Set this to 0 for no output to stdout, 1 for some
 output, 2 for lots of output)")
 
     .def_readwrite("asym", &Booz_xform::asym, R"(
@@ -108,20 +108,13 @@ stellarator-symmetric.)")
 (int, input) Number of field periods, i.e. the discrete toroidal
 rotation symmetry.)")
     
-    .def_readwrite("s_in", &Booz_xform::s_in, R"(
-(1D float array of length ns_in, input) The values of normalized
-toroidal flux s for the input data. Here, s is the toroidal flux
-normalized to the value at the plasma boundary. This information is
-not needed for the coordinate transformation itself, but is useful for
-plotting output.)")
-    
     .def_readwrite("mpol", &Booz_xform::mpol, R"(
 (int, input) Maximum poloidal mode number for the input arrays rmnc,
 rmns, zmnc, zmns, lmnc, and lmns.)")
 
     .def_readwrite("ntor", &Booz_xform::ntor, R"(
-(int, input) Maximum toroidal mode number for the input arrays rmnc,
-rmns, zmnc, zmns, lmnc, and lmns.)")
+(int, input) Maximum toroidal mode number (divided by nfp) for the
+input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.)")
 
     .def_readwrite("mnmax", &Booz_xform::mnmax, R"(
 (int, input) Number of Fourier modes for the input arrays rmnc,
@@ -132,8 +125,8 @@ rmns, zmnc, zmns, lmnc, and lmns.)")
 bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
     
     .def_readwrite("ntor_nyq", &Booz_xform::ntor_nyq, R"(
-(int, input) Maximum toroidal mode number for the input arrays bmnc,
-bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
+(int, input) Maximum toroidal mode number (divided by nfp) for the
+input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
 
     .def_readwrite("mnmax_nyq", &Booz_xform::mnmax_nyq, R"(
 (int, input) Total number of Fourier modes for the input arrays
@@ -161,7 +154,16 @@ nfp.)")
 
     .def_readwrite("ns_in", &Booz_xform::ns_in, R"(
 (int, input) Number of flux surfaces on which the input data is
-supplied.)")
+supplied. The transformation to Boozer coordinates is not necessarily
+run on all of these surfaces, only the ones indicated by
+compute_surfs.)")
+    
+    .def_readwrite("s_in", &Booz_xform::s_in, R"(
+(1D float array of length ns_in, input) The values of normalized
+toroidal flux s for the input data. Here, s is the toroidal flux
+normalized to the value at the plasma boundary. This information is
+not needed for the coordinate transformation itself, but is useful for
+plotting output.)")
     
     .def_readwrite("iota", &Booz_xform::iota, R"(
 (1D float array of length ns_in, input) Rotational transform on the

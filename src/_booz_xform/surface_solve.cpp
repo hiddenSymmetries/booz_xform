@@ -9,6 +9,9 @@ using namespace booz_xform;
 /** Execute the transformation to Boozer coordinates for a single flux surface.
  *
  *  This subroutine corresponds to boozer_coords.f in the fortran version.
+ *
+ * @param[in] js_b The index into compute_surfs indicating the surface
+ * on which the Boozer transformation will be calculated.
  */
 void Booz_xform::surface_solve(int js_b) {
   int js = compute_surfs[js_b];
