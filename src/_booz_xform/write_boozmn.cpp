@@ -13,7 +13,7 @@ void Booz_xform::write_boozmn(std::string filename) {
   // Define dimensions
   dim_id_type mn_modes_dim, compute_surfs_dim;
   mn_modes_dim = nc.dim("mn_modes", mnboz);
-  compute_surfs_dim = nc.dim("compute_surfs", compute_surfs.size());
+  compute_surfs_dim = nc.dim("comput_surfs", compute_surfs.size());
   
   // Scalars
   std::string version = "C++/Python booz_xform v0.0.1";
@@ -50,12 +50,33 @@ void Booz_xform::write_boozmn(std::string filename) {
   nc.put(bmnc_dim, "zmns_b", &zmns_b(0, 0),
 	 "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the Cartesian coordinate Z", "meter");
 
-  Vector pmns_b = -numns_b;
+  Matrix pmns_b = -numns_b;
+  Matrix pmnc_b; // pmnc_b must be declared outside the "if (asym)" block so it does not go out of scope before nc.write_and_close()
   nc.put(bmnc_dim, "pmns_b", &pmns_b(0, 0),
 	 "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the angle difference zeta_VMEC - zeta_Boozer", "dimensionless");
   
   nc.put(bmnc_dim, "gmn_b", &gmnc_b(0, 0),
 	 "cos(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the Boozer coordinate Jacobian (G + iota * I) / B^2", "meter/Tesla");
+
+  if (asym) {
+    // Stellarator-asymmetric modes:
+    
+    nc.put(bmnc_dim, "bmns_b", &bmns_b(0, 0),
+	   "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the magnetic field strength", "Tesla");
+  
+    nc.put(bmnc_dim, "rmns_b", &rmns_b(0, 0),
+	   "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the major radius R", "meter");
+  
+    nc.put(bmnc_dim, "zmnc_b", &zmnc_b(0, 0),
+	   "cos(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the Cartesian coordinate Z", "meter");
+
+    pmnc_b = -numnc_b;
+    nc.put(bmnc_dim, "pmnc_b", &pmnc_b(0, 0),
+	   "cos(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the angle difference zeta_VMEC - zeta_Boozer", "dimensionless");
+    
+    nc.put(bmnc_dim, "gmns_b", &gmns_b(0, 0),
+	   "sin(m * theta_Boozer - n * zeta_Boozer) Fourier amplitudes of the Boozer coordinate Jacobian (G + iota * I) / B^2", "meter/Tesla");
+  }
   
   // Done defining the NetCDF data.
   nc.write_and_close();

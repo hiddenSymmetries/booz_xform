@@ -62,7 +62,7 @@ void Booz_xform::read_boozmn(std::string filename) {
     nc.get("rmns_b", rmns_b);
     nc.get("zmnc_b", zmnc_b);
     nc.get("pmnc_b", numnc_b);
-    numnc_b = -numnc_b;
+    numnc_b = -numnc_b; // p in the boozmn format is -nu in this new booz_xform.
     nc.get("gmns_b", gmns_b);
     
   } else {

@@ -10,7 +10,7 @@ namespace booz_xform {
   class NetCDFReader {
   private:
     int ncid, ndims, nvars, ngatts, unlimdimid;
-    static void ERR(int);
+    static void ERR(int, std::string);
     
   public:
     NetCDFReader(std::string);

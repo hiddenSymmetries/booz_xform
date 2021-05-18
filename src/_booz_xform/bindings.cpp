@@ -248,7 +248,9 @@ nboz=2 and nfp=10, the toroidal modes used will be n=-20, -10, 0, 10,
     .def_readwrite("compute_surfs", &Booz_xform::compute_surfs, R"(
 (1D integer array, input) Indices of ns_in-sized radial arrays,
 specifying the flux surfaces for which the transformation to Boozer
-coordinates will be performed. All values should be >= 0 and < ns_in.)")
+coordinates will be performed. All values should be >= 0 and < ns_in.
+The array compute_surfs is similar to the array jlist in the earlier
+fortran booz_xform program, with compute_surfs = jlist - 2.)")
     
     // End of inputs. Now come the outputs.
     
