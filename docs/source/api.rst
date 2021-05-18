@@ -14,6 +14,14 @@ all the input and output data are available as properties of the
 class. The properties are scalars, 1D numpy arrays, and 2D numpy
 arrays.
 
+Properties of the class are labeled below as being an input or
+output. The input quantities can be either read or written to in
+python, and should be set before calling
+:func:`~booz_xform.Booz_xform.run()`. (Many of these properties can be
+set by calling :func:`~booz_xform.Booz_xform.read_wout()`).  The
+output quantities are read-only, and they are populated when
+:func:`~booz_xform.Booz_xform.run()` is called.
+
 .. autoclass:: booz_xform.Booz_xform
    :members:
    :undoc-members:

@@ -96,3 +96,4 @@ breathe_default_project = "booz_xform"
 
 def setup(app):
     app.add_css_file('equation_numbers.css')
+    app.add_css_file('parameter_linebreak.css')
