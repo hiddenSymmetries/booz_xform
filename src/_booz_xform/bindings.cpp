@@ -252,6 +252,18 @@ coordinates will be performed. All values should be >= 0 and < ns_in.
 The array compute_surfs is similar to the array jlist in the earlier
 fortran booz_xform program, with compute_surfs = jlist - 2.)")
     
+    .def_readwrite("aspect", &Booz_xform::aspect, R"(
+(float, input) The aspect ratio of the configuration. This value is
+not used for anything by booz_xform, and does not need to be set. It
+is provided as a means to pass this value from the input equilibrium
+to booz_xform output files.)")
+    
+    .def_readwrite("toroidal_flux", &Booz_xform::toroidal_flux, R"(
+(float, input) The boundary toroidal flux of the configuration. This
+value is not used for anything by booz_xform, and does not need to be
+set. It is provided as a means to pass this value from the input
+equilibrium to booz_xform output files.)")
+    
     // End of inputs. Now come the outputs.
     
     .def_readonly("ns_b", &Booz_xform::ns_b, R"(
@@ -338,11 +350,23 @@ in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on the magnetic surfaces used for output
 quantities.)")
     
+    .def_readonly("Boozer_G_all", &Booz_xform::Boozer_G_all, R"(
+(1D float array of length ns_in, output) Coefficient of grad zeta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on all the magnetic surfaces for which
+input data was provided.)")
+    
     .def_readonly("Boozer_I", &Booz_xform::Boozer_I, R"(
 (1D float array of length ns_b, output) Coefficient of grad theta_B
 in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on the magnetic surfaces used for output
 quantities.)")
+    
+    .def_readonly("Boozer_I_all", &Booz_xform::Boozer_I_all, R"(
+(1D float array of length ns_in, output) Coefficient of grad theta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on all the magnetic surfaces for which
+input data was provided.)")
     
     ;
 

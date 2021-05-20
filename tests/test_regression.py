@@ -19,6 +19,7 @@ class RegressionTest(unittest.TestCase):
         for configuration in configurations:
             wout_filename = 'wout_' + configuration + '.nc'
             boozmn_filename = 'boozmn_' + configuration + '.nc'
+            boozmn_new_filename = 'boozmn_new_' + configuration + '.nc'
             f = netcdf.netcdf_file(os.path.join(TEST_DIR, boozmn_filename),
                                    'r', mmap=False)
             b = Booz_xform()
@@ -31,6 +32,7 @@ class RegressionTest(unittest.TestCase):
 
             b.run()
 
+            # Compare 2D arrays
             vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'numns_b', 'gmnc_b']
             asym = bool(f.variables['lasym__logical__'][()])
             if asym:
@@ -60,6 +62,25 @@ class RegressionTest(unittest.TestCase):
                 print('abs diff in ' + var + ':', np.max(np.abs(arr1 - sign * arr2)))
                 np.testing.assert_allclose(arr1, sign * arr2,
                                            rtol=rtol, atol=atol)
+
+            # Now compare some values written to the boozmn files.
+            b.write_boozmn(boozmn_new_filename)
+            f2 = netcdf.netcdf_file(boozmn_new_filename)
+
+            vars = f.variables.keys()
+            # These variables will not match:
+            exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b']
+            for var in vars:
+                if var in exclude:
+                    continue
+                # Reference values:
+                arr1 = f.variables[var][()]
+                # Newly computed values:
+                arr2 = f2.variables[var][()]
+                print('abs diff in ' + var + ':', np.max(np.abs(arr1 - arr2)))
+                np.testing.assert_allclose(arr1, arr2,
+                                           rtol=rtol, atol=atol)
+            
             f.close()
 
 if __name__ == '__main__':

@@ -25,7 +25,13 @@ void Booz_xform::read_wout(std::string filename) {
   nc.get("ntor", ntor);
   nc.get("mnmax", mnmax);
   nc.get("mnmax_nyq", mnmax_nyq);
+  nc.get("aspect", aspect);
 
+  Vector phi;
+  phi.resize(ns);
+  nc.get("phi", phi);
+  toroidal_flux = phi[ns - 1];
+  
   Vector iotas;
   iotas.resize(ns);
   nc.get("iotas", iotas);

@@ -137,7 +137,15 @@ void Booz_xform::init() {
   for (j = 0; j < ns_b; j++) s_b[j] = s_in[compute_surfs[j]];
   Boozer_I.setZero(ns_b);
   Boozer_G.setZero(ns_b);
-  
+  Boozer_I_all.setZero(ns_in);
+  Boozer_G_all.setZero(ns_in);
+  assert (xm_nyq[0] == 0);
+  assert (xn_nyq[0] == 0);
+  for (j = 0; j < ns_in; j++) {
+    Boozer_I_all[j] = bsubumnc(0, j);
+    Boozer_G_all[j] = bsubvmnc(0, j);
+  }
+      
   //wmns.setZero(mnmax_nyq, ns_b); // Note mnmax_nyq instead of mnboz for this one.
   bmnc_b.setZero(mnboz, ns_b);
   rmnc_b.setZero(mnboz, ns_b);

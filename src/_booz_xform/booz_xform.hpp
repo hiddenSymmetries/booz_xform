@@ -231,6 +231,21 @@ namespace booz_xform {
      */
     IntVector compute_surfs;
 
+    /** (input) The aspect ratio of the configuration. This value is
+	not used for anything by booz_xform, and does not need to be
+	set. It is provided as a means to pass this value from the
+	input equilibrium to booz_xform output files.
+     */
+    boozfloat aspect;
+
+    /** (input) The boundary toroidal flux of the configuration (not
+	divided by (2*pi)). This value is not used for anything by
+	booz_xform, and does not need to be set. It is provided as a
+	means to pass this value from the input equilibrium to
+	booz_xform output files.
+     */
+    boozfloat toroidal_flux;
+    
     // End of the inputs. Now come the outputs.
 
     /** (output) Number of surfaces on which the transformation is
@@ -336,12 +351,26 @@ namespace booz_xform {
     */
     Vector Boozer_G;
 
+    /** (size ns_in, output) Coefficient of grad zeta_B in the
+	covariant representation of the magnetic field vector B in
+	Boozer coordinates, evaluated on all the magnetic surfaces for
+	which input data was provided.
+    */
+    Vector Boozer_G_all;
+
     /** (size ns_b, output) Coefficient of grad theta_B in the
 	covariant representation of the magnetic field vector B in
 	Boozer coordinates, evaluated on the magnetic surfaces used
 	for output quantities.
     */
     Vector Boozer_I;
+
+    /** (size ns_in, output) Coefficient of grad theta_B in the
+	covariant representation of the magnetic field vector B in
+	Boozer coordinates, evaluated on all the magnetic surfaces for
+	which input data was provided.
+    */
+    Vector Boozer_I_all;
 
     //! Constructor
     /**
