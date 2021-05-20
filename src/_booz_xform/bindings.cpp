@@ -370,6 +370,15 @@ input data was provided.)")
     
     ;
 
+  // Trick for passing version number from setup.py, from
+  // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
+#define STRINGIFY(x) #x
+#define MACRO_STRINGIFY(x) STRINGIFY(x)
+#ifdef VERSION_INFO
+    m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+#else
+    m.attr("__version__") = "dev";
+#endif  
 }
 
 // https://github.com/pybind/pybind11/issues/2271

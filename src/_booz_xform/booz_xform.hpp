@@ -10,8 +10,18 @@ namespace booz_xform {
   const boozfloat pi = 3.141592653589793;
   const boozfloat twopi = 2.0 * pi;
   const boozfloat mu0 = (4.0e-7) * pi;
-  
+
   int driver(int, char**);
+  
+  // Trick for passing version number from setup.py to C++, from
+  // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
+#define STRINGIFY(x) #x
+#define MACRO_STRINGIFY(x) STRINGIFY(x)
+#ifdef VERSION_INFO
+  const std::string version = MACRO_STRINGIFY(VERSION_INFO);
+#else
+  const std::string version = "development version";
+#endif
   
   class Booz_xform {
   private:
@@ -37,6 +47,7 @@ namespace booz_xform {
     void check_accuracy(int, int, Vector&, Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&);
     
   public:
+      
     /* Public variables are labeled below as being an input or
        output. The input quantities should be set before calling
        run(). (Many of these input quantities can be set by calling

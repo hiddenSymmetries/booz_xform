@@ -61,6 +61,9 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
 pybind11_add_module(_booz_xform ${SOURCES} ${SOURCE_DIR}/bindings.cpp)
 
+# Pass version number from setup.py to C++, following https://github.com/pybind/cmake_example/blob/master/CMakeLists.txt
+target_compile_definitions(_booz_xform PRIVATE VERSION_INFO=${BOOZ_XFORM_VERSION})
+
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
 set_property(TARGET libbooz_xform PROPERTY OUTPUT_NAME booz_xform)

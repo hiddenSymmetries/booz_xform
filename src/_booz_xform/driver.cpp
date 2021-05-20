@@ -37,7 +37,7 @@ int booz_xform::driver(int argc, char* argv[]) {
     return 0;
   }
   
-  std::cout << "This is xbooz_xform." << std::endl;
+  std::cout << "This is xbooz_xform " << booz_xform::version << std::endl;
 
   // Read the input file.
   

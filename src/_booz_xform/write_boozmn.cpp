@@ -26,8 +26,8 @@ void Booz_xform::write_boozmn(std::string filename) {
   pack_rad_dim = nc.dim("pack_rad", compute_surfs.size());
   
   // Scalars
-  std::string version = "C++/Python booz_xform v0.0.1";
-  nc.put("version", version, "");
+  std::string long_version = std::string("C++/Python booz_xform ") + version;
+  nc.put("version", long_version, "");
   
   int asym_int = (int) asym;
   nc.put("lasym__logical__", asym_int, "0 if the configuration is stellarator-symmetric, 1 if not", "");
