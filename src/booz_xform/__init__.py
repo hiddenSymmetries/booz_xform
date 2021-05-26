@@ -1,2 +1,5 @@
-from ._booz_xform import Booz_xform
+import numpy as np
+from .booz_xform_python import Booz_xform
 from .plots import surfplot, symplot, modeplot, wireplot
+
+

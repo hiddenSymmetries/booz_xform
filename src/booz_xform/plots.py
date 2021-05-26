@@ -14,7 +14,7 @@ try:
 except:
     pass
 
-from ._booz_xform import Booz_xform
+from .booz_xform_python import Booz_xform
 
 def handle_b_input(b):
     if isinstance(b, str):
@@ -22,12 +22,13 @@ def handle_b_input(b):
         b2 = Booz_xform()
         b2.read_boozmn(filename)
         return b2
-    
+
     elif isinstance(b, Booz_xform):
         return b
-    
+
     else:
         raise ValueError("b argument must be a booz_xform.Booz_xform instance or string")
+
 
 def surfplot(b,
              js = 0,
@@ -48,7 +49,7 @@ def surfplot(b,
       ntheta (int): Number of grid points in the poloidal angle.
       nphi (int): Number of grid points in the toroidal angle.
       ncontours (int): Number of contours to show.
-      kwargs: Any additional key-value pairs to pass to matplotlib's 
+      kwargs: Any additional key-value pairs to pass to matplotlib's
         ``contourf`` or ``contour`` command.
 
     This function can generate figures like this:
@@ -61,26 +62,19 @@ def surfplot(b,
 
     """
     b = handle_b_input(b)
-    
+
     theta1d = np.linspace(0, 2 * np.pi, ntheta)
     phi1d = np.linspace(0, 2 * np.pi / b.nfp, nphi)
     phi, theta = np.meshgrid(phi1d, theta1d)
 
-    modB = np.zeros_like(phi)
-    for jmn in range(len(b.xm_b)):
-        m = b.xm_b[jmn]
-        n = b.xn_b[jmn]
-        angle = m * theta - n * phi
-        modB += b.bmnc_b[jmn, js] * np.cos(angle)
-        if b.asym:
-            modB += b.bmns_b[jmn, js] * np.sin(angle)
+    modB = b.calculate_modB_boozer_on_surface(js, theta, phi)
 
     plt.rcParams.update({'font.size': 16})
     if fill:
         plt.contourf(phi, theta, modB, ncontours, **kwargs)
     else:
         plt.contour(phi, theta, modB, ncontours, **kwargs)
-        
+
     cbar = plt.colorbar()
     plt.xlabel(r'Boozer toroidal angle $\varphi$')
     plt.ylabel(r'Boozer poloidal angle $\theta$')
@@ -135,7 +129,7 @@ def symplot(b,
     # machine precision.
     if ymin is None:
         ymin = np.max(b.bmnc_b) * 1e-4
-    
+
     mnmax = len(b.xm_b)
 
     if sqrts:
@@ -152,7 +146,7 @@ def symplot(b,
     # Draw a reference line at 0.
     if not log:
         plt.plot([0, 1], [0, 0], ':k')
-        
+
     # First, plot just the 1st mode of each type, so the legend looks nice.
     if B0:
         for imode in range(mnmax):
@@ -208,7 +202,7 @@ def symplot(b,
         plt.yscale("log")
         plt.gca().set_ylim(bottom=ymin)
 
-        
+
 def modeplot(b,
              nmodes = 10,
              ymin = None,
@@ -283,7 +277,7 @@ def modeplot(b,
     # Draw a reference line at 0.
     if not log:
         plt.plot([0, 1], [0, 0], ':k')
-        
+
     for jmode in range(nmodes):
         index = indices[jmode]
         plt.plot(rad, my_abs(data[index, :]),
@@ -326,7 +320,7 @@ def wireplot(b,
     """
 
     b = handle_b_input(b)
-    
+
     ntheta0 = ntheta * refine + 1;
     nphi0 = nphi * refine + 1;
 
@@ -387,7 +381,7 @@ def wireplot(b,
                            lighting={"specular": 0.3, "diffuse":0.9})]
     else:
         data = []
-        
+
     # Wireframes in plotly: https://plotly.com/python/v3/3d-wireframe-plots/
     if surf:
         line_width = 4
@@ -419,7 +413,7 @@ def wireplot(b,
         R = np.zeros_like(theta)
         Z = np.zeros_like(theta)
         phi = varphi
-        
+
         for jmn in range(b.mnmax):
             angle = b.xm[jmn] * theta - b.xn[jmn] * phi
             sinangle = np.sin(angle)
@@ -429,11 +423,11 @@ def wireplot(b,
             if b.asym:
                 R += b.rmns[jmn, js] * sinangle
                 Z += b.zmnc[jmn, js] * cosangle
-                
+
         X = R * np.cos(phi)
         Y = R * np.sin(phi)
         line_marker = dict(color='black', width=line_width)
-            
+
         index = 0
         for i, j, k in zip(X, Y, Z):
             index += 1
@@ -452,9 +446,9 @@ def wireplot(b,
                 data.append(go.Scatter3d(x=i, y=j, z=k,
                                          mode='lines', line=line_marker,
                                          showlegend=False))
-            
+
     fig = go.Figure(data=data)
-    
+
     # Turn off hover contours on the surface:
     fig.update_traces(contours_x_highlight=False,
                   contours_y_highlight=False,
