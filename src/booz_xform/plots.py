@@ -67,7 +67,7 @@ def surfplot(b,
     phi1d = np.linspace(0, 2 * np.pi / b.nfp, nphi)
     phi, theta = np.meshgrid(phi1d, theta1d)
 
-    modB = b.calculate_modB_boozer_on_surface(js, phi, theta)
+    modB = b.calculate_modB_boozer_on_surface(js, theta, phi)
 
     plt.rcParams.update({'font.size': 16})
     if fill:

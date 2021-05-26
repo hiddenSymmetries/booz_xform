@@ -2,7 +2,7 @@ import numpy as np
 from ._booz_xform import Booz_xform as Booz_xform_cpp
 
 
-def _calculate_fourier_series(m, n, cos_mn_ampl, sin_mn_ampl, phi, theta):
+def _calculate_fourier_series(m, n, cos_mn_ampl, sin_mn_ampl, theta, phi):
 
     out = np.zeros_like(phi)
 
@@ -21,7 +21,7 @@ def _calculate_fourier_series(m, n, cos_mn_ampl, sin_mn_ampl, phi, theta):
 
 class Booz_xform(Booz_xform_cpp):
 
-    def calculate_modB_boozer_on_surface(self, js, phi, theta):
+    def calculate_modB_boozer_on_surface(self, js, theta, phi):
         """
         Calculates :math:`|B|` on a surface in Boozer poloidal and toroidal
         angles.
@@ -45,7 +45,7 @@ class Booz_xform(Booz_xform_cpp):
                                          self.xn_b,
                                          cos_ampl,
                                          sin_ampl,
-                                         phi,
                                          theta,
+                                         phi,
                                          )
 
