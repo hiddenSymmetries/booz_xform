@@ -75,7 +75,7 @@ def surfplot(b,
         if b.asym:
             modB += b.bmns_b[jmn, js] * np.sin(angle)
 
-    plt.rcParams.update({'font.size': 16})
+    #plt.rcParams.update({'font.size': 16})
     if fill:
         plt.contourf(phi, theta, modB, ncontours, **kwargs)
     else:
@@ -94,6 +94,7 @@ def symplot(b,
             sqrts = False,
             log = True,
             B0 = True,
+            helical_detail = False,
             legend_args = {"loc":"best"},
             **kwargs):
     """
@@ -110,6 +111,8 @@ def symplot(b,
       sqrts (bool): If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.
       log (bool): Whether to use a logarithmic y axis.
       B0 (bool): Whether to include the m=n=0 mode in the figure.
+      helical_detail (bool): Whether to show modes with ``n = nfp * m`` and
+         ``n = -nfp * m`` in a separate color.
       legend_args (dict): Any arguments to pass to ``plt.legend()``.
          Useful for setting the legend font size and location.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``plot`` command.
@@ -129,6 +132,8 @@ def symplot(b,
     QA_color = [0, 0.7, 0]
     mirror_color = [0.7, 0.5, 0]
     helical_color = [1, 0, 1]
+    helical_plus_color = 'gray'
+    helical_minus_color = 'c'
 
     # If ymin is not specified, pick a default value such that the
     # plot mostly shows the largest modes, not all the modes down to
@@ -170,11 +175,30 @@ def symplot(b,
             plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=mirror_color,
                          label=r'm = 0, n $\ne$ 0 (Mirror)', **kwargs)
             break
-    for imode in range(mnmax):
-        if b.xn_b[imode] != 0 and b.xm_b[imode] != 0:
-            plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_color,
-                         label=r'm $\ne$ 0, n $\ne$ 0 (Helical)', **kwargs)
-            break
+
+    if helical_detail:
+        for imode in range(mnmax):
+            if b.xn_b[imode] == b.xm_b[imode] * b.nfp and b.xm_b[imode] != 0:
+                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_plus_color,
+                             label=r'n = n$_{fp}$ m (Helical)', **kwargs)
+                break
+        for imode in range(mnmax):
+            if b.xn_b[imode] == -b.xm_b[imode] * b.nfp and b.xm_b[imode] != 0:
+                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_minus_color,
+                             label=r'n = -n$_{fp}$ m (Helical)', **kwargs)
+                break
+        for imode in range(mnmax):
+            if b.xn_b[imode] != 0 and b.xm_b[imode] != 0:
+                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_color,
+                             label=r'Other helical', **kwargs)
+                break
+    else:
+        for imode in range(mnmax):
+            if b.xn_b[imode] != 0 and b.xm_b[imode] != 0 \
+               and b.xn_b[imode] != b.xm_b[imode] * b.nfp and b.xn_b[imode] != -b.xm_b[imode] * b.nfp:
+                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_color,
+                             label=r'm $\ne$ 0, n $\ne$ 0 (Helical)', **kwargs)
+                break
 
     plt.legend(**legend_args)
     # Now that the legend is made, plot all modes
@@ -195,7 +219,17 @@ def symplot(b,
             if b.xm_b[imode] == 0:
                 mycolor = mirror_color
             else:
-                mycolor = helical_color
+                # The mode is helical
+                if helical_detail:
+                    if b.xn_b[imode] == b.xm_b[imode] * b.nfp:
+                        mycolor = helical_plus_color
+                    elif b.xn_b[imode] == -b.xm_b[imode] * b.nfp:
+                        mycolor = helical_minus_color
+                    else:
+                        mycolor = helical_color
+                else:
+                    mycolor = helical_color
+
         plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=mycolor, **kwargs)
 
     if sqrts:

@@ -1,4 +1,5 @@
 # booz_xform
+![booz_xform logo](docs/source/logo_lores.png)
 
 `booz_xform` is a package for computing Boozer coordinates in toroidal
 magnetohydrodynamic equilibria, including both stellarators and
