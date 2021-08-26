@@ -57,7 +57,7 @@ class WriteReadTest(unittest.TestCase):
                 np.testing.assert_allclose(b1.numns_b, b2.numns_b, rtol=rtol, atol=atol)
                 np.testing.assert_allclose(b1.s_b, b2.s_b, rtol=rtol, atol=atol)
 
-                #os.remove(boozmn_filename)
+                os.remove(boozmn_filename)
                 
 if __name__ == '__main__':
     unittest.main()

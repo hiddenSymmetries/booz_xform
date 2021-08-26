@@ -59,11 +59,12 @@ message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
 #message("New pybind11_DIR: ${pybind11_DIR}")
 
 find_package(pybind11 REQUIRED PATHS pybind11_DIR)
-pybind11_add_module(_booz_xform ${SOURCES} ${SOURCE_DIR}/bindings.cpp)
+pybind11_add_module(_booz_xform ${SOURCE_DIR}/bindings.cpp)
 
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
 set_property(TARGET libbooz_xform PROPERTY OUTPUT_NAME booz_xform)
+set_property(TARGET libbooz_xform PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_executable(xbooz_xform ${SOURCE_DIR}/xbooz_xform.cpp)
 #set_property(TARGET xbooz_xform PROPERTY CXX_STANDARD 11)
