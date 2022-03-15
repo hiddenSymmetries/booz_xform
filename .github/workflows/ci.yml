@@ -91,9 +91,7 @@ jobs:
 
     - name: Configure CMake
       run: |
-        if [ -d build ]; then
-	  rm -rf build
-	fi
+        if [ -d build ]; then rm -rf build; fi
         mkdir build
         cd build
         cmake ..
