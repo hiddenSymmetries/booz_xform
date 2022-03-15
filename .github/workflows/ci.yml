@@ -91,6 +91,7 @@ jobs:
 
     - name: Configure CMake
       run: |
+        ls -l
         mkdir build
         cd build
         cmake ..
