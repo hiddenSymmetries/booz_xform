@@ -3,7 +3,7 @@
 import unittest
 import os
 import numpy as np
-from scipy.io import netcdf
+from scipy.io import netcdf_file
 from booz_xform import Booz_xform
 
 TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
@@ -20,7 +20,7 @@ class RegressionTest(unittest.TestCase):
             wout_filename = 'wout_' + configuration + '.nc'
             boozmn_filename = 'boozmn_' + configuration + '.nc'
             boozmn_new_filename = 'boozmn_new_' + configuration + '.nc'
-            f = netcdf.netcdf_file(os.path.join(TEST_DIR, boozmn_filename),
+            f = netcdf_file(os.path.join(TEST_DIR, boozmn_filename),
                                    'r', mmap=False)
             b = Booz_xform()
             b.read_wout(os.path.join(TEST_DIR, wout_filename))
@@ -65,7 +65,7 @@ class RegressionTest(unittest.TestCase):
 
             # Now compare some values written to the boozmn files.
             b.write_boozmn(boozmn_new_filename)
-            f2 = netcdf.netcdf_file(boozmn_new_filename)
+            f2 = netcdf_file(boozmn_new_filename)
 
             vars = f.variables.keys()
             # These variables will not match:
