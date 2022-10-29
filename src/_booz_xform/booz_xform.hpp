@@ -5,14 +5,14 @@
 #include <valarray>
 #include "vector_matrix.hpp"
 
-namespace booz_xform {  
+namespace booz_xform {
 
   const boozfloat pi = 3.141592653589793;
   const boozfloat twopi = 2.0 * pi;
   const boozfloat mu0 = (4.0e-7) * pi;
 
   int driver(int, char**);
-  
+
   // Trick for passing version number from setup.py to C++, from
   // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
 #define STRINGIFY(x) #x
@@ -22,7 +22,7 @@ namespace booz_xform {
 #else
   const std::string version = "development version";
 #endif
-  
+
   class Booz_xform {
   private:
     int nu2_b; //!< Not sure
@@ -42,12 +42,12 @@ namespace booz_xform {
     Matrix cosn_nyq; //!< Stores cos(n*zeta) for xn_nyq
     Matrix sinm_nyq; //!< Stores sin(m*theta) for xm_nyq
     Matrix sinn_nyq; //!< Stores sin(n*zeta) for xn_nyq
-    
+
     void defaults();
     void check_accuracy(int, int, Vector&, Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&);
-    
+
   public:
-      
+
     /* Public variables are labeled below as being an input or
        output. The input quantities should be set before calling
        run(). (Many of these input quantities can be set by calling
@@ -130,7 +130,7 @@ namespace booz_xform {
 	indicated by compute_surfs.
      */
     int ns_in;
-    
+
     /** (size ns_in, input) Values of normalized toroidal flux for
 	which the input data is stored. These numbers are used only
 	for plotting.
@@ -146,7 +146,7 @@ namespace booz_xform {
 	Fourier modes of the major radius R.
      */
     Matrix rmnc;
-    
+
     /** (size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0)
 	Fourier modes of the major radius R. For stellarator-symmetric
 	configurations, this array is not used and need not be
@@ -160,7 +160,7 @@ namespace booz_xform {
 	is not used and need not be specified.
      */
     Matrix zmnc;
-    
+
     /** (size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0)
 	Fourier modes of the Cartesian coordinate Z of the flux
 	surfaces.
@@ -175,7 +175,7 @@ namespace booz_xform {
 	specified.
     */
     Matrix lmnc;
-    
+
     /** (size mnmax x ns_in, input) sin(m * theta_0 - n zeta_0)
 	Fourier modes of lambda = theta^* - theta_0, the difference
 	between the original poloidal angle theta_0 and the straight
@@ -187,7 +187,7 @@ namespace booz_xform {
 	Fourier modes of the magnetic field strength B.
      */
     Matrix bmnc;
-    
+
     /** (size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0)
 	Fourier modes of the magnetic field strength B. For
 	stellarator-symmetric configurations, this array is not used
@@ -207,7 +207,7 @@ namespace booz_xform {
 	this array is not used and need not be specified.
     */
     Matrix bsubumns;
-    
+
     /** (size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0)
 	Fourier modes of B dot (d r / d zeta_0) where r is the
 	position vector.
@@ -232,7 +232,7 @@ namespace booz_xform {
 	n=-20, -10, 0, 10, 20.
      */
     int nboz;
-    
+
     /** (input) Indices of ns_in-sized radial arrays, specifying the
 	flux surfaces for which the transformation to Boozer
 	coordinates will be performed. All values should be >= 0 and <
@@ -256,7 +256,7 @@ namespace booz_xform {
 	booz_xform output files.
      */
     boozfloat toroidal_flux;
-    
+
     // End of the inputs. Now come the outputs.
 
     /** (output) Number of surfaces on which the transformation is
@@ -271,7 +271,7 @@ namespace booz_xform {
     Vector s_b;
 
     /** (output) Total number of Fourier modes for output data.
-     */    
+     */
     int mnboz;
 
     /** (size mnboz, output) Poloidal mode numbers used for the
@@ -383,6 +383,18 @@ namespace booz_xform {
     */
     Vector Boozer_I_all;
 
+    /** (size ns_in, output) Uniformly spaced grid going from 0 to the boundary
+    toroidal flux (not divided by (2*pi)), evaluated on all
+    the magnetic surfaces for which input data was provided.
+    */
+    Vector phi;
+
+    /** (size ns_in, output) Uniformly spaced grid going from 0 to the boundary
+    poloidal flux (not divided by (2*pi)), evaluated on all
+    the magnetic surfaces for which input data was provided.
+    */
+    Vector phip;
+
     //! Constructor
     /**
      * Create a Booz_xform object with no data.
@@ -409,6 +421,8 @@ namespace booz_xform {
      */
     void init_from_vmec(int ns,
 			Vector& iotas,
+            Vector& phis,
+            Vector& phips,
 			Matrix& rmnc,
 			Matrix& rmns,
 			Matrix& zmnc,
@@ -421,7 +435,7 @@ namespace booz_xform {
 			Matrix& bsubumns,
 			Matrix& bsubvmnc,
 			Matrix& bsubvmns);
-    
+
     //! Carry out the transformation calculation
     /**
      * This method is the main computationally intensive step, and it
@@ -437,7 +451,7 @@ namespace booz_xform {
      * @param[in] filename The full name of the boozmn_*.nc file to write.
      */
     void write_boozmn(std::string filename);
-    
+
     //! Read previously calculated results from a boozmn_*.nc output file
     /**
      * @param[in] filename The full name of the boozmn_*.nc file to read.
@@ -445,11 +459,11 @@ namespace booz_xform {
     void read_boozmn(std::string filename);
 
     void init();
-    
+
     void surface_solve(int js_b);
-    
+
   };
-  
+
 }
 
 /* Translating between fortran and C++ variable names:
@@ -470,4 +484,3 @@ namespace booz_xform {
    xjac -> d_Boozer_d_vmec
  */
 #endif
-

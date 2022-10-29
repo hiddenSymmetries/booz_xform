@@ -16,7 +16,7 @@ void Booz_xform::read_wout(std::string filename) {
   int asym_int;
   nc.get("lasym__logical__", asym_int);
   asym = (bool) asym_int;
-  
+
   int ns;
   nc.get("ns", ns);
 
@@ -31,10 +31,14 @@ void Booz_xform::read_wout(std::string filename) {
   phi.resize(ns);
   nc.get("phi", phi);
   toroidal_flux = phi[ns - 1];
-  
-  Vector iotas;
+
+  Vector iotas, phis, phips;
   iotas.resize(ns);
+  phis.resize(ns);
+  phips.resize(ns);
   nc.get("iotas", iotas);
+  nc.get("phis", phis);
+  nc.get("phips", phips);
 
   xm.resize(mnmax);
   xn.resize(mnmax);
@@ -88,10 +92,10 @@ void Booz_xform::read_wout(std::string filename) {
     nc.get("bsubumns", bsubumns0);
     nc.get("bsubvmns", bsubvmns0);
   }
-    
+
   nc.close();
-  
-  init_from_vmec(ns, iotas, rmnc0, rmns0, zmnc0, zmns0,
+
+  init_from_vmec(ns, iotas, phis, phips, rmnc0, rmns0, zmnc0, zmns0,
 		 lmnc0, lmns0, bmnc0, bmns0,
 		 bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0);
 }
