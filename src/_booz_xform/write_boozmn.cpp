@@ -59,18 +59,14 @@ void Booz_xform::write_boozmn(std::string filename) {
   nc.put(mn_modes_dim, "ixn_b", xn_b, "Toroidal mode numbers n for which the Fourier amplitudes rmnc, bmnc etc are stored", "dimensionless");
 
   // Insert a 0 at the start of several arrays
-  Vector iota_b(ns_in + 1), buco_b(ns_in + 1), bvco_b(ns_in + 1), phi_b(ns_in + 1), phip_b(ns_in + 1);
+  Vector iota_b(ns_in + 1), buco_b(ns_in + 1), bvco_b(ns_in + 1);
   iota_b[0] = 0;
   buco_b[0] = 0;
   bvco_b[0] = 0;
-  phi_b[0] = 0;
-  phip_b[0] = 0;
   for (j = 0; j < ns_in; j++) {
     iota_b[j + 1] = iota[j];
     buco_b[j + 1] = Boozer_I_all[j];
     bvco_b[j + 1] = Boozer_G_all[j];
-    phi_b[j + 1] = phi[j];
-    phip_b[j + 1] = phip[j];
   }
   std::string radius_dim_comment = " The radial grid corresponds to all surfaces on which input data were available, and a 0 is prepended";
   nc.put(radius_dim, "iota_b", iota_b, "Rotational transform." + radius_dim_comment, "dimensionless");
@@ -89,11 +85,8 @@ void Booz_xform::write_boozmn(std::string filename) {
   nc.put(radius_dim, "pres_b", pres_b, placeholder_str, "dimensionless");
   beta_b.setZero();
   nc.put(radius_dim, "beta_b", pres_b, placeholder_str, "dimensionless");
-  nc.put(radius_dim, "phip_b", phip_b, "Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
-
-  // Vector phi_b(ns_in + 1);
-  // for (j = 0; j <= ns_in; j++) phi_b[j] = (j * toroidal_flux) / ns_in;
-  nc.put(radius_dim, "phi_b", phi_b, "Uniformly spaced grid going from 0 to the boundary toroidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
+  nc.put(radius_dim, "phip_b", phip, "Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
+  nc.put(radius_dim, "phi_b", phi, "Uniformly spaced grid going from 0 to the boundary toroidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
 
   // ND arrays for N > 1:
   std::vector<dim_id_type> bmnc_dim;

@@ -10,8 +10,8 @@ using namespace booz_xform;
 
 void Booz_xform::init_from_vmec(int ns,
 				Vector& iotas,
-                Vector& phis,
-                Vector& phips,
+                Vector& phi0,
+                Vector& phip0,
 				Matrix& rmnc0,
 				Matrix& rmns0,
 				Matrix& zmnc0,
@@ -32,8 +32,8 @@ void Booz_xform::init_from_vmec(int ns,
   if (ns < 2) throw std::runtime_error("ns must be at least 2");
   if (nfp < 1) throw std::runtime_error("nfp must be at least 1");
   if (iotas.size() != ns) throw std::runtime_error("iotas.size() is not ns");
-  if (phis.size() != ns) throw std::runtime_error("phis.size() is not ns");
-  if (phips.size() != ns) throw std::runtime_error("phips.size() is not ns");
+  if (phi0.size() != ns) throw std::runtime_error("phi0.size() is not ns");
+  if (phip0.size() != ns) throw std::runtime_error("phip0.size() is not ns");
   if (xm.size() != mnmax) throw std::runtime_error("Size of xm is not mnmax");
   if (xn.size() != mnmax) throw std::runtime_error("Size of xn is not mnmax");
   if (xm_nyq.size() != mnmax_nyq) throw std::runtime_error("Size of xm_nyq is not mnmax_nyq");
@@ -90,8 +90,12 @@ void Booz_xform::init_from_vmec(int ns,
   iota.resize(ns_in);
   for (j = 0; j < ns_in; j++)  {
       iota[j] = iotas[j + 1];
-      // phi[j] = phis[j + 1];
-      phip[j] = phips[j + 1];
+  }
+  phi.resize(ns_in + 1);
+  phip.resize(ns_in + 1);
+  for (j = 0; j < ns_in + 1; j++)  {
+      phi[j] = phi0[j];
+      phip[j] = phip0[j];
   }
 
   // By default, prepare to do the Boozer transformation at all

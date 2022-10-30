@@ -383,15 +383,13 @@ namespace booz_xform {
     */
     Vector Boozer_I_all;
 
-    /** (size ns_in, output) Uniformly spaced grid going from 0 to the boundary
-    toroidal flux (not divided by (2*pi)), evaluated on all
-    the magnetic surfaces for which input data was provided.
+    /** (size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary
+    toroidal flux (not divided by (2*pi)), evaluated on full vmec grid.
     */
     Vector phi;
 
-    /** (size ns_in, output) Uniformly spaced grid going from 0 to the boundary
-    poloidal flux (not divided by (2*pi)), evaluated on all
-    the magnetic surfaces for which input data was provided.
+    /** (size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary
+    poloidal flux (not divided by (2*pi)), evaluated on full vmec grid.
     */
     Vector phip;
 

@@ -34,8 +34,8 @@ need to call this function directly.
 
 :param ns: The number of radial vmec surfaces.
 :param iotas: Iota on vmec's half grid.
-:param phis: Phi on vmec's half grid.
-:param phip: Phip on vmec's half grid.
+:param phis: Phi on vmec's full grid.
+:param phip: Phip on vmec's full grid.
 :param rmnc0: Vmec's original rmnc array, on the full grid.
 :param rmns0: Vmec's original rmns array, on the full grid.
   For stellarator-symmetric configurations this array is ignored and need not
