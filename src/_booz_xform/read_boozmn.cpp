@@ -19,6 +19,7 @@ void Booz_xform::read_boozmn(std::string filename) {
   asym = (bool) asym_int;
 
   nc.get("nfp_b", nfp);
+
   nc.get("mboz_b", mboz);
   nc.get("nboz_b", nboz);
   nc.get("mnboz_b", mnboz);
@@ -28,29 +29,30 @@ void Booz_xform::read_boozmn(std::string filename) {
   nc.get("ixm_b", xm_b);
   nc.get("ixn_b", xn_b);
 
-  ns_b = nc.getdim("comput_surfs");
-  if (verbose > 0) std::cout << "Read mboz=" << mboz << ", nboz=" << nboz <<
-		     ", mnboz=" << mnboz << ", ns_b=" << ns_b << std::endl;
-
+  ns_in = nc.getdim("radius");
   Vector iota_in, Boozer_G_in, Boozer_I_in;
-  iota_in.resize(ns_b+1);
-  Boozer_G_in.resize(ns_b+1);
-  Boozer_I_in.resize(ns_b+1);
-  iota.resize(ns_b);
-  Boozer_G.resize(ns_b);
-  Boozer_I.resize(ns_b);
-  phi.resize(ns_b+1);
-  phip.resize(ns_b+1);
+  iota_in.resize(ns_in+1);
+  Boozer_G_in.resize(ns_in+1);
+  Boozer_I_in.resize(ns_in+1);
+  iota.resize(ns_in);
+  Boozer_G.resize(ns_in);
+  Boozer_I.resize(ns_in);
+  phi.resize(ns_in+1);
+  phip.resize(ns_in+1);
   nc.get("iota_b", iota_in);
   nc.get("bvco_b", Boozer_G_in);
   nc.get("buco_b", Boozer_I_in);
   nc.get("phi_b", phi);
   nc.get("phip_b", phip);
-  for (j = 0; j < ns_b; j++) {
+  for (j = 0; j < ns_in; j++) {
       iota[j] = iota_in[j+1];
       Boozer_G[j] = Boozer_G_in[j+1];
       Boozer_I[j] = Boozer_I_in[j+1];
   }
+
+  ns_b = nc.getdim("comput_surfs");
+  if (verbose > 0) std::cout << "Read mboz=" << mboz << ", nboz=" << nboz <<
+		     ", mnboz=" << mnboz << ", ns_b=" << ns_b << std::endl;
 
   compute_surfs.resize(ns_b);
   nc.get("jlist", compute_surfs);
