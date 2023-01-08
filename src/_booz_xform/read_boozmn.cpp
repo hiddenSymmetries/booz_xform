@@ -29,14 +29,15 @@ void Booz_xform::read_boozmn(std::string filename) {
   nc.get("ixm_b", xm_b);
   nc.get("ixn_b", xn_b);
 
-  ns_in = nc.getdim("radius");
+  int radius = nc.getdim("radius");
   Vector iota_in, Boozer_G_in, Boozer_I_in;
-  iota_in.resize(ns_in+1);
-  Boozer_G_in.resize(ns_in+1);
-  Boozer_I_in.resize(ns_in+1);
+  iota_in.resize(radius);
+  Boozer_G_in.resize(radius);
+  Boozer_I_in.resize(radius);
+  ns_in = radius - 1;
   iota.resize(ns_in);
-  Boozer_G.resize(ns_in);
-  Boozer_I.resize(ns_in);
+  Boozer_G_all.resize(ns_in);
+  Boozer_I_all.resize(ns_in);
   phi.resize(ns_in+1);
   phip.resize(ns_in+1);
   nc.get("iota_b", iota_in);
@@ -46,8 +47,8 @@ void Booz_xform::read_boozmn(std::string filename) {
   nc.get("phip_b", phip);
   for (j = 0; j < ns_in; j++) {
       iota[j] = iota_in[j+1];
-      Boozer_G[j] = Boozer_G_in[j+1];
-      Boozer_I[j] = Boozer_I_in[j+1];
+      Boozer_G_all[j] = Boozer_G_in[j+1];
+      Boozer_I_all[j] = Boozer_I_in[j+1];
   }
 
   ns_b = nc.getdim("comput_surfs");
