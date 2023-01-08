@@ -17,7 +17,7 @@ class WriteReadTest(unittest.TestCase):
                           'up_down_asymmetric_tokamak',
                           'li383_1.4m',
                           'LandremanSenguptaPlunk_section5p3']
-        
+
         for configuration in configurations:
             # Try a few different array sizes:
             for compute_surfs in [[0], [0, 5], [5, 10, 15]]:
@@ -42,7 +42,7 @@ class WriteReadTest(unittest.TestCase):
                 np.testing.assert_equal(b1.xm_b, b2.xm_b)
                 np.testing.assert_equal(b1.xn_b, b2.xn_b)
                 np.testing.assert_equal(b1.compute_surfs, b2.compute_surfs)
-                
+
                 rtol = 1e-15
                 atol = 1e-15
                 np.testing.assert_allclose(b1.bmnc_b, b2.bmnc_b, rtol=rtol, atol=atol)
@@ -56,8 +56,12 @@ class WriteReadTest(unittest.TestCase):
                 np.testing.assert_allclose(b1.numnc_b, b2.numnc_b, rtol=rtol, atol=atol)
                 np.testing.assert_allclose(b1.numns_b, b2.numns_b, rtol=rtol, atol=atol)
                 np.testing.assert_allclose(b1.s_b, b2.s_b, rtol=rtol, atol=atol)
-
+                np.testing.assert_allclose(b1.iota, b2.iota, rtol=rtol, atol=atol)
+                np.testing.assert_allclose(b1.Boozer_G_all, b2.Boozer_G_all, rtol=rtol, atol=atol)
+                np.testing.assert_allclose(b1.Boozer_I_all, b2.Boozer_I_all, rtol=rtol, atol=atol)
+                np.testing.assert_allclose(b1.phi,b2.phi, rtol=rtol, atol=atol)
+                np.testing.assert_allclose(b1.phip,b2.phip, rtol=rtol, atol=atol)
                 os.remove(boozmn_filename)
-                
+
 if __name__ == '__main__':
     unittest.main()
