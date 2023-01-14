@@ -85,7 +85,13 @@ void Booz_xform::write_boozmn(std::string filename) {
   nc.put(radius_dim, "pres_b", pres_b, placeholder_str, "dimensionless");
   beta_b.setZero();
   nc.put(radius_dim, "beta_b", pres_b, placeholder_str, "dimensionless");
-  nc.put(radius_dim, "phip_b", phip, "Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
+  Vector phip_dummy(ns_in + 1);
+  phip_dummy.setZero();
+  if (phip.size()==0) {
+      nc.put(radius_dim, "phip_b", phip_dummy, placeholder_str, "Tesla * meter^2");
+  } else {
+      nc.put(radius_dim, "phip_b", phip, "Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
+  }
   nc.put(radius_dim, "phi_b", phi, "Uniformly spaced grid going from 0 to the boundary toroidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
 
   // ND arrays for N > 1:

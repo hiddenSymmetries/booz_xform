@@ -10,8 +10,6 @@ using namespace booz_xform;
 
 void Booz_xform::init_from_vmec(int ns,
 				Vector& iotas,
-                Vector& phi0,
-                Vector& phip0,
 				Matrix& rmnc0,
 				Matrix& rmns0,
 				Matrix& zmnc0,
@@ -23,7 +21,8 @@ void Booz_xform::init_from_vmec(int ns,
 				Matrix& bsubumnc0,
 				Matrix& bsubumns0,
 				Matrix& bsubvmnc0,
-				Matrix& bsubvmns0) {
+				Matrix& bsubvmns0,
+                Vector& phip0) {
   int j, k;
   ns_in = ns - 1;
 
@@ -32,8 +31,10 @@ void Booz_xform::init_from_vmec(int ns,
   if (ns < 2) throw std::runtime_error("ns must be at least 2");
   if (nfp < 1) throw std::runtime_error("nfp must be at least 1");
   if (iotas.size() != ns) throw std::runtime_error("iotas.size() is not ns");
-  if (phi0.size() != ns) throw std::runtime_error("phi0.size() is not ns");
-  if (phip0.size() != ns) throw std::runtime_error("phip0.size() is not ns");
+  bool skip_phip0 = (phip0.size()==0);
+  if (!skip_phip0) {
+      if (phip0.size() != ns) throw std::runtime_error("phip0.size() is not ns");
+  }
   if (xm.size() != mnmax) throw std::runtime_error("Size of xm is not mnmax");
   if (xn.size() != mnmax) throw std::runtime_error("Size of xn is not mnmax");
   if (xm_nyq.size() != mnmax_nyq) throw std::runtime_error("Size of xm_nyq is not mnmax_nyq");
@@ -92,12 +93,15 @@ void Booz_xform::init_from_vmec(int ns,
       iota[j] = iotas[j + 1];
   }
   phi.resize(ns_in + 1);
-  phip.resize(ns_in + 1);
-  for (j = 0; j < ns_in + 1; j++)  {
-      phi[j] = phi0[j];
-      phip[j] = phip0[j];
+  for (j = 0; j <= ns_in; j++) phi[j] = (j * toroidal_flux) / ns_in;
+  if (!skip_phip0) {
+      phip.resize(ns_in + 1);
+      for (j = 0; j < ns_in + 1; j++)  {
+          phip[j] = phip0[j];
+      }
+  } else {
+     phip.resize(0);
   }
-
   // By default, prepare to do the Boozer transformation at all
   // half-grid surfaces:
   compute_surfs.resize(ns_in);

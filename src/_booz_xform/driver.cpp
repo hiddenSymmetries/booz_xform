@@ -33,14 +33,14 @@ int booz_xform::driver(int argc, char* argv[]) {
     std::cout << "The first half-grid surface has index 0. The outermost available surface has index NS-2," << std::endl;
     std::cout << "where NS is the VMEC input parameter. You can omit <compute_surfs> from the input file," << std::endl;
     std::cout << "in which case the transformation will be performed on all half-grid surfaces." << std::endl;
-    
+
     return 0;
   }
-  
+
   std::cout << "This is xbooz_xform " << booz_xform::version << std::endl;
 
   // Read the input file.
-  
+
   std::ifstream file;
   file.open(argv[1]);
   if (!file.is_open()) throw std::runtime_error(std::string("Unable to open input file ") + argv[1]);
@@ -68,12 +68,12 @@ int booz_xform::driver(int argc, char* argv[]) {
   }
   std::cout << "Read compute_surfs =";
   for (j = 0; j < compute_surfs.size(); j++) std::cout << " " << compute_surfs[j];
-  std::cout << std::endl;  
-  
+  std::cout << std::endl;
+
   file.close();
 
   // Done reading input file. Now set up the calculation.
-  
+
   booz_xform::Booz_xform booz;
   booz.read_wout("wout_" + extension + ".nc");
 
@@ -92,13 +92,13 @@ int booz_xform::driver(int argc, char* argv[]) {
   std::cout << "About to run transformation with compute_surfs =";
   for (j = 0; j < booz.compute_surfs.size(); j++) std::cout << " " << booz.compute_surfs[j];
   std::cout << std::endl;
-  
+
   // Run the main calculation:
   booz.run();
 
   // Save results:
   booz.write_boozmn("boozmn_" + extension + ".nc");
-  
+
   std::cout << "Good bye." << std::endl;
 
   return 0;

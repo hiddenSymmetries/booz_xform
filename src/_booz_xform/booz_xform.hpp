@@ -11,6 +11,9 @@ namespace booz_xform {
   const boozfloat twopi = 2.0 * pi;
   const boozfloat mu0 = (4.0e-7) * pi;
 
+  static Vector defaultInit = Vector::Zero(0);
+  static Vector& defaultInitPtr = defaultInit;
+
   int driver(int, char**);
 
   // Trick for passing version number from setup.py to C++, from
@@ -405,7 +408,7 @@ namespace booz_xform {
      *
      * @param[in] filename The name of the VMEC wout file to load
      */
-    void read_wout(std::string filename);
+    void read_wout(std::string filename, bool flux=false);
 
     //! Handle radial dimension of vmec arrays.
     /**
@@ -419,8 +422,6 @@ namespace booz_xform {
      */
     void init_from_vmec(int ns,
 			Vector& iotas,
-            Vector& phis,
-            Vector& phips,
 			Matrix& rmnc,
 			Matrix& rmns,
 			Matrix& zmnc,
@@ -432,7 +433,8 @@ namespace booz_xform {
 			Matrix& bsubumnc,
 			Matrix& bsubumns,
 			Matrix& bsubvmnc,
-			Matrix& bsubvmns);
+			Matrix& bsubvmns,
+            Vector& phips=defaultInitPtr);
 
     //! Carry out the transformation calculation
     /**

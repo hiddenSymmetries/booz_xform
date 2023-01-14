@@ -21,8 +21,10 @@ transformation to Boozer coordinates)")
 Read input information from a VMEC ``wout*.nc`` file.
 
 :param filename: The full name of the file to load.
+:param flux: If true, the poloidal flux is read. (Defaults to false)
 )",
-	 "filename"_a)
+	 "filename"_a,
+     "flux"_a=false)
 
     .def("init_from_vmec", &Booz_xform::init_from_vmec, R"(
 Handle conversion of the radial grids used in vmec to to the radial
@@ -34,8 +36,6 @@ need to call this function directly.
 
 :param ns: The number of radial vmec surfaces.
 :param iotas: Iota on vmec's half grid.
-:param phis: Phi on vmec's full grid.
-:param phip: Phip on vmec's full grid.
 :param rmnc0: Vmec's original rmnc array, on the full grid.
 :param rmns0: Vmec's original rmns array, on the full grid.
   For stellarator-symmetric configurations this array is ignored and need not
@@ -60,11 +60,10 @@ need to call this function directly.
 :param bsubvmns0: Vmec's original bsubvmns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
+:param phip: Phip on vmec's full grid. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
-     "phis"_a,
-     "phips"_a,
 	 "rmnc0"_a,
 	 "rmns0"_a,
 	 "zmnc0"_a,
@@ -76,7 +75,8 @@ need to call this function directly.
 	 "bsubumnc0"_a,
 	 "bsubumns0"_a,
 	 "bsubvmnc0"_a,
-	 "bsubvmns0"_a)
+	 "bsubvmns0"_a,
+     "phips"_a=defaultInitPtr)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected

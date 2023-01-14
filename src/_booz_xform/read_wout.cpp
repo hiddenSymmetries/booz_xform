@@ -8,7 +8,7 @@
 
 using namespace booz_xform;
 
-void Booz_xform::read_wout(std::string filename) {
+void Booz_xform::read_wout(std::string filename, bool flux) {
   int j, k;
   if (verbose > 0) std::cout << "About to try reading VMEC wout file " << filename << std::endl;
   booz_xform::NetCDFReader nc(filename);
@@ -27,16 +27,19 @@ void Booz_xform::read_wout(std::string filename) {
   nc.get("mnmax_nyq", mnmax_nyq);
   nc.get("aspect", aspect);
 
-  Vector phi0;
-  phi0.resize(ns);
-  nc.get("phi", phi0);
-  toroidal_flux = phi0[ns - 1];
+  Vector phi0, phip0;
+  if (flux) {
+      phi0.resize(ns);
+      nc.get("phi", phi0);
+      toroidal_flux = phi0[ns - 1];
+      phip0.resize(ns);
+      nc.get("chi", phip0);
+  }
 
-  Vector iotas, phip0;
+  Vector iotas;
   iotas.resize(ns);
-  phip0.resize(ns);
+
   nc.get("iotas", iotas);
-  nc.get("chi", phip0);
 
   xm.resize(mnmax);
   xn.resize(mnmax);
@@ -93,7 +96,14 @@ void Booz_xform::read_wout(std::string filename) {
 
   nc.close();
 
-  init_from_vmec(ns, iotas, phi0, phip0, rmnc0, rmns0, zmnc0, zmns0,
-		 lmnc0, lmns0, bmnc0, bmns0,
-		 bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0);
+  if (flux) {
+      init_from_vmec(ns, iotas, rmnc0, rmns0, zmnc0, zmns0,
+           lmnc0, lmns0, bmnc0, bmns0,
+           bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0, phip0);
+  } else {
+      init_from_vmec(ns, iotas, rmnc0, rmns0, zmnc0, zmns0,
+           lmnc0, lmns0, bmnc0, bmns0,
+           bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0);
+  }
+
 }
