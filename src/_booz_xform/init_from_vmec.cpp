@@ -92,8 +92,6 @@ void Booz_xform::init_from_vmec(int ns,
   for (j = 0; j < ns_in; j++)  {
       iota[j] = iotas[j + 1];
   }
-  phi.resize(ns_in + 1);
-  for (j = 0; j <= ns_in; j++) phi[j] = (j * toroidal_flux) / ns_in;
   if (!skip_phip0) {
       phip.resize(ns_in + 1);
       for (j = 0; j < ns_in + 1; j++)  {

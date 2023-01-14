@@ -27,14 +27,15 @@ void Booz_xform::read_wout(std::string filename, bool flux) {
   nc.get("mnmax_nyq", mnmax_nyq);
   nc.get("aspect", aspect);
 
-  Vector phi0, phip0;
+  Vector phip0;
   if (flux) {
-      phi0.resize(ns);
-      nc.get("phi", phi0);
-      toroidal_flux = phi0[ns - 1];
       phip0.resize(ns);
       nc.get("chi", phip0);
   }
+
+  phi.resize(ns);
+  nc.get("phi", phi);
+  toroidal_flux = phi[ns - 1];
 
   Vector iotas;
   iotas.resize(ns);
