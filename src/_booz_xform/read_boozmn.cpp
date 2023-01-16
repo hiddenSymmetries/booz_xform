@@ -10,7 +10,7 @@ using namespace booz_xform;
 
 void Booz_xform::read_boozmn(std::string filename) {
   int j;
-  
+
   if (verbose > 0) std::cout << "About to try reading boozmn netcdf file " << filename << std::endl;
   booz_xform::NetCDFReader nc(filename);
 
@@ -19,7 +19,7 @@ void Booz_xform::read_boozmn(std::string filename) {
   asym = (bool) asym_int;
 
   nc.get("nfp_b", nfp);
-  
+
   nc.get("mboz_b", mboz);
   nc.get("nboz_b", nboz);
   nc.get("mnboz_b", mnboz);
@@ -29,10 +29,32 @@ void Booz_xform::read_boozmn(std::string filename) {
   nc.get("ixm_b", xm_b);
   nc.get("ixn_b", xn_b);
 
+  int radius = nc.getdim("radius");
+  Vector iota_in, Boozer_G_in, Boozer_I_in;
+  iota_in.resize(radius);
+  Boozer_G_in.resize(radius);
+  Boozer_I_in.resize(radius);
+  ns_in = radius - 1;
+  iota.resize(ns_in);
+  Boozer_G_all.resize(ns_in);
+  Boozer_I_all.resize(ns_in);
+  phi.resize(ns_in+1);
+  phip.resize(ns_in+1);
+  nc.get("iota_b", iota_in);
+  nc.get("bvco_b", Boozer_G_in);
+  nc.get("buco_b", Boozer_I_in);
+  nc.get("phi_b", phi);
+  nc.get("phip_b", phip);
+  for (j = 0; j < ns_in; j++) {
+      iota[j] = iota_in[j+1];
+      Boozer_G_all[j] = Boozer_G_in[j+1];
+      Boozer_I_all[j] = Boozer_I_in[j+1];
+  }
+
   ns_b = nc.getdim("comput_surfs");
   if (verbose > 0) std::cout << "Read mboz=" << mboz << ", nboz=" << nboz <<
 		     ", mnboz=" << mnboz << ", ns_b=" << ns_b << std::endl;
-  
+
   compute_surfs.resize(ns_b);
   nc.get("jlist", compute_surfs);
   // Fortran jlist is 1-based and includes an extra 1 from the 0 at
@@ -64,7 +86,7 @@ void Booz_xform::read_boozmn(std::string filename) {
     nc.get("pmnc_b", numnc_b);
     numnc_b = -numnc_b; // p in the boozmn format is -nu in this new booz_xform.
     nc.get("gmns_b", gmns_b);
-    
+
   } else {
     // Stellarator-symmetric.
 
@@ -72,7 +94,7 @@ void Booz_xform::read_boozmn(std::string filename) {
     rmns_b.resize(0, 0);
     zmnc_b.resize(0, 0);
     numnc_b.resize(0, 0);
-    gmns_b.resize(0, 0);    
+    gmns_b.resize(0, 0);
   }
 
   // Set up the s grid for output quantites.
@@ -82,7 +104,7 @@ void Booz_xform::read_boozmn(std::string filename) {
   s_b.resize(ns_b);
   for (j = 0; j < ns_b; j++) s_b[j] = hs * (compute_surfs[j] + 0.5);
   if (verbose > 0) std::cout << "s_b=" << s_b << std::endl;
-  
+
   nc.close();
-  
+
 }

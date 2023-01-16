@@ -21,15 +21,20 @@ void Booz_xform::init_from_vmec(int ns,
 				Matrix& bsubumnc0,
 				Matrix& bsubumns0,
 				Matrix& bsubvmnc0,
-				Matrix& bsubvmns0) {
+				Matrix& bsubvmns0,
+                Vector& phip0) {
   int j, k;
   ns_in = ns - 1;
 
   // Do some validation.
-  
+
   if (ns < 2) throw std::runtime_error("ns must be at least 2");
   if (nfp < 1) throw std::runtime_error("nfp must be at least 1");
   if (iotas.size() != ns) throw std::runtime_error("iotas.size() is not ns");
+  bool skip_phip0 = (phip0.size()==0);
+  if (!skip_phip0) {
+      if (phip0.size() != ns) throw std::runtime_error("phip0.size() is not ns");
+  }
   if (xm.size() != mnmax) throw std::runtime_error("Size of xm is not mnmax");
   if (xn.size() != mnmax) throw std::runtime_error("Size of xn is not mnmax");
   if (xm_nyq.size() != mnmax_nyq) throw std::runtime_error("Size of xm_nyq is not mnmax_nyq");
@@ -52,14 +57,14 @@ void Booz_xform::init_from_vmec(int ns,
   if (bmnc0.cols() != ns) throw std::runtime_error("bmnc0 has wrong number of cols");
   if (bsubumnc0.cols() != ns) throw std::runtime_error("bsubumnc0 has wrong number of cols");
   if (bsubvmnc0.cols() != ns) throw std::runtime_error("bsubvmnc0 has wrong number of cols");
-  
+
   if (rmnc0.rows() != mnmax) throw std::runtime_error("rmnc0 has the wrong number of rows");
   if (zmns0.rows() != mnmax) throw std::runtime_error("zmns0 has the wrong number of rows");
   if (lmns0.rows() != mnmax) throw std::runtime_error("lmns0 has the wrong number of rows");
   if (bmnc0.rows() != mnmax_nyq) throw std::runtime_error("bmnc0 has the wrong number of rows");
   if (bsubumnc0.rows() != mnmax_nyq) throw std::runtime_error("bsubumnc0 has the wrong number of rows");
   if (bsubvmnc0.rows() != mnmax_nyq) throw std::runtime_error("bsubvmnc0 has the wrong number of rows");
-  
+
   if (asym) {
     if (rmns0.cols() != ns) throw std::runtime_error("rmns0 has wrong number of cols");
     if (zmnc0.cols() != ns) throw std::runtime_error("zmnc0 has wrong number of cols");
@@ -80,17 +85,26 @@ void Booz_xform::init_from_vmec(int ns,
     if (compute_surfs[j] < 0) throw std::runtime_error("compute_surfs cannot be negative");
     if (compute_surfs[j] >= ns - 1) throw std::runtime_error("compute_surfs has an entry that is too large for the given ns");
   }
-  
+
   // Done with validation.
 
   iota.resize(ns_in);
-  for (j = 0; j < ns_in; j++) iota[j] = iotas[j + 1];
-
+  for (j = 0; j < ns_in; j++)  {
+      iota[j] = iotas[j + 1];
+  }
+  if (!skip_phip0) {
+      phip.resize(ns_in + 1);
+      for (j = 0; j < ns_in + 1; j++)  {
+          phip[j] = phip0[j];
+      }
+  } else {
+     phip.resize(0);
+  }
   // By default, prepare to do the Boozer transformation at all
   // half-grid surfaces:
   compute_surfs.resize(ns_in);
   for (j = 0; j < ns_in; j++) compute_surfs[j] = j;
-  
+
   // Non-Nyquist quantities:
   rmnc.resize(mnmax, ns_in);
   zmns.resize(mnmax, ns_in);
@@ -142,7 +156,7 @@ void Booz_xform::init_from_vmec(int ns,
       }
     }
   }
-  
+
   if (verbose > 0) {
     std::cout << "Read ns=" << ns << ", mpol=" << mpol << ", ntor=" << ntor
 	      << ", mnmax=" << mnmax << ", mnmax_nyq=" << mnmax_nyq << std::endl;
@@ -152,11 +166,11 @@ void Booz_xform::init_from_vmec(int ns,
       std::cout << "iota = " << iotas << std::endl;
       std::cout << "xm = " << xm << std::endl;
       std::cout << "xn = " << xn << std::endl;
-    
+
       std::cout << "rmnc, increasing ns index:";
       for (j = 0; j < 4; j++) std::cout << " " << rmnc0(0, j);
       std::cout << std::endl;
-    
+
       std::cout << "rmnc, ncreasing mnmax index:";
       for (j = 0; j < 4; j++) std::cout << " " << rmnc0(j, 0);
       std::cout << std::endl;
@@ -175,7 +189,7 @@ void Booz_xform::init_from_vmec(int ns,
   // m=1 modes, since rmnc/sqrt(s) and zmns/sqrt(s) have a finite value
   // at s=0 for the m=1 modes. For these modes, the value at s=0 is
   // found by linear extrapolation using the next two full-grid points.
-  
+
   // We will need sqrt(s) on the full and half grid:
   boozfloat hs = 1.0 / (ns - 1.0);
   Vector sqrt_s_full, sqrt_s_half;
@@ -215,13 +229,13 @@ void Booz_xform::init_from_vmec(int ns,
       for (k = 0; k < ns_in; k++) {
 	rmnc(j, k) = 0.5 * (rmnc0(j, k) / sqrt_s_full[k]
 			    + rmnc0(j, k + 1) / sqrt_s_full[k + 1]) * sqrt_s_half[k];
-	
+
 	zmns(j, k) = 0.5 * (zmns0(j, k) / sqrt_s_full[k]
 			    + zmns0(j, k + 1) / sqrt_s_full[k + 1]) * sqrt_s_half[k];
 	if (asym) {
 	  rmns(j, k) = 0.5 * (rmns0(j, k) / sqrt_s_full[k]
 			      + rmns0(j, k + 1) / sqrt_s_full[k + 1]) * sqrt_s_half[k];
-	  
+
 	  zmnc(j, k) = 0.5 * (zmnc0(j, k) / sqrt_s_full[k]
 			      + zmnc0(j, k + 1) / sqrt_s_full[k + 1]) * sqrt_s_half[k];
 	}
@@ -235,16 +249,16 @@ void Booz_xform::init_from_vmec(int ns,
 	//val_over_sqrt_s_on_axis = 2 * rmnc0(j, 1) / sqrt_s_full[1] - rmnc0(j, 2) / sqrt_s_full[2];
 	// Interpolate:
 	//rmnc(j, 1) = 0.5 * (val_over_sqrt_s_on_axis + rmnc0(j, 1) / sqrt_s_full[1]) * sqrt_s_half[0];
-	
+
 	rmnc(j, 0) = (1.5 * rmnc0(j, 1) / sqrt_s_full[1]
 		      - 0.5 * rmnc0(j, 2) / sqrt_s_full[2]) * sqrt_s_half[0];
-	
+
 	zmns(j, 0) = (1.5 * zmns0(j, 1) / sqrt_s_full[1]
 		      - 0.5 * zmns0(j, 2) / sqrt_s_full[2]) * sqrt_s_half[0];
 	if (asym) {
 	  rmns(j, 0) = (1.5 * rmns0(j, 1) / sqrt_s_full[1]
 			- 0.5 * rmns0(j, 2) / sqrt_s_full[2]) * sqrt_s_half[0];
-	
+
 	  zmnc(j, 0) = (1.5 * zmnc0(j, 1) / sqrt_s_full[1]
 			- 0.5 * zmnc0(j, 2) / sqrt_s_full[2]) * sqrt_s_half[0];
 	}
@@ -260,9 +274,9 @@ void Booz_xform::init_from_vmec(int ns,
   for (j = 0; j < mnmax; j++) output_file << std::setprecision(15) << " " << rmnc(j, 2);
   output_file.close();
   */
-  
+
   // End of radial interpolation.
-  
+
   // Set a guess for the Fourier resolution:
   mboz = 6 * mpol;
   nboz = std::max(2 * ntor - 1, 0);

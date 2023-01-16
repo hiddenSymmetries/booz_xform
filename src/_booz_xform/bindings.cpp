@@ -21,8 +21,10 @@ transformation to Boozer coordinates)")
 Read input information from a VMEC ``wout*.nc`` file.
 
 :param filename: The full name of the file to load.
+:param flux: If true, the poloidal flux is read. (Defaults to false)
 )",
-	 "filename"_a)
+	 "filename"_a,
+     "flux"_a=false)
 
     .def("init_from_vmec", &Booz_xform::init_from_vmec, R"(
 Handle conversion of the radial grids used in vmec to to the radial
@@ -58,6 +60,7 @@ need to call this function directly.
 :param bsubvmns0: Vmec's original bsubvmns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
+:param phip: Phip on vmec's full grid. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
@@ -72,7 +75,8 @@ need to call this function directly.
 	 "bsubumnc0"_a,
 	 "bsubumns0"_a,
 	 "bsubvmnc0"_a,
-	 "bsubvmns0"_a)
+	 "bsubvmns0"_a,
+     "phips"_a=defaultInitPtr)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected
@@ -94,7 +98,7 @@ Read in the results of an earlier transformation from a classic
 	 "filename"_a)
 
     // End of functions. Now come properties that are inputs.
-    
+
     .def_readwrite("verbose", &Booz_xform::verbose, R"(
 (int, input) Set this to 0 for no output to stdout, 1 for some
 output, 2 for lots of output)")
@@ -103,11 +107,11 @@ output, 2 for lots of output)")
 (bool, input) True if the configuration is not
 stellarator-symmetric, false if the configuration is
 stellarator-symmetric.)")
-    
+
     .def_readwrite("nfp", &Booz_xform::nfp, R"(
 (int, input) Number of field periods, i.e. the discrete toroidal
 rotation symmetry.)")
-    
+
     .def_readwrite("mpol", &Booz_xform::mpol, R"(
 (int, input) Maximum poloidal mode number for the input arrays rmnc,
 rmns, zmnc, zmns, lmnc, and lmns.)")
@@ -119,11 +123,11 @@ input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.)")
     .def_readwrite("mnmax", &Booz_xform::mnmax, R"(
 (int, input) Number of Fourier modes for the input arrays rmnc,
 rmns, zmnc, zmns, lmnc, and lmns.)")
-    
+
     .def_readwrite("mpol_nyq", &Booz_xform::mpol_nyq, R"(
 (int, input) Maximum poloidal mode number for the input arrays bmnc,
 bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
-    
+
     .def_readwrite("ntor_nyq", &Booz_xform::ntor_nyq, R"(
 (int, input) Maximum toroidal mode number (divided by nfp) for the
 input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
@@ -135,7 +139,7 @@ bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.)")
     .def_readwrite("xm", &Booz_xform::xm, R"(
 (1D integer array of length mnmax, input) The poloidal Fourier mode
 numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.)")
-    
+
     .def_readwrite("xn", &Booz_xform::xn, R"(
 (1D integer array of length mnmax, input) The toroidal Fourier mode
 numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and
@@ -157,39 +161,47 @@ nfp.)")
 supplied. The transformation to Boozer coordinates is not necessarily
 run on all of these surfaces, only the ones indicated by
 compute_surfs.)")
-    
+
     .def_readwrite("s_in", &Booz_xform::s_in, R"(
 (1D float array of length ns_in, input) The values of normalized
 toroidal flux s for the input data. Here, s is the toroidal flux
 normalized to the value at the plasma boundary. This information is
 not needed for the coordinate transformation itself, but is useful for
 plotting output.)")
-    
+
     .def_readwrite("iota", &Booz_xform::iota, R"(
 (1D float array of length ns_in, input) Rotational transform on the
 input radial surfaces.)")
-    
+
+    .def_readwrite("phi", &Booz_xform::phi, R"(
+(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.)")
+
+.def_readwrite("phip", &Booz_xform::phip, R"(
+(1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.)")
+
     .def_readwrite("rmnc", &Booz_xform::rmnc, R"(
 (2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
 zeta_0) Fourier modes of the major radius R.)")
-    
+
     .def_readwrite("rmns", &Booz_xform::rmns, R"(
 (2D float array of size mnmax x ns_in, input) sin(m * theta_0 - n *
 zeta_0) Fourier modes of the major radius R of the flux surfaces. For
 stellarator-symmetric configurations, this array is not used and need
 not be specified.)")
-    
+
     .def_readwrite("zmnc", &Booz_xform::zmnc, R"(
 (2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
 zeta_0) Fourier modes of the Cartesian coordinate Z of the flux
 surfaces. For stellarator-symmetric configurations, this array is not
 used and need not be specified.)")
-    
+
     .def_readwrite("zmns", &Booz_xform::zmns, R"(
 (2D float array of size mnmax x ns_in, input) sin(m * theta_0 - n *
 zeta_0) Fourier modes of the Cartesian coordinate Z of the flux
 surfaces.)")
-    
+
     .def_readwrite("lmnc", &Booz_xform::lmnc, R"(
 (2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 - n
 * zeta_0) Fourier modes of lambda = theta^* - theta_0, the difference
@@ -212,18 +224,18 @@ zeta_0) Fourier modes of the magnetic field strength B.)")
 * zeta_0) Fourier modes of the magnetic field strength B.  For
 stellarator-symmetric configurations, this array is not used and need
 not be specified.)")
-    
+
     .def_readwrite("bsubumnc", &Booz_xform::bsubumnc, R"(
 (2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 -
 n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the
 position vector.)")
-    
+
     .def_readwrite("bsubumns", &Booz_xform::bsubumns, R"(
 (2D float array of size mnmax_nyq x ns_in, input) sin(m * theta_0 -
 n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the
 position vector.  For stellarator-symmetric configurations, this array
 is not used and need not be specified.)")
-    
+
     .def_readwrite("bsubvmnc", &Booz_xform::bsubvmnc, R"(
 (2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 -
 n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the
@@ -234,7 +246,7 @@ position vector.)")
 n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the
 position vector.  For stellarator-symmetric configurations, this array
 is not used and need not be specified.)")
-    
+
     .def_readwrite("mboz", &Booz_xform::mboz, R"(
 (int, input) Maximum poloidal mode number for representing output
 quantities in Boozer coordinates.)")
@@ -251,123 +263,123 @@ specifying the flux surfaces for which the transformation to Boozer
 coordinates will be performed. All values should be >= 0 and < ns_in.
 The array compute_surfs is similar to the array jlist in the earlier
 fortran booz_xform program, with compute_surfs = jlist - 2.)")
-    
+
     .def_readwrite("aspect", &Booz_xform::aspect, R"(
 (float, input) The aspect ratio of the configuration. This value is
 not used for anything by booz_xform, and does not need to be set. It
 is provided as a means to pass this value from the input equilibrium
 to booz_xform output files.)")
-    
+
     .def_readwrite("toroidal_flux", &Booz_xform::toroidal_flux, R"(
 (float, input) The boundary toroidal flux of the configuration. This
 value is not used for anything by booz_xform, and does not need to be
 set. It is provided as a means to pass this value from the input
 equilibrium to booz_xform output files.)")
-    
+
     // End of inputs. Now come the outputs.
-    
+
     .def_readonly("ns_b", &Booz_xform::ns_b, R"(
 (int, output) Number of flux surfaces on which output data are
 available.)")
-    
+
     .def_readonly("s_b", &Booz_xform::s_b, R"(
 (1D float array of length ns_b, output) Values of normalized
 toroidal flux s defining the magnetic surfaces for the output data.)")
-    
+
     .def_readonly("mnboz", &Booz_xform::mnboz, R"(
 (int, output) Total number of Fourier modes for output data.)")
-    
+
     .def_readonly("xm_b", &Booz_xform::xm_b, R"(
 (1D int array of length mnboz, output) Poloidal mode numbers for the
 output data.)")
-		  
+
     .def_readonly("xn_b", &Booz_xform::xn_b, R"(
 (1D int array of length mnboz, output) Toroidal mode numbers for the
 output data. These values are all integer multiples of nfp.)")
-    
+
     .def_readonly("bmnc_b", &Booz_xform::bmnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes of the magnetic field strength in Boozer
 coordinates.)")
-    
+
     .def_readonly("bmns_b", &Booz_xform::bmns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes of the magnetic field strength in Boozer
 coordinates. If the configuration is stellarator-symmetric, this
 quantity is zero so the array will have size 0 x 0.)")
-    
+
     .def_readonly("gmnc_b", &Booz_xform::gmnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 Jacobian of (s, theta_B, zeta_B) coordinates.)")
-    
+
     .def_readonly("gmns_b", &Booz_xform::gmns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 Jacobian of (s, theta_B, zeta_B) coordinates. If the configuration is
 stellarator-symmetric, this quantity is zero so this array will have
 size 0 x 0.)")
-    
+
     .def_readonly("rmnc_b", &Booz_xform::rmnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 major radius R of the flux surfaces.)")
-    
+
     .def_readonly("rmns_b", &Booz_xform::rmns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 major radius R of the flux surfaces. If the configuration is
 stellarator-symmetric, this quantity is zero so this array will have
-size 0 x 0.)")    
-    
+size 0 x 0.)")
+
     .def_readonly("zmnc_b", &Booz_xform::zmnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 Cartesian coordinate Z of the flux surfaces. If the configuration is
 stellarator-symmetric, this quantity is zero so array will have size 0
 x 0.)")
-    
+
     .def_readonly("zmns_b", &Booz_xform::zmns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 Cartesian coordinate Z of the flux surfaces.)")
-    
+
     .def_readonly("numnc_b", &Booz_xform::numnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 toroidal angle difference nu = zeta_B - zeta_0. If the configuration
 is stellarator-symmetric, this quantity is zero so this array will
 have size 0 x 0.)")
-    
+
     .def_readonly("numns_b", &Booz_xform::numns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
 toroidal angle difference nu = zeta_B - zeta_0.)")
-    
+
     .def_readonly("Boozer_G", &Booz_xform::Boozer_G, R"(
 (1D float array of length ns_b, output) Coefficient of grad zeta_B
 in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on the magnetic surfaces used for output
 quantities.)")
-    
+
     .def_readonly("Boozer_G_all", &Booz_xform::Boozer_G_all, R"(
 (1D float array of length ns_in, output) Coefficient of grad zeta_B
 in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on all the magnetic surfaces for which
 input data was provided.)")
-    
+
     .def_readonly("Boozer_I", &Booz_xform::Boozer_I, R"(
 (1D float array of length ns_b, output) Coefficient of grad theta_B
 in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on the magnetic surfaces used for output
 quantities.)")
-    
+
     .def_readonly("Boozer_I_all", &Booz_xform::Boozer_I_all, R"(
 (1D float array of length ns_in, output) Coefficient of grad theta_B
 in the covariant representation of the magnetic field vector B in
 Boozer coordinates, evaluated on all the magnetic surfaces for which
 input data was provided.)")
-    
+
     ;
 
   // Trick for passing version number from setup.py, from
@@ -378,7 +390,7 @@ input data was provided.)")
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 #else
     m.attr("__version__") = "dev";
-#endif  
+#endif
 }
 
 // https://github.com/pybind/pybind11/issues/2271
