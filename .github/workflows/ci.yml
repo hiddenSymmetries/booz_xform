@@ -47,13 +47,13 @@ jobs:
         #which mpiexec
         #mpicc --version
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       # If we want submodules downloaded, uncomment the next 2 lines:
       #with:
       #  submodules: true
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
