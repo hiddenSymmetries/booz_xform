@@ -124,7 +124,7 @@ with open("README.md", "r") as fh:
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="booz_xform",
-    version="0.0.7",
+    version="0.0.8",
     author="Matt Landreman",
     author_email="matt.landreman@gmail.com",
     description="Transformation to Boozer coordinates",
