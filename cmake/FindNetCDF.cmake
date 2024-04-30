@@ -42,7 +42,7 @@ find_path (NETCDF_INCLUDES netcdf.h
 
 #find_library (NETCDF_LIBRARIES_C       NAMES netcdf)
 find_library (NETCDF_LIBRARIES_C       NAMES netcdf
-              HINTS NETCDF_DIR ENV NETCDF_DIR ENV NETCDF_HOME ENV NETCDFDIR PATH_SUFFIXES lib)
+              HINTS NETCDF_DIR ENV NETCDF_DIR ENV NETCDF_HOME ENV NETCDFDIR PATH_SUFFIXES lib lib64)
 mark_as_advanced(NETCDF_LIBRARIES_C)
 
 set (NetCDF_has_interfaces "YES") # will be set to NO if we're missing any interfaces
