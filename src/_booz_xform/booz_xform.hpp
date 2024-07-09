@@ -304,13 +304,13 @@ namespace booz_xform {
 
     /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
 	Fourier modes (with respect to Boozer coordinates) of the
-	Jacobian of (psi, theta_B, zeta_B) coordinates.
+	Jacobian of (s, theta_B, zeta_B) coordinates.
     */
     Matrix gmnc_b;
 
     /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
 	Fourier modes (with respect to Boozer coordinates) of the
-	Jacobian of (psi, theta_B, zeta_B) coordinates. If the
+	Jacobian of (s, theta_B, zeta_B) coordinates. If the
 	configuration is stellarator-symmetric, this quantity is zero
 	so this array will have size 0 x 0.
     */
@@ -391,10 +391,16 @@ namespace booz_xform {
     */
     Vector phi;
 
+    /** (size ns_in + 1, output) The derivative of the toroidal flux (not divided by (2*pi))
+    with respect to s, evaluated on full vmec grid.
+    */
+    Vector phip;
+
     /** (size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary
     poloidal flux (not divided by (2*pi)), evaluated on full vmec grid.
     */
-    Vector phip;
+    Vector chi;
+
 
     //! Constructor
     /**
@@ -434,7 +440,8 @@ namespace booz_xform {
 			Matrix& bsubumns,
 			Matrix& bsubvmnc,
 			Matrix& bsubvmns,
-            Vector& phips=defaultInitPtr);
+      Vector& phips=defaultInitPtr,
+      Vector& chi=defaultInitPtr);
 
     //! Carry out the transformation calculation
     /**

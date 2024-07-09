@@ -22,7 +22,8 @@ void Booz_xform::init_from_vmec(int ns,
 				Matrix& bsubumns0,
 				Matrix& bsubvmnc0,
 				Matrix& bsubvmns0,
-                Vector& phip0) {
+        Vector& phip0,
+        Vector& chi0) {
   int j, k;
   ns_in = ns - 1;
 
@@ -34,6 +35,7 @@ void Booz_xform::init_from_vmec(int ns,
   bool skip_phip0 = (phip0.size()==0);
   if (!skip_phip0) {
       if (phip0.size() != ns) throw std::runtime_error("phip0.size() is not ns");
+      if (chi0.size() != ns) throw std::runtime_error("chi0.size() is not ns");
   }
   if (xm.size() != mnmax) throw std::runtime_error("Size of xm is not mnmax");
   if (xn.size() != mnmax) throw std::runtime_error("Size of xn is not mnmax");
@@ -94,11 +96,14 @@ void Booz_xform::init_from_vmec(int ns,
   }
   if (!skip_phip0) {
       phip.resize(ns_in + 1);
+      chi.resize(ns_in + 1);
       for (j = 0; j < ns_in + 1; j++)  {
-          phip[j] = phip0[j];
+          phip[j] = -phip0[j]/(2*pi);
+          chi[j] = chi0[j];
       }
   } else {
      phip.resize(0);
+     chi.resize(0);
   }
   // By default, prepare to do the Boozer transformation at all
   // half-grid surfaces:

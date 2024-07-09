@@ -40,11 +40,13 @@ void Booz_xform::read_boozmn(std::string filename) {
   Boozer_I_all.resize(ns_in);
   phi.resize(ns_in+1);
   phip.resize(ns_in+1);
+  chi.resize(ns_in+1);
   nc.get("iota_b", iota_in);
   nc.get("bvco_b", Boozer_G_in);
   nc.get("buco_b", Boozer_I_in);
   nc.get("phi_b", phi);
   nc.get("phip_b", phip);
+  nc.get("chi_b", chi);
   for (j = 0; j < ns_in; j++) {
       iota[j] = iota_in[j+1];
       Boozer_G_all[j] = Boozer_G_in[j+1];

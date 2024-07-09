@@ -61,6 +61,7 @@ need to call this function directly.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
 :param phip: Phip on vmec's full grid. (Defaults to empty Vector)
+:param chi: chi on vmec's full grid. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
@@ -76,7 +77,8 @@ need to call this function directly.
 	 "bsubumns0"_a,
 	 "bsubvmnc0"_a,
 	 "bsubvmns0"_a,
-     "phips"_a=defaultInitPtr)
+     "phips"_a=defaultInitPtr,
+     "chi"_a=defaultInitPtr)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected
@@ -177,8 +179,12 @@ input radial surfaces.)")
 (1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
 evaluated on all the magnetic surfaces for which input data was provided.)")
 
-.def_readwrite("phip", &Booz_xform::phip, R"(
+    .def_readwrite("chi", &Booz_xform::chi, R"(
 (1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.)")
+
+    .def_readwrite("phip", &Booz_xform::phip, R"(
+(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
 evaluated on all the magnetic surfaces for which input data was provided.)")
 
     .def_readwrite("rmnc", &Booz_xform::rmnc, R"(
@@ -311,12 +317,12 @@ quantity is zero so the array will have size 0 x 0.)")
     .def_readonly("gmnc_b", &Booz_xform::gmnc_b, R"(
 (2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
-Jacobian of (psi, theta_B, zeta_B) coordinates.)")
+Jacobian of (s, theta_B, zeta_B) coordinates.)")
 
     .def_readonly("gmns_b", &Booz_xform::gmns_b, R"(
 (2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
 zeta_B) Fourier modes (with respect to Boozer coordinates) of the
-Jacobian of (psi, theta_B, zeta_B) coordinates. If the configuration is
+Jacobian of (s, theta_B, zeta_B) coordinates. If the configuration is
 stellarator-symmetric, this quantity is zero so this array will have
 size 0 x 0.)")
 
