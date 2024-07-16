@@ -401,6 +401,8 @@ namespace booz_xform {
     */
     Vector chi;
 
+    /** Pressure evaluated on the full vmec grid **/
+    Vector pres;
 
     //! Constructor
     /**
@@ -441,7 +443,8 @@ namespace booz_xform {
 			Matrix& bsubvmnc,
 			Matrix& bsubvmns,
       Vector& phips=defaultInitPtr,
-      Vector& chi=defaultInitPtr);
+      Vector& chi=defaultInitPtr,
+      Vector& pres=defaultInitPtr);
 
     //! Carry out the transformation calculation
     /**

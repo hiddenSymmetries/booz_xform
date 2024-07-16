@@ -72,7 +72,7 @@ class RegressionTest(unittest.TestCase):
                 vars = f.variables.keys()
                 # These variables will not match:
                 if flux:
-                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b']
+                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'beta_b']
                 else:
                     exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b']
                 for var in vars:

@@ -64,6 +64,7 @@ class WriteReadTest(unittest.TestCase):
                     if flux:
                         np.testing.assert_allclose(b1.phip,b2.phip, rtol=rtol, atol=atol)
                         np.testing.assert_allclose(b1.chi,b2.chi, rtol=rtol, atol=atol)
+                        np.testing.assert_allclose(b1.pres,b2.pres, rtol=rtol, atol=atol)
                     else:
                         np.testing.assert_equal(b2.phip,0)
                         assert len(b1.phip) == 0
