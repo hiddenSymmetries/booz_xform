@@ -22,65 +22,70 @@ class RegressionTest(unittest.TestCase):
             boozmn_new_filename = 'boozmn_new_' + configuration + '.nc'
             f = netcdf_file(os.path.join(TEST_DIR, boozmn_filename),
                                    'r', mmap=False)
-            b = Booz_xform()
-            b.read_wout(os.path.join(TEST_DIR, wout_filename))
-            # Transfer parameters from the reference file to the new
-            # calculation
-            b.mboz = f.variables['mboz_b'][()]
-            b.nboz = f.variables['nboz_b'][()]
-            b.compute_surfs = f.variables['jlist'][()] - 2
 
-            b.run()
+            for flux in [True,False]:
+                b = Booz_xform()
+                b.read_wout(os.path.join(TEST_DIR, wout_filename),flux=flux)
+                # Transfer parameters from the reference file to the new
+                # calculation
+                b.mboz = f.variables['mboz_b'][()]
+                b.nboz = f.variables['nboz_b'][()]
+                b.compute_surfs = f.variables['jlist'][()] - 2
 
-            # Compare 2D arrays
-            vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'numns_b', 'gmnc_b']
-            asym = bool(f.variables['lasym__logical__'][()])
-            if asym:
-                vars += ['bmns_b', 'rmns_b', 'zmnc_b', 'numnc_b', 'gmns_b']
+                b.run()
 
-            rtol = 1e-12
-            atol = 1e-12
-            for var in vars:
-                # gmnc_b is misspelled in the fortran version
-                var_ref = var
-                if var == 'gmnc_b':
-                    var_ref = 'gmn_b'
+                # Compare 2D arrays
+                vars = ['bmnc_b', 'rmnc_b', 'zmns_b', 'numns_b', 'gmnc_b']
+                asym = bool(f.variables['lasym__logical__'][()])
+                if asym:
+                    vars += ['bmns_b', 'rmns_b', 'zmnc_b', 'numnc_b', 'gmns_b']
 
-                # Handle the issue that we now use the variable nu,
-                # whereas the boozmn format uses the variable
-                # p = -nu.
-                sign = 1
-                if var[:2] == 'nu':
-                    sign = -1
-                    var_ref = 'p' + var[2:]
+                rtol = 1e-12
+                atol = 1e-12
+                for var in vars:
+                    # gmnc_b is misspelled in the fortran version
+                    var_ref = var
+                    if var == 'gmnc_b':
+                        var_ref = 'gmn_b'
 
-                # Reference values:
-                arr1 = f.variables[var_ref][()]
-                # Newly computed values:
-                arr2 = getattr(b, var).transpose()
+                    # Handle the issue that we now use the variable nu,
+                    # whereas the boozmn format uses the variable
+                    # p = -nu.
+                    sign = 1
+                    if var[:2] == 'nu':
+                        sign = -1
+                        var_ref = 'p' + var[2:]
 
-                print('abs diff in ' + var + ':', np.max(np.abs(arr1 - sign * arr2)))
-                np.testing.assert_allclose(arr1, sign * arr2,
-                                           rtol=rtol, atol=atol)
+                    # Reference values:
+                    arr1 = f.variables[var_ref][()]
+                    # Newly computed values:
+                    arr2 = getattr(b, var).transpose()
 
-            # Now compare some values written to the boozmn files.
-            b.write_boozmn(boozmn_new_filename)
-            f2 = netcdf_file(boozmn_new_filename)
+                    print('abs diff in ' + var + ':', np.max(np.abs(arr1 - sign * arr2)))
+                    np.testing.assert_allclose(arr1, sign * arr2,
+                                               rtol=rtol, atol=atol)
 
-            vars = f.variables.keys()
-            # These variables will not match:
-            exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b']
-            for var in vars:
-                if var in exclude:
-                    continue
-                # Reference values:
-                arr1 = f.variables[var][()]
-                # Newly computed values:
-                arr2 = f2.variables[var][()]
-                print('abs diff in ' + var + ':', np.max(np.abs(arr1 - arr2)))
-                np.testing.assert_allclose(arr1, arr2,
-                                           rtol=rtol, atol=atol)
-            
+                # Now compare some values written to the boozmn files.
+                b.write_boozmn(boozmn_new_filename)
+                f2 = netcdf_file(boozmn_new_filename)
+
+                vars = f.variables.keys()
+                # These variables will not match:
+                if flux:
+                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'beta_b']
+                else:
+                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b']
+                for var in vars:
+                    if var in exclude:
+                        continue
+                    # Reference values:
+                    arr1 = f.variables[var][()]
+                    # Newly computed values:
+                    arr2 = f2.variables[var][()]
+                    print('abs diff in ' + var + ':', np.max(np.abs(arr1 - arr2)))
+                    np.testing.assert_allclose(arr1, arr2,
+                                               rtol=rtol, atol=atol)
+                
             f.close()
 
 if __name__ == '__main__':
