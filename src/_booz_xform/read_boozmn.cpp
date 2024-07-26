@@ -47,7 +47,10 @@ void Booz_xform::read_boozmn(std::string filename) {
   nc.get("buco_b", Boozer_I_in);
   nc.get("phi_b", phi);
   nc.get("phip_b", phip);
-  nc.get("chi_b", chi);
+  try {
+      nc.get("chi_b", chi);
+  } catch (std::runtime_error error) {
+  }
   nc.get("pres_b", pres);
   for (j = 0; j < ns_in; j++) {
       iota[j] = iota_in[j+1];
