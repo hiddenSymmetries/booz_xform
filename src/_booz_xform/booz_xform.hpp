@@ -304,13 +304,13 @@ namespace booz_xform {
 
     /** (size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B)
 	Fourier modes (with respect to Boozer coordinates) of the
-	Jacobian of (s, theta_B, zeta_B) coordinates.
+	Jacobian of (psi, theta_B, zeta_B) coordinates.
     */
     Matrix gmnc_b;
 
     /** (size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B)
 	Fourier modes (with respect to Boozer coordinates) of the
-	Jacobian of (s, theta_B, zeta_B) coordinates. If the
+	Jacobian of (psi, theta_B, zeta_B) coordinates. If the
 	configuration is stellarator-symmetric, this quantity is zero
 	so this array will have size 0 x 0.
     */
