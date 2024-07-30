@@ -63,9 +63,13 @@ class WriteReadTest(unittest.TestCase):
                     np.testing.assert_allclose(b1.phi,b2.phi, rtol=rtol, atol=atol)
                     if flux:
                         np.testing.assert_allclose(b1.phip,b2.phip, rtol=rtol, atol=atol)
+                        np.testing.assert_allclose(b1.chi,b2.chi, rtol=rtol, atol=atol)
+                        np.testing.assert_allclose(b1.pres,b2.pres, rtol=rtol, atol=atol)
                     else:
                         np.testing.assert_equal(b2.phip,0)
                         assert len(b1.phip) == 0
+                        np.testing.assert_equal(b2.chi,0)
+                        assert len(b1.chi) == 0
                     os.remove(boozmn_filename)
 
 if __name__ == '__main__':

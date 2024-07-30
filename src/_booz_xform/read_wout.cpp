@@ -28,9 +28,15 @@ void Booz_xform::read_wout(std::string filename, bool flux) {
   nc.get("aspect", aspect);
 
   Vector phip0;
+  Vector chi0;
+  Vector pres0;
   if (flux) {
       phip0.resize(ns);
-      nc.get("chi", phip0);
+      chi0.resize(ns);
+      pres0.resize(ns);
+      nc.get("chi", chi0);
+      nc.get("phipf", phip0);
+      nc.get("pres",pres0);
   }
 
   phi.resize(ns);
@@ -100,7 +106,7 @@ void Booz_xform::read_wout(std::string filename, bool flux) {
   if (flux) {
       init_from_vmec(ns, iotas, rmnc0, rmns0, zmnc0, zmns0,
            lmnc0, lmns0, bmnc0, bmns0,
-           bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0, phip0);
+           bsubumnc0, bsubumns0, bsubvmnc0, bsubvmns0, phip0, chi0, pres0);
   } else {
       init_from_vmec(ns, iotas, rmnc0, rmns0, zmnc0, zmns0,
            lmnc0, lmns0, bmnc0, bmns0,

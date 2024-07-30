@@ -61,6 +61,8 @@ need to call this function directly.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
 :param phip: Phip on vmec's full grid. (Defaults to empty Vector)
+:param chi: chi on vmec's full grid. (Defaults to empty Vector)
+:param pres: pressure on vmec's full grid. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
@@ -76,7 +78,9 @@ need to call this function directly.
 	 "bsubumns0"_a,
 	 "bsubvmnc0"_a,
 	 "bsubvmns0"_a,
-     "phips"_a=defaultInitPtr)
+     "phips"_a=defaultInitPtr,
+     "chi"_a=defaultInitPtr,
+     "pres"_a=defaultInitPtr)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected
@@ -177,9 +181,16 @@ input radial surfaces.)")
 (1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
 evaluated on all the magnetic surfaces for which input data was provided.)")
 
-.def_readwrite("phip", &Booz_xform::phip, R"(
+    .def_readwrite("chi", &Booz_xform::chi, R"(
 (1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
 evaluated on all the magnetic surfaces for which input data was provided.)")
+
+    .def_readwrite("phip", &Booz_xform::phip, R"(
+(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.)")
+
+    .def_readwrite("pres", &Booz_xform::pres, R"(
+(1D float array of length ns_in, input) Pressure on full vmec grid.)")
 
     .def_readwrite("rmnc", &Booz_xform::rmnc, R"(
 (2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
