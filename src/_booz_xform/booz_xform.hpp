@@ -444,7 +444,8 @@ namespace booz_xform {
 			Matrix& bsubvmns,
       Vector& phips=defaultInitPtr,
       Vector& chi=defaultInitPtr,
-      Vector& pres=defaultInitPtr);
+      Vector& pres=defaultInitPtr,
+      Vector& phi=defaultInitPtr);
 
     //! Carry out the transformation calculation
     /**
