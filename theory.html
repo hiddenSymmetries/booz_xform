@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theory and numerical implementation &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Typical usage" href="usage.html" />
+    <link rel="prev" title="Getting started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Theory and numerical implementation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/theory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="theory-and-numerical-implementation">
+<h1>Theory and numerical implementation<a class="headerlink" href="#theory-and-numerical-implementation" title="Permalink to this heading"></a></h1>
+<section id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading"></a></h2>
+<p>The code is based on an unpublished 1995 note by Steve Hirshman,
+<a class="reference download internal" download="" href="_downloads/1ad7658297bf9919cd793e290663d9f1/Transformation_from_VMEC_to_Boozer_coordinates.pdf"><code class="xref download docutils literal notranslate"><span class="pre">&quot;Transformation</span> <span class="pre">from</span> <span class="pre">VMEC</span> <span class="pre">to</span> <span class="pre">Boozer</span> <span class="pre">coordinates&quot;.</span></code></a>
+(The method is not specific to VMEC, and can be applied to other equilibrium representations.)
+The calculation has two steps. In the first step, the difference is
+computed between the original toroidal and poloidal angles and the Boozer angles.
+In the second step, this information is used to transform other quantities such as
+<span class="math notranslate nohighlight">\(R\)</span>, <span class="math notranslate nohighlight">\(Z\)</span>, and <span class="math notranslate nohighlight">\(B\)</span> that are known as functions of the original
+angles to functions of the new angles.</p>
+<section id="determining-the-toroidal-angle-difference">
+<h3>1. Determining the toroidal angle difference<a class="headerlink" href="#determining-the-toroidal-angle-difference" title="Permalink to this heading"></a></h3>
+<p>We assume that at the start, each flux surface is parameterized by a poloidal angle <span class="math notranslate nohighlight">\(\theta_0\)</span>
+and a toroidal angle <span class="math notranslate nohighlight">\(\zeta_0\)</span>, which need not be straight-field-line angles. The toroidal
+angle need not be the standard toroidal angle (although it typically is). We assume that
+we know the quantity <span class="math notranslate nohighlight">\(\lambda\)</span> by which the poloidal angle can be shifted to obtain
+the straight-field-line angle <span class="math notranslate nohighlight">\(\theta^*=\theta_0 + \lambda\)</span> compatible with <span class="math notranslate nohighlight">\(\zeta_0\)</span>.
+Thus, the magnetic field <span class="math notranslate nohighlight">\(\vec{B}\)</span> can be written as</p>
+<div class="math notranslate nohighlight" id="equation-straight-field-line">
+<span class="eqno">(1)<a class="headerlink" href="#equation-straight-field-line" title="Permalink to this equation"></a></span>\[\vec{B} = \nabla\psi\times\nabla\theta^* + \iota(\psi) \nabla\zeta_0\times\nabla\psi\]</div>
+<p>where <span class="math notranslate nohighlight">\(2 \pi \psi\)</span> is the toroidal flux, and <span class="math notranslate nohighlight">\(\iota\)</span> is the rotational transform.
+The Boozer poloidal angle <span class="math notranslate nohighlight">\(\theta_B\)</span> and toroidal angle <span class="math notranslate nohighlight">\(\zeta_B\)</span> are also straight field line
+angles, so</p>
+<div class="math notranslate nohighlight" id="equation-straight-field-line-b">
+<span class="eqno">(2)<a class="headerlink" href="#equation-straight-field-line-b" title="Permalink to this equation"></a></span>\[\vec{B} = \nabla\psi\times\nabla\theta_B + \iota(\psi) \nabla\zeta_B\times\nabla\psi.\]</div>
+<p>Moreover, Boozer coordinates satisfy</p>
+<div class="math notranslate nohighlight" id="equation-boozer">
+<span class="eqno">(3)<a class="headerlink" href="#equation-boozer" title="Permalink to this equation"></a></span>\[\vec{B} = \beta(\psi,\theta_B,\zeta_B)\nabla\psi + I(\psi)\nabla\theta_B + G(\psi)\nabla\zeta_B.\]</div>
+<p>We define <span class="math notranslate nohighlight">\(\nu\)</span> to be the difference between the two toroidal angles:</p>
+<div class="math notranslate nohighlight" id="equation-angle-diff">
+<span class="eqno">(4)<a class="headerlink" href="#equation-angle-diff" title="Permalink to this equation"></a></span>\[\zeta_B = \zeta_0 + \nu.\]</div>
+<p>Plugging this expression into <a class="reference internal" href="#equation-straight-field-line-b">(2)</a> and equating the result with <a class="reference internal" href="#equation-straight-field-line">(1)</a>
+gives <span class="math notranslate nohighlight">\(\nabla\psi\times\nabla\left( \theta_B - \theta_0^* - \iota \nu \right) = 0\)</span>.
+Therefore <span class="math notranslate nohighlight">\(\theta_B - \theta_0^* - \iota \nu = y(\psi)\)</span> for some flux function <span class="math notranslate nohighlight">\(y(\psi)\)</span>.
+We are free to choose <span class="math notranslate nohighlight">\(y(\psi)=0\)</span>, which amounts to specifying the origin of <span class="math notranslate nohighlight">\(\theta_B\)</span> on each surface.
+Thus,</p>
+<div class="math notranslate nohighlight" id="equation-theta-diff">
+<span class="eqno">(5)<a class="headerlink" href="#equation-theta-diff" title="Permalink to this equation"></a></span>\[\theta_B = \theta_0 + \lambda + \iota \nu.\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Hirshman’s note “Transformation from VMEC to Boozer coordinates”, the angle difference
+is defined as <span class="math notranslate nohighlight">\(p = \zeta_B - \zeta_0\)</span>. However in the fortran <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> code,
+a minus sign appears on line 83 of <code class="docutils literal notranslate"><span class="pre">boozer.f</span></code> that reverses the sign, so the <code class="docutils literal notranslate"><span class="pre">p</span></code> quantity
+saved in <code class="docutils literal notranslate"><span class="pre">boozmn_*.nc</span></code> files is in fact <span class="math notranslate nohighlight">\(\zeta_0 - \zeta_B\)</span>. In the C++/python <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code>
+code, the sign convention <span class="math notranslate nohighlight">\(\nu = \zeta_B - \zeta_0\)</span> is used consistently throughout the
+code and output files.</p>
+</div>
+<p>Plugging <a class="reference internal" href="#equation-angle-diff">(4)</a>-<a class="reference internal" href="#equation-theta-diff">(5)</a> into the covariant Boozer representation <a class="reference internal" href="#equation-boozer">(3)</a> gives</p>
+<div class="math notranslate nohighlight" id="equation-b-intermediate">
+<span class="eqno">(6)<a class="headerlink" href="#equation-b-intermediate" title="Permalink to this equation"></a></span>\[\vec{B} = G \nabla \zeta_0 + (\nabla \theta_0 + \nabla \lambda) I
++ (G + \iota I) \nabla \nu
+  + \left(\beta + I \nu \frac{d \iota}{d\psi}\right) \nabla \psi.\]</div>
+<p>Note that the covariant components of <span class="math notranslate nohighlight">\(\vec{B}\)</span> in the original coordinates are</p>
+<div class="math notranslate nohighlight" id="equation-covar-components">
+<span class="eqno">(7)<a class="headerlink" href="#equation-covar-components" title="Permalink to this equation"></a></span>\[ \begin{align}\begin{aligned}\begin{split}B_{\theta_0} = \vec{B} \cdot \frac{\partial\vec{r}}{\partial\theta_0}
+= \vec{B}\cdot\frac{\nabla\zeta_0\times\nabla\psi}{\nabla\psi\cdot(\nabla\theta_0\times\nabla\zeta_0)}, \\\end{split}\\B_{\zeta_0} = \vec{B} \cdot \frac{\partial\vec{r}}{\partial\zeta_0}
+= \vec{B}\cdot\frac{\nabla\psi\times\nabla\theta_0}{\nabla\psi\cdot(\nabla\theta_0\times\nabla\zeta_0)},\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{r}\)</span> is the position vector, and the dual relations have been used to get the
+right expressions from the central ones. Plugging <a class="reference internal" href="#equation-b-intermediate">(6)</a> into these expressions gives</p>
+<div class="math notranslate nohighlight" id="equation-find-nu1">
+<span class="eqno">(8)<a class="headerlink" href="#equation-find-nu1" title="Permalink to this equation"></a></span>\[B_{\theta_0} = \left( 1 + \frac{\partial\lambda}{\partial\theta_0}\right) I
++ (G + \iota I) \frac{\partial\nu}{\partial\theta_0}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-find-nu2">
+<span class="eqno">(9)<a class="headerlink" href="#equation-find-nu2" title="Permalink to this equation"></a></span>\[B_{\zeta_0} = G + I \frac{\partial\lambda}{\partial\zeta_0}
++ (G + \iota I) \frac{\partial\nu}{\partial\zeta_0}.\]</div>
+<p>Equations <a class="reference internal" href="#equation-find-nu1">(8)</a> and <a class="reference internal" href="#equation-find-nu2">(9)</a> determine <span class="math notranslate nohighlight">\(\nu\)</span> up to a flux function (i.e. a constant on each surface).
+From <a class="reference internal" href="#equation-angle-diff">(4)</a>, it can be seen that this constant effectively determines the origin of the <span class="math notranslate nohighlight">\(\zeta_B\)</span> coordinate.
+We are free to fix this constant by requiring that the average of <span class="math notranslate nohighlight">\(\nu\)</span>
+over <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\zeta_0\)</span> be zero.
+We can write a double Fourier series for <span class="math notranslate nohighlight">\(\nu\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-nu-fourier">
+<span class="eqno">(10)<a class="headerlink" href="#equation-nu-fourier" title="Permalink to this equation"></a></span>\[\nu(\psi,\theta_0,\zeta_0) = \sum_{m,n} \left[
+\hat{\nu}_{m,n}^s(\psi) \sin(m \theta_0 - n \zeta_0)
++ \hat{\nu}_{m,n}^c(\psi) \cos(m \theta_0 - n \zeta_0) \right],\]</div>
+<p>with analogous series for <span class="math notranslate nohighlight">\(\lambda\)</span>, <span class="math notranslate nohighlight">\(B_{\theta_0}\)</span>, and <span class="math notranslate nohighlight">\(B_{\zeta_0}\)</span>.
+The <span class="math notranslate nohighlight">\(m=n=0\)</span> modes of <a class="reference internal" href="#equation-find-nu1">(8)</a>-<a class="reference internal" href="#equation-find-nu2">(9)</a> then give</p>
+<div class="math notranslate nohighlight" id="equation-gi">
+<span class="eqno">(11)<a class="headerlink" href="#equation-gi" title="Permalink to this equation"></a></span>\[I = \hat{B}_{\theta_0, 0, 0}^c, \;\;
+G = \hat{B}_{\zeta_0, 0, 0}^c,\]</div>
+<p>allowing the flux functions <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(G\)</span> to be computed from the input data.
+When at least one of <span class="math notranslate nohighlight">\(m\)</span> or <span class="math notranslate nohighlight">\(n\)</span> is nonzero, the <span class="math notranslate nohighlight">\(\cos(m \theta_0 - n \zeta_0)\)</span>
+modes of <a class="reference internal" href="#equation-find-nu1">(8)</a>-<a class="reference internal" href="#equation-find-nu2">(9)</a> are</p>
+<div class="math notranslate nohighlight" id="equation-nus1">
+<span class="eqno">(12)<a class="headerlink" href="#equation-nus1" title="Permalink to this equation"></a></span>\[\hat{\nu}_{m,n}^s = \frac{1}{G+\iota I} \left(
+\frac{\hat{B}_{\theta_0, m, n}^c}{m} - I \hat{\lambda}_{m,n}^s \right)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-nus2">
+<span class="eqno">(13)<a class="headerlink" href="#equation-nus2" title="Permalink to this equation"></a></span>\[\hat{\nu}_{m,n}^s = \frac{1}{G+\iota I} \left(
+\frac{-\hat{B}_{\zeta_0, m, n}^c}{n} - I \hat{\lambda}_{m,n}^s \right),\]</div>
+<p>and the <span class="math notranslate nohighlight">\(\sin(m \theta_0 - n \zeta_0)\)</span> modes of <a class="reference internal" href="#equation-find-nu1">(8)</a>-<a class="reference internal" href="#equation-find-nu2">(9)</a> are</p>
+<div class="math notranslate nohighlight" id="equation-nuc1">
+<span class="eqno">(14)<a class="headerlink" href="#equation-nuc1" title="Permalink to this equation"></a></span>\[\hat{\nu}_{m,n}^c = \frac{1}{G+\iota I} \left(
+\frac{-\hat{B}_{\theta_0, m, n}^s}{m} - I \hat{\lambda}_{m,n}^c \right)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-nuc2">
+<span class="eqno">(15)<a class="headerlink" href="#equation-nuc2" title="Permalink to this equation"></a></span>\[\hat{\nu}_{m,n}^c = \frac{1}{G+\iota I} \left(
+\frac{\hat{B}_{\zeta_0, m, n}^s}{n} - I \hat{\lambda}_{m,n}^c \right).\]</div>
+<p>Equations <a class="reference internal" href="#equation-nus1">(12)</a>-<a class="reference internal" href="#equation-nuc2">(15)</a> enable <span class="math notranslate nohighlight">\(\nu\)</span> to be calculated from the input data.
+To see that <a class="reference internal" href="#equation-nus1">(12)</a>-<a class="reference internal" href="#equation-nus2">(13)</a> are consistent with each other, the curl of
+<span class="math notranslate nohighlight">\(\vec{B} = B_\psi\nabla\psi + B_{\theta_0}\nabla\theta_0 + B_{\zeta_0}\nabla\zeta_0\)</span>
+can be plugged into the MHD equilibrium property <span class="math notranslate nohighlight">\(\vec{J}\cdot\nabla\psi=0\)</span>,
+yielding <span class="math notranslate nohighlight">\(\partial B_{\zeta_0}/\partial\theta_0 - \partial B_{\theta_0}/\partial\zeta_0=0\)</span>.
+In Fourier space, then,</p>
+<div class="math notranslate nohighlight" id="equation-radial-current">
+<span class="eqno">(16)<a class="headerlink" href="#equation-radial-current" title="Permalink to this equation"></a></span>\[m \hat{B}_{\zeta_0,m,n}^s = -n \hat{B}_{\zeta_0,m,n}^s, \;\;
+m \hat{B}_{\zeta_0,m,n}^c = -n \hat{B}_{\zeta_0,m,n}^c.\]</div>
+<p>The modes of <span class="math notranslate nohighlight">\(\nu\)</span> with <span class="math notranslate nohighlight">\(m \ne 0\)</span> can be computed from <a class="reference internal" href="#equation-nus1">(12)</a> and <a class="reference internal" href="#equation-nuc1">(14)</a>.
+The modes of <span class="math notranslate nohighlight">\(\nu\)</span> with <span class="math notranslate nohighlight">\(n \ne 0\)</span> can be computed from <a class="reference internal" href="#equation-nus2">(13)</a> and <a class="reference internal" href="#equation-nuc2">(15)</a>.
+For modes of <span class="math notranslate nohighlight">\(\nu\)</span> with both <span class="math notranslate nohighlight">\(n \ne 0\)</span> and <span class="math notranslate nohighlight">\(m \ne 0\)</span>, we can use either
+<a class="reference internal" href="#equation-nus1">(12)</a> or <a class="reference internal" href="#equation-nus2">(13)</a>, since the expressions are equivalent by <a class="reference internal" href="#equation-radial-current">(16)</a>;
+for the same reason we can use either <a class="reference internal" href="#equation-nuc1">(14)</a> or <a class="reference internal" href="#equation-nuc2">(15)</a>.
+The mode of <span class="math notranslate nohighlight">\(\nu\)</span> with <span class="math notranslate nohighlight">\(m=n=0\)</span> can be set to zero, for as described above, this
+choice amounts to specifying the origin of <span class="math notranslate nohighlight">\(\zeta_B\)</span>.</p>
+<p>The results <a class="reference internal" href="#equation-nus1">(12)</a>-<a class="reference internal" href="#equation-nuc2">(15)</a> can be summarized as</p>
+<div class="math notranslate nohighlight" id="equation-w">
+<span class="eqno">(17)<a class="headerlink" href="#equation-w" title="Permalink to this equation"></a></span>\[\nu = \frac{w - I \lambda}{G + \iota I}\]</div>
+<p>where <span class="math notranslate nohighlight">\(w\)</span> has a Fourier series analogous to <a class="reference internal" href="#equation-nu-fourier">(10)</a>,
+with <span class="math notranslate nohighlight">\(\hat{w}_{0,0}^c=0\)</span> (assuming <span class="math notranslate nohighlight">\(\lambda_{0,0}^c=0\)</span>) and</p>
+<div class="math notranslate nohighlight" id="equation-w-modes">
+<span class="eqno">(18)<a class="headerlink" href="#equation-w-modes" title="Permalink to this equation"></a></span>\[\begin{split}\hat{w}_{m,n}^s = \hat{B}_{\theta_0,m,n}^c / m = -\hat{B}_{\zeta_0,m,n}^c / n, \\
+\hat{w}_{m,n}^c = -\hat{B}_{\theta_0,m,n}^s / m = \hat{B}_{\zeta_0,m,n}^s / n.\end{split}\]</div>
+</section>
+<section id="transforming-other-quantities">
+<h3>2. Transforming other quantities<a class="headerlink" href="#transforming-other-quantities" title="Permalink to this heading"></a></h3>
+<p>Now that <span class="math notranslate nohighlight">\(\nu\)</span> is determined, the remaining task is to express
+other scalar quantities like <span class="math notranslate nohighlight">\(B\)</span> as functions of the new angles instead of the old angles.
+We let <span class="math notranslate nohighlight">\(\Omega\)</span> denote any scalar quantity that we wish to transform in this way,
+including the cylindrical coordinates <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Z\)</span>, and <span class="math notranslate nohighlight">\(\nu\)</span> itself. We write
+a double Fourier expansion, using a bar instead of hat to denote that the independent variables
+are now the Boozer angles:</p>
+<div class="math notranslate nohighlight" id="equation-fourier-boozer">
+<span class="eqno">(19)<a class="headerlink" href="#equation-fourier-boozer" title="Permalink to this equation"></a></span>\[\Omega(\psi,\theta_B,\zeta_B)
+= \sum_{m,n} \left[
+\bar{\Omega}_{m,n}^s(\psi) \sin(m \theta_B - n \zeta_B)
++ \bar{\Omega}_{m,n}^c(\psi) \cos(m \theta_B - n \zeta_B) \right].\]</div>
+<p>The amplitudes satisfy</p>
+<div class="math notranslate nohighlight" id="equation-fourier-boozer2">
+<span class="eqno">(20)<a class="headerlink" href="#equation-fourier-boozer2" title="Permalink to this equation"></a></span>\[\begin{split}\bar{\Omega}_{m,n}^s = \frac{1}{4\pi^2} \int_0^{2\pi}d\theta_B
+\int_0^{2\pi}d\zeta_B \; \Omega \sin(m \theta_B - n \zeta_B), \\
+\bar{\Omega}_{m,n}^c = \frac{1}{4\pi^2} \int_0^{2\pi}d\theta_B
+\int_0^{2\pi}d\zeta_B \; \Omega \cos(m \theta_B - n \zeta_B).\end{split}\]</div>
+<p>Changing the integration variables to the old angles,</p>
+<div class="math notranslate nohighlight" id="equation-change-variables">
+<span class="eqno">(21)<a class="headerlink" href="#equation-change-variables" title="Permalink to this equation"></a></span>\[\begin{split}\bar{\Omega}_{m,n}^s = \frac{1}{4\pi^2} \int_0^{2\pi}d\theta_0
+\int_0^{2\pi}d\zeta_0 \frac{\partial(\theta_B,\zeta_B)}{\partial(\theta_0,\zeta_0)}
+\Omega \sin( m[\theta_0 + \lambda + \iota \nu] - n[\zeta_0 + \nu]), \\
+\bar{\Omega}_{m,n}^c = \frac{1}{4\pi^2} \int_0^{2\pi}d\theta_0
+\int_0^{2\pi}d\zeta_0 \frac{\partial(\theta_B,\zeta_B)}{\partial(\theta_0,\zeta_0)}
+\Omega \cos( m[\theta_0 + \lambda + \iota \nu] - n[\zeta_0 + \nu]),\end{split}\]</div>
+<p>where <a class="reference internal" href="#equation-angle-diff">(4)</a>-<a class="reference internal" href="#equation-theta-diff">(5)</a> have been applied. The Jacobian appearing in
+<a class="reference internal" href="#equation-change-variables">(21)</a> is</p>
+<div class="math notranslate nohighlight" id="equation-jacobian">
+<span class="eqno">(22)<a class="headerlink" href="#equation-jacobian" title="Permalink to this equation"></a></span>\[\begin{split}\frac{\partial(\theta_B,\zeta_B)}{\partial(\theta_0,\zeta_0)}
+&amp;=\frac{\partial\theta_B}{\partial\theta_0} \frac{\partial\zeta_B}{\partial\zeta_0}
+-\frac{\partial\theta_B}{\partial\zeta_0} \frac{\partial\zeta_B}{\partial\theta_0} \\
+&amp;=\left(1 + \frac{\partial\lambda}{\partial\theta_0}\right)
+\left(1 + \frac{\partial\nu}{\partial\zeta_0}\right)
++\left(\iota - \frac{\partial\lambda}{\partial\zeta_0}\right)
+\frac{\partial\nu}{\partial\theta_0}.\end{split}\]</div>
+<p>It can be seen that <a class="reference internal" href="#equation-change-variables">(21)</a> and the last expression in <a class="reference internal" href="#equation-jacobian">(22)</a>
+express the new Fourier amplitudes we seek in terms of the old angles
+and known quantities on these angles.</p>
+</section>
+</section>
+<section id="implementation-details">
+<h2>Implementation details<a class="headerlink" href="#implementation-details" title="Permalink to this heading"></a></h2>
+<p>Consistent with the discussion following <a class="reference internal" href="#equation-radial-current">(16)</a>, the modes
+of <span class="math notranslate nohighlight">\(\nu\)</span> are computed via <span class="math notranslate nohighlight">\(w\)</span> as follows. If <span class="math notranslate nohighlight">\(m \ne 0\)</span>,
+<a class="reference internal" href="#equation-nus1">(12)</a> and <a class="reference internal" href="#equation-nuc1">(14)</a> are used, equivalent to the first equality
+on each line of <a class="reference internal" href="#equation-w-modes">(18)</a>.
+If <span class="math notranslate nohighlight">\(m = 0\)</span> but <span class="math notranslate nohighlight">\(n \ne 0\)</span>,
+<a class="reference internal" href="#equation-nus2">(13)</a> and <a class="reference internal" href="#equation-nuc2">(15)</a> are used, equivalent to the last expression
+on each line of <a class="reference internal" href="#equation-w-modes">(18)</a>. This logic appears in <code class="docutils literal notranslate"><span class="pre">surface_solve.cpp</span></code>.</p>
+<p>The integrals in <a class="reference internal" href="#equation-change-variables">(21)</a> are computed using a uniform tensor-product
+grid in <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\zeta_0\)</span>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Typical usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
