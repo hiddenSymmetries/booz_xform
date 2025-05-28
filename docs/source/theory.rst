@@ -82,10 +82,10 @@ Note that the covariant components of :math:`\vec{B}` in the original coordinate
    :label: covar_components
 
    B_{\theta_0} = \vec{B} \cdot \frac{\partial\vec{r}}{\partial\theta_0}
-   = \vec{B}\cdot\frac{\nabla\zeta_0\times\nabla\psi}{\nabla\psi\cdot\nabla\theta_0\cdot\nabla\zeta_0}, \\
+   = \vec{B}\cdot\frac{\nabla\zeta_0\times\nabla\psi}{\nabla\psi\cdot(\nabla\theta_0\times\nabla\zeta_0)}, \\
    
    B_{\zeta_0} = \vec{B} \cdot \frac{\partial\vec{r}}{\partial\zeta_0}
-   = \vec{B}\cdot\frac{\nabla\psi\times\nabla\theta_0}{\nabla\psi\cdot\nabla\theta_0\cdot\nabla\zeta_0},
+   = \vec{B}\cdot\frac{\nabla\psi\times\nabla\theta_0}{\nabla\psi\cdot(\nabla\theta_0\times\nabla\zeta_0)},
 
 where :math:`\vec{r}` is the position vector, and the dual relations have been used to get the
 right expressions from the central ones. Plugging :eq:`B_intermediate` into these expressions gives
@@ -102,7 +102,7 @@ and
    :label: find_nu2
 
    B_{\zeta_0} = G + I \frac{\partial\lambda}{\partial\zeta_0}
-   + (G + \iota I) \frac{\partial\nu}{\partial\zeta}.
+   + (G + \iota I) \frac{\partial\nu}{\partial\zeta_0}.
 
 Equations :eq:`find_nu1` and :eq:`find_nu2` determine :math:`\nu` up to a flux function (i.e. a constant on each surface).
 From :eq:`angle_diff`, it can be seen that this constant effectively determines the origin of the :math:`\zeta_B` coordinate.
