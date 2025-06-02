@@ -63,6 +63,7 @@ need to call this function directly.
 :param phip: Phip on vmec's full grid. (Defaults to empty Vector)
 :param chi: chi on vmec's full grid. (Defaults to empty Vector)
 :param pres: pressure on vmec's full grid. (Defaults to empty Vector)
+:param phi: phi on vmec's full grid. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
@@ -80,7 +81,8 @@ need to call this function directly.
 	 "bsubvmns0"_a,
      "phips"_a=defaultInitPtr,
      "chi"_a=defaultInitPtr,
-     "pres"_a=defaultInitPtr)
+     "pres"_a=defaultInitPtr,
+     "phi"_a=defaultInitPtr)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected

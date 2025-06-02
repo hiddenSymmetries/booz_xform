@@ -74,7 +74,7 @@ class RegressionTest(unittest.TestCase):
                 if flux:
                     exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'beta_b']
                 else:
-                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b']
+                    exclude = ['rmax_b', 'rmin_b', 'betaxis_b', 'version', 'pres_b', 'beta_b', 'phip_b', 'phi_b']
                 for var in vars:
                     if var in exclude:
                         continue
