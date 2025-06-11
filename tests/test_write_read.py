@@ -65,6 +65,7 @@ class WriteReadTest(unittest.TestCase):
                         np.testing.assert_allclose(b1.chi,b2.chi, rtol=rtol, atol=atol)
                         np.testing.assert_allclose(b1.pres,b2.pres, rtol=rtol, atol=atol)
                         np.testing.assert_allclose(b1.phi,b2.phi, rtol=rtol, atol=atol)
+                        np.testing.assert_allclose(b1.toroidal_flux, b2.toroidal_flux, rtol=rtol, atol=atol)
                     else:
                         np.testing.assert_equal(b2.phip,0)
                         assert len(b1.phip) == 0
@@ -74,6 +75,7 @@ class WriteReadTest(unittest.TestCase):
                         assert len(b1.pres) == 0
                         np.testing.assert_equal(b2.phi,0)
                         assert len(b1.phi) == 0
+                        np.testing.assert_equal(b1.toroidal_flux, b2.toroidal_flux)
                     os.remove(boozmn_filename)
 
 if __name__ == '__main__':

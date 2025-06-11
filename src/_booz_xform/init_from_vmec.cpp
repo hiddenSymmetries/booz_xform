@@ -115,6 +115,7 @@ void Booz_xform::init_from_vmec(int ns,
      chi.resize(0);
      pres.resize(0);
      phi.resize(0);
+     toroidal_flux = 0.0;
   }
   // By default, prepare to do the Boozer transformation at all
   // half-grid surfaces:
