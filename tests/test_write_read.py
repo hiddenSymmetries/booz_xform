@@ -75,7 +75,8 @@ class WriteReadTest(unittest.TestCase):
                         assert len(b1.pres) == 0
                         np.testing.assert_equal(b2.phi,0)
                         assert len(b1.phi) == 0
-                        np.testing.assert_equal(b1.toroidal_flux, b2.toroidal_flux)
+                        np.testing.assert_equal(b1.toroidal_flux,0)
+                        np.testing.assert_equal(b2.toroidal_flux,0)
                     os.remove(boozmn_filename)
 
 if __name__ == '__main__':
