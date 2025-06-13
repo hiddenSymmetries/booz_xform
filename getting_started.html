@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Theory and numerical implementation" href="theory.html" />
+    <link rel="prev" title="booz_xform documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> requires a C++ compiler and python3.  The python
+interface uses arrays from the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package, and building
+<code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> requires the <a class="reference external" href="https://pybind11.readthedocs.io/en/stable/">pybind11 package</a>.  These packages are
+installed automatically by the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> step described in the
+next section.</p>
+<p><code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> also requires the NetCDF library. The C++ or fortran
+interfaces to NetCDF are not required, only the standard C interface.</p>
+<p>OpenMP is an optional dependency. If found, OpenMP is used to
+parallelize the calculation over magnetic surfaces.  MPI is not used.</p>
+<p>There are some additional python packages that are optional dependencies.
+The <a class="reference internal" href="plotting.html"><span class="doc">Plotting</span></a> routines require the <a class="reference external" href="https://matplotlib.org/">matplotlib</a> package.  The python unit tests require
+<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> as well as <code class="docutils literal notranslate"><span class="pre">scipy</span></code>.  These packages are not needed for
+carrying out the coordinate transformation, so they are not
+automatically installed by <code class="docutils literal notranslate"><span class="pre">pip</span></code>, and you should install them
+separately if you want to use these features.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>Before attempting to install <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code>, make sure NetCDF
+is available on your system. On some HPC systems, this may require
+loading the relevant module.</p>
+<p>There are several ways you can install <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code>, depending on
+whether you are a user or developer.</p>
+<section id="installation-from-pypi">
+<h3>1. Installation from PyPI<a class="headerlink" href="#installation-from-pypi" title="Permalink to this heading"></a></h3>
+<p>If you do not plan to edit the source code, the recommended way to
+install <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> is to install the latest release from <a class="reference external" href="https://pypi.org/project/booz_xform/">PyPI</a> using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">v</span> <span class="n">booz_xform</span>
+</pre></div>
+</div>
+<p>This command will download and compile the code. At the start of the
+compilation step, the <code class="docutils literal notranslate"><span class="pre">cmake</span></code> build system will search for the
+NetCDF and MPI header files and libraries.  Any of the environment
+variables <code class="docutils literal notranslate"><span class="pre">NETCDF_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">NETCDF_HOME</span></code>, or <code class="docutils literal notranslate"><span class="pre">NETCDFDIR</span></code> can be set
+to guide <code class="docutils literal notranslate"><span class="pre">cmake</span></code> in this search, and it will also look in standard
+locations such as <code class="docutils literal notranslate"><span class="pre">/opt/local/include</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-v</span></code> flag above (for verbose output) is optional, but it is
+useful since it allows you to see which compiler, NetCDF, and MPI
+libraries were used. This information can be found in the lines
+similar to the following in the output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="o">--</span> <span class="n">The</span> <span class="n">CXX</span> <span class="n">compiler</span> <span class="n">identification</span> <span class="ow">is</span> <span class="n">AppleClang</span> <span class="mf">11.0.0.11000033</span>
+<span class="o">--</span> <span class="n">Detecting</span> <span class="n">CXX</span> <span class="n">compiler</span> <span class="n">ABI</span> <span class="n">info</span>
+<span class="o">--</span> <span class="n">Detecting</span> <span class="n">CXX</span> <span class="n">compiler</span> <span class="n">ABI</span> <span class="n">info</span> <span class="o">-</span> <span class="n">done</span>
+<span class="o">--</span> <span class="n">Check</span> <span class="k">for</span> <span class="n">working</span> <span class="n">CXX</span> <span class="n">compiler</span><span class="p">:</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="o">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Toolchains</span><span class="o">/</span><span class="n">XcodeDefault</span><span class="o">.</span><span class="n">xctoolchain</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">c</span><span class="o">++</span> <span class="o">-</span> <span class="n">skipped</span>
+<span class="o">--</span> <span class="n">Detecting</span> <span class="n">CXX</span> <span class="nb">compile</span> <span class="n">features</span>
+<span class="o">--</span> <span class="n">Detecting</span> <span class="n">CXX</span> <span class="nb">compile</span> <span class="n">features</span> <span class="o">-</span> <span class="n">done</span>
+<span class="n">CMAKE_MODULE_PATH</span><span class="o">=</span>
+<span class="n">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">=/</span><span class="n">private</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">_2</span><span class="o">/</span><span class="n">t14gsms50v1dmfz95bz32hk00000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">pip</span><span class="o">-</span><span class="n">req</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="mi">0</span><span class="n">fgxd2du</span>
+<span class="n">Hello</span> <span class="n">world</span> <span class="kn">from</span><span class="w"> </span><span class="nn">FindNetCDF</span>
+<span class="o">--</span> <span class="n">Found</span> <span class="n">NetCDF</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libnetcdf</span><span class="o">.</span><span class="n">dylib</span>
+<span class="n">NETCDF_INCLUDES</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">include</span>
+<span class="n">NETCDF_LIBRARIES</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libnetcdf</span><span class="o">.</span><span class="n">dylib</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>To change the compiler that is used to build the code, you can insert
+<code class="docutils literal notranslate"><span class="pre">CXX=</span></code> followed by the compiler name before <code class="docutils literal notranslate"><span class="pre">pip</span></code>. For example, to
+use the Intel compiler <code class="docutils literal notranslate"><span class="pre">icpc</span></code>, use</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CXX</span><span class="o">=</span><span class="n">icpc</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">v</span> <span class="n">booz_xform</span>
+</pre></div>
+</div>
+<p>If the installation is successful, <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> will be added to
+your python environment. You should now be able to import the module
+from python:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">booz_xform</span>
+</pre></div>
+</div>
+<p>On some systems, you may not have permission to install packages to
+the default location. In this case, add the <code class="docutils literal notranslate"><span class="pre">--user</span></code> flag to <code class="docutils literal notranslate"><span class="pre">pip</span></code>
+so the package can be installed for your user only:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">v</span> <span class="o">--</span><span class="n">user</span> <span class="n">booz_xform</span>
+</pre></div>
+</div>
+</section>
+<section id="installation-from-a-local-copy-of-the-repository">
+<h3>2. Installation from a local copy of the repository<a class="headerlink" href="#installation-from-a-local-copy-of-the-repository" title="Permalink to this heading"></a></h3>
+<p>If you prefer to see or edit the source code, you can first clone the
+repository using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">hiddenSymmetries</span><span class="o">/</span><span class="n">booz_xform</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Then install the package to your local python environment with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">booz_xform</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag is not mandatory but it can be helpful during
+development. This flag makes the installation editable, in that edits
+to the pure python source in <code class="docutils literal notranslate"><span class="pre">src/booz_xform</span></code> are immediately
+reflected in the package you import into python. Without this flag,
+you would need to re-install the package for changes to become active.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> line can be preceded by <code class="docutils literal notranslate"><span class="pre">CXX=</span></code> to select a
+specific compiler, as in the PyPI method above.</p>
+<p>Again, if you encounter a permissions error trying to install packages
+to the default location, add the <code class="docutils literal notranslate"><span class="pre">--user</span></code> flag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">e</span> <span class="o">--</span><span class="n">user</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="installation-without-pip-from-a-local-copy-of-the-repository">
+<h3>3. Installation without pip from a local copy of the repository<a class="headerlink" href="#installation-without-pip-from-a-local-copy-of-the-repository" title="Permalink to this heading"></a></h3>
+<p>This option is similar to option 2, and is well suited for code
+development. This option gives a somewhat faster installation than
+option 2, but you must first manually ensure all the dependencies in
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> are installed.</p>
+<p>From a cloned copy of the repository, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>This command can be preceded by <code class="docutils literal notranslate"><span class="pre">CXX=</span></code> to select a
+specific compiler, as in the other methods above.</p>
+</section>
+<section id="building-outside-of-the-python-package-system">
+<h3>4. Building outside of the python package system<a class="headerlink" href="#building-outside-of-the-python-package-system" title="Permalink to this heading"></a></h3>
+<p>If you are actively developing the code, you may wish to compile the
+C++ source without going through the python package system. In this
+case, you should have a local copy of the repository, obtained with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">hiddenSymmetries</span><span class="o">/</span><span class="n">booz_xform</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>You must also have the <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> python package installed, as well
+as <code class="docutils literal notranslate"><span class="pre">cmake</span></code>.  The code then can be built using the usual approach for
+a <code class="docutils literal notranslate"><span class="pre">cmake</span></code> project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">booz_xform</span><span class="o">/</span><span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">j</span>
+</pre></div>
+</div>
+<p>In this case, the python extension library <code class="docutils literal notranslate"><span class="pre">_booz_xform</span></code> (with a
+filename usually ending in <code class="docutils literal notranslate"><span class="pre">.so</span></code>), the standalone executable
+<code class="docutils literal notranslate"><span class="pre">xbooz_xform</span></code>, and the library <code class="docutils literal notranslate"><span class="pre">libbooz_xform.a</span></code> will all be
+created in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory. Note that in this approach, no
+python package is installed.  You can import only the <code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code>
+class with <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">_booz_xform</span></code>, which loads the compiled extension
+without importing the pure python functions.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="booz_xform documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="theory.html" class="btn btn-neutral float-right" title="Theory and numerical implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

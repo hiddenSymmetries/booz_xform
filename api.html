@@ -1,0 +1,1251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Developer notes" href="developer.html" />
+    <link rel="prev" title="Plotting" href="plotting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading"></a></h1>
+<section id="python">
+<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> module provides a class <code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code>, described
+in detail here.  The same python module also includes several
+functions for plotting, described on the <a class="reference internal" href="plotting.html"><span class="doc">Plotting</span></a> page.</p>
+<p>The class <code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code> provides a small number of functions to load
+input data, drive the calculation, and save output data.  In addition,
+all the input and output data are available as properties of the
+class. The properties are scalars, 1D numpy arrays, and 2D numpy
+arrays.</p>
+<p>Properties of the class are labeled below as being an input or
+output. The input quantities can be either read or written to in
+python, and should be set before calling
+<a class="reference internal" href="#booz_xform.Booz_xform.run" title="booz_xform.Booz_xform.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a>. (Many of these properties can be
+set by calling <a class="reference internal" href="#booz_xform.Booz_xform.read_wout" title="booz_xform.Booz_xform.read_wout"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_wout()</span></code></a>).  The
+output quantities are read-only, and they are populated when
+<a class="reference internal" href="#booz_xform.Booz_xform.run" title="booz_xform.Booz_xform.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a> is called.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Booz_xform</span></span><a class="headerlink" href="#booz_xform.Booz_xform" title="Permalink to this definition"></a></dt>
+<dd><p>A class holding the input and output information for a
+transformation to Boozer coordinates</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.init_from_vmec">
+<span class="sig-name descname"><span class="pre">init_from_vmec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#booz_xform.Booz_xform" title="booz_xform._booz_xform.Booz_xform"><span class="pre">booz_xform._booz_xform.Booz_xform</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iotas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bmnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bmns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bsubumnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bsubumns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bsubvmnc0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bsubvmns0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phips</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#booz_xform.Booz_xform.init_from_vmec" title="Permalink to this definition"></a></dt>
+<dd><p>Handle conversion of the radial grids used in vmec to to the radial
+grid used by booz_xform. This involves truncation of the leading 0 for
+quantities on vmec’s half grid, and interpolation for quantities on
+vmec’s full grid. This function is called by the higher level function
+<a class="reference internal" href="#booz_xform.Booz_xform.read_wout" title="booz_xform.Booz_xform.read_wout"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_wout()</span></code></a>, so usually users do not
+need to call this function directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ns</strong> – The number of radial vmec surfaces.</p></li>
+<li><p><strong>iotas</strong> – Iota on vmec’s half grid.</p></li>
+<li><p><strong>rmnc0</strong> – Vmec’s original rmnc array, on the full grid.</p></li>
+<li><p><strong>rmns0</strong> – Vmec’s original rmns array, on the full grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>zmnc0</strong> – Vmec’s original zmnc array, on the full grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>zmns0</strong> – Vmec’s original zmns array, on the full grid.</p></li>
+<li><p><strong>lmnc0</strong> – Vmec’s original lmnc array, on the half grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>lmns0</strong> – Vmec’s original lmns array, on the half grid.</p></li>
+<li><p><strong>bmnc0</strong> – Vmec’s original bmnc array, on the half grid.</p></li>
+<li><p><strong>bmns0</strong> – Vmec’s original bmns array, on the half grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>bsubumnc0</strong> – Vmec’s original bsubumnc array, on the half grid.</p></li>
+<li><p><strong>bsubumns0</strong> – Vmec’s original bsubumns array, on the half grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>bsubvmnc0</strong> – Vmec’s original bsubvmnc array, on the half grid.</p></li>
+<li><p><strong>bsubvmns0</strong> – Vmec’s original bsubvmns array, on the half grid.
+For stellarator-symmetric configurations this array is ignored and need not
+be specified.</p></li>
+<li><p><strong>phip</strong> – Phip on vmec’s full grid. (Defaults to empty Vector)</p></li>
+<li><p><strong>chi</strong> – chi on vmec’s full grid. (Defaults to empty Vector)</p></li>
+<li><p><strong>pres</strong> – pressure on vmec’s full grid. (Defaults to empty Vector)</p></li>
+<li><p><strong>phi</strong> – phi on vmec’s full grid. (Defaults to empty Vector)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.read_boozmn">
+<span class="sig-name descname"><span class="pre">read_boozmn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#booz_xform.Booz_xform" title="booz_xform._booz_xform.Booz_xform"><span class="pre">booz_xform._booz_xform.Booz_xform</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#booz_xform.Booz_xform.read_boozmn" title="Permalink to this definition"></a></dt>
+<dd><p>Read in the results of an earlier transformation from a classic
+<code class="docutils literal notranslate"><span class="pre">boozmn_*.nc</span></code> NetCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full name of the file to load.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.read_wout">
+<span class="sig-name descname"><span class="pre">read_wout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#booz_xform.Booz_xform" title="booz_xform._booz_xform.Booz_xform"><span class="pre">booz_xform._booz_xform.Booz_xform</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#booz_xform.Booz_xform.read_wout" title="Permalink to this definition"></a></dt>
+<dd><p>Read input information from a VMEC <code class="docutils literal notranslate"><span class="pre">wout*.nc</span></code> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The full name of the file to load.</p></li>
+<li><p><strong>flux</strong> – If true, the poloidal flux is read. (Defaults to false)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#booz_xform.Booz_xform" title="booz_xform._booz_xform.Booz_xform"><span class="pre">booz_xform._booz_xform.Booz_xform</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#booz_xform.Booz_xform.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the transformation to Boozer coordinates on all the selected
+flux surfaces. The input arrays should be initialized before this step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.write_boozmn">
+<span class="sig-name descname"><span class="pre">write_boozmn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#booz_xform.Booz_xform" title="booz_xform._booz_xform.Booz_xform"><span class="pre">booz_xform._booz_xform.Booz_xform</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#booz_xform.Booz_xform.write_boozmn" title="Permalink to this definition"></a></dt>
+<dd><p>Write the results of the transformation to a classic <code class="docutils literal notranslate"><span class="pre">boozmn_*.nc</span></code>
+NetCDF file. This function should only be called after
+<a class="reference internal" href="#booz_xform.Booz_xform.run" title="booz_xform.Booz_xform.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">booz_xform.Booz_xform.run()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full name of the file to save.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.Boozer_G">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Boozer_G</span></span><a class="headerlink" href="#booz_xform.Booz_xform.Boozer_G" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_b, output) Coefficient of grad zeta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on the magnetic surfaces used for output
+quantities.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.Boozer_G_all">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Boozer_G_all</span></span><a class="headerlink" href="#booz_xform.Booz_xform.Boozer_G_all" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, output) Coefficient of grad zeta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on all the magnetic surfaces for which
+input data was provided.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.Boozer_I">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Boozer_I</span></span><a class="headerlink" href="#booz_xform.Booz_xform.Boozer_I" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_b, output) Coefficient of grad theta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on the magnetic surfaces used for output
+quantities.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.Boozer_I_all">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Boozer_I_all</span></span><a class="headerlink" href="#booz_xform.Booz_xform.Boozer_I_all" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, output) Coefficient of grad theta_B
+in the covariant representation of the magnetic field vector B in
+Boozer coordinates, evaluated on all the magnetic surfaces for which
+input data was provided.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.aspect">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aspect</span></span><a class="headerlink" href="#booz_xform.Booz_xform.aspect" title="Permalink to this definition"></a></dt>
+<dd><p>(float, input) The aspect ratio of the configuration. This value is
+not used for anything by booz_xform, and does not need to be set. It
+is provided as a means to pass this value from the input equilibrium
+to booz_xform output files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.asym">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">asym</span></span><a class="headerlink" href="#booz_xform.Booz_xform.asym" title="Permalink to this definition"></a></dt>
+<dd><p>(bool, input) True if the configuration is not
+stellarator-symmetric, false if the configuration is
+stellarator-symmetric.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bmnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bmnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bmnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 - n *
+zeta_0) Fourier modes of the magnetic field strength B.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bmnc_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bmnc_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bmnc_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
+zeta_B) Fourier modes of the magnetic field strength in Boozer
+coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bmns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bmns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bmns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) sin(m * theta_0 - n
+* zeta_0) Fourier modes of the magnetic field strength B.  For
+stellarator-symmetric configurations, this array is not used and need
+not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bmns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bmns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bmns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
+zeta_B) Fourier modes of the magnetic field strength in Boozer
+coordinates. If the configuration is stellarator-symmetric, this
+quantity is zero so the array will have size 0 x 0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bsubumnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bsubumnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bsubumnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 -
+n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the
+position vector.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bsubumns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bsubumns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bsubumns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) sin(m * theta_0 -
+n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the
+position vector.  For stellarator-symmetric configurations, this array
+is not used and need not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bsubvmnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bsubvmnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bsubvmnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 -
+n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the
+position vector.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.bsubvmns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bsubvmns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.bsubvmns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) sin(m * theta_0 -
+n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the
+position vector.  For stellarator-symmetric configurations, this array
+is not used and need not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.chi">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chi</span></span><a class="headerlink" href="#booz_xform.Booz_xform.chi" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.compute_surfs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_surfs</span></span><a class="headerlink" href="#booz_xform.Booz_xform.compute_surfs" title="Permalink to this definition"></a></dt>
+<dd><p>(1D integer array, input) Indices of ns_in-sized radial arrays,
+specifying the flux surfaces for which the transformation to Boozer
+coordinates will be performed. All values should be &gt;= 0 and &lt; ns_in.
+The array compute_surfs is similar to the array jlist in the earlier
+fortran booz_xform program, with compute_surfs = jlist - 2.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.gmnc_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gmnc_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.gmnc_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+Jacobian of (psi, theta_B, zeta_B) coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.gmns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gmns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.gmns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+Jacobian of (psi, theta_B, zeta_B) coordinates. If the configuration is
+stellarator-symmetric, this quantity is zero so this array will have
+size 0 x 0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.iota">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iota</span></span><a class="headerlink" href="#booz_xform.Booz_xform.iota" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) Rotational transform on the
+input radial surfaces.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.lmnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lmnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.lmnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) cos(m * theta_0 - n
+* zeta_0) Fourier modes of lambda = theta^* - theta_0, the difference
+between the original poloidal angle theta_0 and the straight field
+line poloidal angle theta^*. For stellarator-symmetric configurations,
+this array is not used and need not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.lmns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lmns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.lmns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax_nyq x ns_in, input) sin(m * theta_0 - n
+* zeta_0) Fourier modes of lambda = theta^* - theta_0, the difference
+between the original poloidal angle theta_0 and the straight field
+line poloidal angle theta^*.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mboz">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mboz</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mboz" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum poloidal mode number for representing output
+quantities in Boozer coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mnboz">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mnboz</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mnboz" title="Permalink to this definition"></a></dt>
+<dd><p>(int, output) Total number of Fourier modes for output data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mnmax">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mnmax</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mnmax" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Number of Fourier modes for the input arrays rmnc,
+rmns, zmnc, zmns, lmnc, and lmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mnmax_nyq">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mnmax_nyq</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mnmax_nyq" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Total number of Fourier modes for the input arrays
+bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mpol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mpol</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mpol" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum poloidal mode number for the input arrays rmnc,
+rmns, zmnc, zmns, lmnc, and lmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.mpol_nyq">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mpol_nyq</span></span><a class="headerlink" href="#booz_xform.Booz_xform.mpol_nyq" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum poloidal mode number for the input arrays bmnc,
+bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.nboz">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nboz</span></span><a class="headerlink" href="#booz_xform.Booz_xform.nboz" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum toroidal mode number (divided by nfp) for
+representing output quantities in Boozer coordinates. For example, if
+nboz=2 and nfp=10, the toroidal modes used will be n=-20, -10, 0, 10,
+20.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.nfp">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nfp</span></span><a class="headerlink" href="#booz_xform.Booz_xform.nfp" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Number of field periods, i.e. the discrete toroidal
+rotation symmetry.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.ns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.ns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(int, output) Number of flux surfaces on which output data are
+available.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.ns_in">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ns_in</span></span><a class="headerlink" href="#booz_xform.Booz_xform.ns_in" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Number of flux surfaces on which the input data is
+supplied. The transformation to Boozer coordinates is not necessarily
+run on all of these surfaces, only the ones indicated by
+compute_surfs.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.ntor">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ntor</span></span><a class="headerlink" href="#booz_xform.Booz_xform.ntor" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum toroidal mode number (divided by nfp) for the
+input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.ntor_nyq">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ntor_nyq</span></span><a class="headerlink" href="#booz_xform.Booz_xform.ntor_nyq" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Maximum toroidal mode number (divided by nfp) for the
+input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.numnc_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">numnc_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.numnc_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+toroidal angle difference nu = zeta_B - zeta_0. If the configuration
+is stellarator-symmetric, this quantity is zero so this array will
+have size 0 x 0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.numns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">numns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.numns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+toroidal angle difference nu = zeta_B - zeta_0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.phi">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">phi</span></span><a class="headerlink" href="#booz_xform.Booz_xform.phi" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.phip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">phip</span></span><a class="headerlink" href="#booz_xform.Booz_xform.phip" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
+evaluated on all the magnetic surfaces for which input data was provided.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.pres">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pres</span></span><a class="headerlink" href="#booz_xform.Booz_xform.pres" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) Pressure on full vmec grid.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.rmnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rmnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.rmnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
+zeta_0) Fourier modes of the major radius R.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.rmnc_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rmnc_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.rmnc_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+major radius R of the flux surfaces.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.rmns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rmns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.rmns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax x ns_in, input) sin(m * theta_0 - n *
+zeta_0) Fourier modes of the major radius R of the flux surfaces. For
+stellarator-symmetric configurations, this array is not used and need
+not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.rmns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rmns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.rmns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+major radius R of the flux surfaces. If the configuration is
+stellarator-symmetric, this quantity is zero so this array will have
+size 0 x 0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.s_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.s_b" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_b, output) Values of normalized
+toroidal flux s defining the magnetic surfaces for the output data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.s_in">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s_in</span></span><a class="headerlink" href="#booz_xform.Booz_xform.s_in" title="Permalink to this definition"></a></dt>
+<dd><p>(1D float array of length ns_in, input) The values of normalized
+toroidal flux s for the input data. Here, s is the toroidal flux
+normalized to the value at the plasma boundary. This information is
+not needed for the coordinate transformation itself, but is useful for
+plotting output.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.toroidal_flux">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">toroidal_flux</span></span><a class="headerlink" href="#booz_xform.Booz_xform.toroidal_flux" title="Permalink to this definition"></a></dt>
+<dd><p>(float, input) The boundary toroidal flux of the configuration. This
+value is not used for anything by booz_xform, and does not need to be
+set. It is provided as a means to pass this value from the input
+equilibrium to booz_xform output files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.verbose">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#booz_xform.Booz_xform.verbose" title="Permalink to this definition"></a></dt>
+<dd><p>(int, input) Set this to 0 for no output to stdout, 1 for some
+output, 2 for lots of output</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xm">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xm</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xm" title="Permalink to this definition"></a></dt>
+<dd><p>(1D integer array of length mnmax, input) The poloidal Fourier mode
+numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xm_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xm_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xm_b" title="Permalink to this definition"></a></dt>
+<dd><p>(1D int array of length mnboz, output) Poloidal mode numbers for the
+output data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xm_nyq">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xm_nyq</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xm_nyq" title="Permalink to this definition"></a></dt>
+<dd><p>(1D integer array of length mnmax_nyq, input) The poloidal Fourier
+mode numbers for the input arrays bmnc, bmns, bsubumnc, bsubumns,
+bsubvmnc, and bsubvmns.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xn">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xn</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xn" title="Permalink to this definition"></a></dt>
+<dd><p>(1D integer array of length mnmax, input) The toroidal Fourier mode
+numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and
+lmns. The values should all be integer multiples of nfp.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xn_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xn_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xn_b" title="Permalink to this definition"></a></dt>
+<dd><p>(1D int array of length mnboz, output) Toroidal mode numbers for the
+output data. These values are all integer multiples of nfp.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.xn_nyq">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xn_nyq</span></span><a class="headerlink" href="#booz_xform.Booz_xform.xn_nyq" title="Permalink to this definition"></a></dt>
+<dd><p>(1D integer array of length mnmax_nyq, input) The toroidal Fourier
+mode numbers for the input arrays bmnc, bmns, bsubumnc, bsubumns,
+bsubvmnc, and bsubvmns. The values should all be integer multiples of
+nfp.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.zmnc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zmnc</span></span><a class="headerlink" href="#booz_xform.Booz_xform.zmnc" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
+zeta_0) Fourier modes of the Cartesian coordinate Z of the flux
+surfaces. For stellarator-symmetric configurations, this array is not
+used and need not be specified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.zmnc_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zmnc_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.zmnc_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) cos(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+Cartesian coordinate Z of the flux surfaces. If the configuration is
+stellarator-symmetric, this quantity is zero so array will have size 0
+x 0.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.zmns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zmns</span></span><a class="headerlink" href="#booz_xform.Booz_xform.zmns" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnmax x ns_in, input) sin(m * theta_0 - n *
+zeta_0) Fourier modes of the Cartesian coordinate Z of the flux
+surfaces.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="booz_xform.Booz_xform.zmns_b">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zmns_b</span></span><a class="headerlink" href="#booz_xform.Booz_xform.zmns_b" title="Permalink to this definition"></a></dt>
+<dd><p>(2D float array of size mnboz x ns_b, output) sin(m * theta_B - n *
+zeta_B) Fourier modes (with respect to Boozer coordinates) of the
+Cartesian coordinate Z of the flux surfaces.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While 1D and 2D array parameters can appear on the left-hand
+side of assignment operations, individual array elements or
+array slices cannot. So for instance, if <code class="docutils literal notranslate"><span class="pre">b</span></code> is an
+instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">booz_xform.Booz_Xform</span></code>, <code class="docutils literal notranslate"><span class="pre">b.rmnc</span> <span class="pre">=</span> <span class="pre">[[1,</span>
+<span class="pre">0.1],[1.1,</span> <span class="pre">0.1]]</span></code> will behave as expected, but
+<code class="docutils literal notranslate"><span class="pre">b.rmnc[0,0]</span> <span class="pre">=</span> <span class="pre">2.0</span></code> will not. This is due to the copying
+of data when interfacing python to C++.</p>
+</div>
+</section>
+<section id="c">
+<h2>C++<a class="headerlink" href="#c" title="Permalink to this heading"></a></h2>
+<p>All definitions for the <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> code reside in the namespace <code class="docutils literal notranslate"><span class="pre">booz_xform::</span></code>,
+which will be omitted for brevity here.</p>
+<p>1D and 2D arrays are handled using the <a class="reference external" href="http://eigen.tuxfamily.org/">Eigen</a> library.</p>
+<p>All floating point values have the type <code class="docutils literal notranslate"><span class="pre">boozfloat</span></code>, which is merely
+a <code class="docutils literal notranslate"><span class="pre">typedef</span></code> for <code class="docutils literal notranslate"><span class="pre">double</span></code>.  All 1D arrays of integers (such as
+<code class="docutils literal notranslate"><span class="pre">xm</span></code>) have the type <code class="docutils literal notranslate"><span class="pre">IntVector</span></code>, which is merely a <code class="docutils literal notranslate"><span class="pre">typedef</span></code> for
+<code class="docutils literal notranslate"><span class="pre">Eigen::ArrayXi</span></code>.  All 1D arrays of floating point values have the
+type <code class="docutils literal notranslate"><span class="pre">Vector</span></code>, which is merely a <code class="docutils literal notranslate"><span class="pre">typedef</span></code> for
+<code class="docutils literal notranslate"><span class="pre">Eigen::ArrayXd</span></code>. 2D arrays of floating point values have the type
+<code class="docutils literal notranslate"><span class="pre">Matrix</span></code>, which is a <code class="docutils literal notranslate"><span class="pre">typedef</span></code> for <code class="docutils literal notranslate"><span class="pre">Eigen::ArrayXXd</span></code>.  If
+desired, the entire code could be switched to single precision by
+changing these <code class="docutils literal notranslate"><span class="pre">typedef</span></code> statements, which are defined in
+<code class="docutils literal notranslate"><span class="pre">vector_matrix.hpp</span></code>.</p>
+<p>Public variables below are labeled below as being an input or
+output. The input quantities should be set before calling run(). (Many
+of these input quantities can be set by calling read_wout()).  The
+output quantities are populated when run() is called.</p>
+<p>The main functionality of the <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> code is contained in a single class,
+<code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code>:</p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xformE">
+<span id="_CPPv3N10booz_xform10Booz_xformE"></span><span id="_CPPv2N10booz_xform10Booz_xformE"></span><span id="booz_xform::Booz_xform"></span><span class="target" id="classbooz__xform_1_1_booz__xform"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Booz_xform</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xformE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform10Booz_xformEv">
+<span id="_CPPv3N10booz_xform10Booz_xform10Booz_xformEv"></span><span id="_CPPv2N10booz_xform10Booz_xform10Booz_xformEv"></span><span id="booz_xform::Booz_xform::Booz_xform"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a1e97eb7c3630b6fa4df8006823112c6e"></span><span class="sig-name descname"><span class="n"><span class="pre">Booz_xform</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform10Booz_xformEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Constructor. </p>
+<p>Create a <a class="reference internal" href="#classbooz__xform_1_1_booz__xform"><span class="std std-ref">Booz_xform</span></a> object with no data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform9read_woutENSt6stringEb">
+<span id="_CPPv3N10booz_xform10Booz_xform9read_woutENSt6stringEb"></span><span id="_CPPv2N10booz_xform10Booz_xform9read_woutENSt6stringEb"></span><span id="booz_xform::Booz_xform::read_wout__ss.b"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a36def26728d262de686429dd97c800c5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_wout</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">flux</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform9read_woutENSt6stringEb" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Read input data from a VMEC wout_*.nc file. </p>
+<p>This method also calls <a class="reference internal" href="#classbooz__xform_1_1_booz__xform_1a782c4e0062f1f29f135052206e5db06d"><span class="std std-ref">init_from_vmec()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – <strong>[in]</strong> The name of the VMEC wout file to load </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector">
+<span id="_CPPv3N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector"></span><span id="_CPPv2N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector"></span><span id="booz_xform::Booz_xform::init_from_vmec__i.VectorR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.MatrixR.VectorR.VectorR.VectorR.VectorR"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a782c4e0062f1f29f135052206e5db06d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_from_vmec</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ns</span></span>, <span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">iotas</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rmnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rmns</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">zmnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">zmns</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lmnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lmns</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bmnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bmns</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bsubumnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bsubumns</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bsubvmnc</span></span>, <span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bsubvmns</span></span>, <span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phips</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">defaultInitPtr</span></span>, <span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">chi</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">defaultInitPtr</span></span>, <span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pres</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">defaultInitPtr</span></span>, <span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phi</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">defaultInitPtr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Handle radial dimension of vmec arrays. </p>
+<p>This method also handles radial interpolation of the full-grid quantities rmnc, rmns, zmnc, and zmns onto the half-grid points. It also discards the first radial index for half-grid quantities, which is populated with zeros in vmec.</p>
+<p>The input parameters to this function are the variables of the same name in a VMEC wout file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform3runEv">
+<span id="_CPPv3N10booz_xform10Booz_xform3runEv"></span><span id="_CPPv2N10booz_xform10Booz_xform3runEv"></span><span id="booz_xform::Booz_xform::run"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aa35baad8cd5fec99ae3f9b8db51f44bb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform3runEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Carry out the transformation calculation. </p>
+<p>This method is the main computationally intensive step, and it should be called after the equilibrium data is loaded. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform12write_boozmnENSt6stringE">
+<span id="_CPPv3N10booz_xform10Booz_xform12write_boozmnENSt6stringE"></span><span id="_CPPv2N10booz_xform10Booz_xform12write_boozmnENSt6stringE"></span><span id="booz_xform::Booz_xform::write_boozmn__ss"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a3f822314e6f8379892a476a198a51857"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_boozmn</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform12write_boozmnENSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Write results to a boozmn_*.nc output file. </p>
+<p>This method writes a classic output file, and it should be called after <a class="reference internal" href="#classbooz__xform_1_1_booz__xform_1aa35baad8cd5fec99ae3f9b8db51f44bb"><span class="std std-ref">run()</span></a> has completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – <strong>[in]</strong> The full name of the boozmn_*.nc file to write. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform11read_boozmnENSt6stringE">
+<span id="_CPPv3N10booz_xform10Booz_xform11read_boozmnENSt6stringE"></span><span id="_CPPv2N10booz_xform10Booz_xform11read_boozmnENSt6stringE"></span><span id="booz_xform::Booz_xform::read_boozmn__ss"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a8004c774503c68ea6b0c330ce6786082"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_boozmn</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform11read_boozmnENSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Read previously calculated results from a boozmn_*.nc output file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – <strong>[in]</strong> The full name of the boozmn_*.nc file to read. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4initEv">
+<span id="_CPPv3N10booz_xform10Booz_xform4initEv"></span><span id="_CPPv2N10booz_xform10Booz_xform4initEv"></span><span id="booz_xform::Booz_xform::init"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aa962b84998a2a2c5584f96adbd840e72"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4initEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Initialize variables that are common to all surfaces that share the same (mpol, ntor) resolution.</p>
+<p>In the original fortran code, this work was done in read_wout_booz.f, setup_booz.f, boozer_coords.f, and foranl.f. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform13surface_solveEi">
+<span id="_CPPv3N10booz_xform10Booz_xform13surface_solveEi"></span><span id="_CPPv2N10booz_xform10Booz_xform13surface_solveEi"></span><span id="booz_xform::Booz_xform::surface_solve__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a8d771363b0ba3fc033e082673af74120"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">surface_solve</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">js_b</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform13surface_solveEi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Execute the transformation to Boozer coordinates for a single flux surface.</p>
+<p>This subroutine corresponds to boozer_coords.f in the fortran version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>js_b</strong> – <strong>[in]</strong> The index into compute_surfs indicating the surface on which the Boozer transformation will be calculated. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform7verboseE">
+<span id="_CPPv3N10booz_xform10Booz_xform7verboseE"></span><span id="_CPPv2N10booz_xform10Booz_xform7verboseE"></span><span id="booz_xform::Booz_xform::verbose__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af7a8fa1cc805c50d683ef3f0baa37b8a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">verbose</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform7verboseE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Set this to 0 for no output to stdout, 1 for some output, 2 for lots of output. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4asymE">
+<span id="_CPPv3N10booz_xform10Booz_xform4asymE"></span><span id="_CPPv2N10booz_xform10Booz_xform4asymE"></span><span id="booz_xform::Booz_xform::asym__b"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a769240cc7bc452a95f9acbbdd9a79574"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">asym</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4asymE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) false if the configuration is stellarator-symmetric, true otherwise. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform3nfpE">
+<span id="_CPPv3N10booz_xform10Booz_xform3nfpE"></span><span id="_CPPv2N10booz_xform10Booz_xform3nfpE"></span><span id="booz_xform::Booz_xform::nfp__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a7507f73a5066b3b35508d9945488c826"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nfp</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform3nfpE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Number of field periods, i.e. the discrete toroidal rotation symmetry. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4mpolE">
+<span id="_CPPv3N10booz_xform10Booz_xform4mpolE"></span><span id="_CPPv2N10booz_xform10Booz_xform4mpolE"></span><span id="booz_xform::Booz_xform::mpol__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ae86463e3b994fd71d080bc75c149c2da"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mpol</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4mpolE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum poloidal mode number for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4ntorE">
+<span id="_CPPv3N10booz_xform10Booz_xform4ntorE"></span><span id="_CPPv2N10booz_xform10Booz_xform4ntorE"></span><span id="booz_xform::Booz_xform::ntor__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af5106c7fc3624f077f8cdfd7a41be0a4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ntor</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4ntorE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum toroidal mode number (divided by nfp) for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform5mnmaxE">
+<span id="_CPPv3N10booz_xform10Booz_xform5mnmaxE"></span><span id="_CPPv2N10booz_xform10Booz_xform5mnmaxE"></span><span id="booz_xform::Booz_xform::mnmax__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aab42e39e15a5ed5f6fa2c0046aeb61c3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mnmax</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform5mnmaxE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) mnmax Number of Fourier modes for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8mpol_nyqE">
+<span id="_CPPv3N10booz_xform10Booz_xform8mpol_nyqE"></span><span id="_CPPv2N10booz_xform10Booz_xform8mpol_nyqE"></span><span id="booz_xform::Booz_xform::mpol_nyq__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a534d10fc5393a579b50f2bb56110bd67"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mpol_nyq</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8mpol_nyqE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum poloidal mode number for the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8ntor_nyqE">
+<span id="_CPPv3N10booz_xform10Booz_xform8ntor_nyqE"></span><span id="_CPPv2N10booz_xform10Booz_xform8ntor_nyqE"></span><span id="booz_xform::Booz_xform::ntor_nyq__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aa07ed38b83fb5c2fd115d13dd35117af"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ntor_nyq</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8ntor_nyqE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum toroidal mode number (divided by nfp) for the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform9mnmax_nyqE">
+<span id="_CPPv3N10booz_xform10Booz_xform9mnmax_nyqE"></span><span id="_CPPv2N10booz_xform10Booz_xform9mnmax_nyqE"></span><span id="booz_xform::Booz_xform::mnmax_nyq__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a5e54bc1a12107af599ffd689ed9d21f6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mnmax_nyq</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform9mnmax_nyqE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Total number of Fourier modes for the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform2xmE">
+<span id="_CPPv3N10booz_xform10Booz_xform2xmE"></span><span id="_CPPv2N10booz_xform10Booz_xform2xmE"></span><span id="booz_xform::Booz_xform::xm__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a44e61f684d02b3e473c509c5b8f3a49e"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xm</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform2xmE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax, input) The poloidal Fourier mode numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform2xnE">
+<span id="_CPPv3N10booz_xform10Booz_xform2xnE"></span><span id="_CPPv2N10booz_xform10Booz_xform2xnE"></span><span id="booz_xform::Booz_xform::xn__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a004e0b7ea9856048e078df6e98c838b3"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xn</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform2xnE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax, input) The toroidal Fourier mode numbers for the input arrays rmnc, rmns, zmnc, zmns, lmnc, and lmns. The values should all be integer multiples of nfp. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6xm_nyqE">
+<span id="_CPPv3N10booz_xform10Booz_xform6xm_nyqE"></span><span id="_CPPv2N10booz_xform10Booz_xform6xm_nyqE"></span><span id="booz_xform::Booz_xform::xm_nyq__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1afb023b3d0dfa39f3eb74b1a4180aaf3e"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xm_nyq</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6xm_nyqE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq, input) The poloidal Fourier mode numbers for the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6xn_nyqE">
+<span id="_CPPv3N10booz_xform10Booz_xform6xn_nyqE"></span><span id="_CPPv2N10booz_xform10Booz_xform6xn_nyqE"></span><span id="booz_xform::Booz_xform::xn_nyq__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a2643c058c936d1b191f0f3765f623049"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xn_nyq</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6xn_nyqE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq, input) The toroidal Fourier mode numbers for the input arrays bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, and bsubvmns. The values should all be integer multiples of nfp. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform5ns_inE">
+<span id="_CPPv3N10booz_xform10Booz_xform5ns_inE"></span><span id="_CPPv2N10booz_xform10Booz_xform5ns_inE"></span><span id="booz_xform::Booz_xform::ns_in__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ae98bcfabb87efe7496ae2b6e27653960"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ns_in</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform5ns_inE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) The number of flux surfaces on which input data is supplied. The transformation to Boozer coordinates is not necessarily run on all of these surfaces, only the ones indicated by compute_surfs. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4s_inE">
+<span id="_CPPv3N10booz_xform10Booz_xform4s_inE"></span><span id="_CPPv2N10booz_xform10Booz_xform4s_inE"></span><span id="booz_xform::Booz_xform::s_in__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a23139fa79bd9580ed13393a7c0c5d793"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">s_in</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4s_inE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in, input) Values of normalized toroidal flux for which the input data is stored. These numbers are used only for plotting. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4iotaE">
+<span id="_CPPv3N10booz_xform10Booz_xform4iotaE"></span><span id="_CPPv2N10booz_xform10Booz_xform4iotaE"></span><span id="booz_xform::Booz_xform::iota__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a7aff65d08607c4e6fa06ebb238362084"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iota</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4iotaE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in, input) Rotational transform on the input radial surfaces. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4rmncE">
+<span id="_CPPv3N10booz_xform10Booz_xform4rmncE"></span><span id="_CPPv2N10booz_xform10Booz_xform4rmncE"></span><span id="booz_xform::Booz_xform::rmnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a475df0683b41c1675d968fe35ac8579c"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rmnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4rmncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) cos(m * theta_0 - n * zeta_0) Fourier modes of the major radius R. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4rmnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform4rmnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform4rmnsE"></span><span id="booz_xform::Booz_xform::rmns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af76f7fd17ff9e4fe2a424a6ae9a237bd"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rmns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4rmnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0) Fourier modes of the major radius R. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4zmncE">
+<span id="_CPPv3N10booz_xform10Booz_xform4zmncE"></span><span id="_CPPv2N10booz_xform10Booz_xform4zmncE"></span><span id="booz_xform::Booz_xform::zmnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af5a53616dd233f69649a1dd0d27cff97"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4zmncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) cos(m * theta_0 - n * zeta_0) Fourier modes of the Cartesian coordinate Z of the flux surfaces. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4zmnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform4zmnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform4zmnsE"></span><span id="booz_xform::Booz_xform::zmns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a0ebc0569836794d31e7c735e7e1527e6"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4zmnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) sin(m * theta_0 - n * zeta_0) Fourier modes of the Cartesian coordinate Z of the flux surfaces. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4lmncE">
+<span id="_CPPv3N10booz_xform10Booz_xform4lmncE"></span><span id="_CPPv2N10booz_xform10Booz_xform4lmncE"></span><span id="booz_xform::Booz_xform::lmnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1adb00239db576020008e121182a259f18"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lmnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4lmncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) cos(m * theta_0 - n zeta_0) Fourier modes of lambda = theta^* - theta_0, the difference between the original poloidal angle theta_0 and the straight field line poloidal angle theta^*. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4lmnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform4lmnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform4lmnsE"></span><span id="booz_xform::Booz_xform::lmns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a95c917dfafea2cfefa490a9a44e9a612"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lmns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4lmnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax x ns_in, input) sin(m * theta_0 - n zeta_0) Fourier modes of lambda = theta^* - theta_0, the difference between the original poloidal angle theta_0 and the straight field line poloidal angle theta^*. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4bmncE">
+<span id="_CPPv3N10booz_xform10Booz_xform4bmncE"></span><span id="_CPPv2N10booz_xform10Booz_xform4bmncE"></span><span id="booz_xform::Booz_xform::bmnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a1e5537ee24386bc861f33194ec731376"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bmnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4bmncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0) Fourier modes of the magnetic field strength B. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4bmnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform4bmnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform4bmnsE"></span><span id="booz_xform::Booz_xform::bmns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aad0e78ae1a7fcd680bb1af7d53711de7"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bmns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4bmnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0) Fourier modes of the magnetic field strength B. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8bsubumncE">
+<span id="_CPPv3N10booz_xform10Booz_xform8bsubumncE"></span><span id="_CPPv2N10booz_xform10Booz_xform8bsubumncE"></span><span id="booz_xform::Booz_xform::bsubumnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ad1817b04870130c80ec165723a6b252d"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bsubumnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8bsubumncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the position vector. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8bsubumnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform8bsubumnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform8bsubumnsE"></span><span id="booz_xform::Booz_xform::bsubumns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aa5b2999565b23cfffd329a0ec3ce7e5e"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bsubumns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8bsubumnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0) Fourier modes of B dot (d r / d theta_0) where r is the position vector. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8bsubvmncE">
+<span id="_CPPv3N10booz_xform10Booz_xform8bsubvmncE"></span><span id="_CPPv2N10booz_xform10Booz_xform8bsubvmncE"></span><span id="booz_xform::Booz_xform::bsubvmnc__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a62a0aeb18be2641be04ec6748f2f0d78"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bsubvmnc</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8bsubvmncE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) cos(m * theta_0 - n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the position vector. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8bsubvmnsE">
+<span id="_CPPv3N10booz_xform10Booz_xform8bsubvmnsE"></span><span id="_CPPv2N10booz_xform10Booz_xform8bsubvmnsE"></span><span id="booz_xform::Booz_xform::bsubvmns__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ad0edb5805faee872cee38a6a2ef95a47"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bsubvmns</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8bsubvmnsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnmax_nyq x ns_in, input) sin(m * theta_0 - n * zeta_0) Fourier modes of B dot (d r / d zeta_0) where r is the position vector. For stellarator-symmetric configurations, this array is not used and need not be specified. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4mbozE">
+<span id="_CPPv3N10booz_xform10Booz_xform4mbozE"></span><span id="_CPPv2N10booz_xform10Booz_xform4mbozE"></span><span id="booz_xform::Booz_xform::mboz__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aa29add3a45960e1f517ecf9eff1d5456"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mboz</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4mbozE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum poloidal mode number for representing output quantities in Boozer coordinates. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4nbozE">
+<span id="_CPPv3N10booz_xform10Booz_xform4nbozE"></span><span id="_CPPv2N10booz_xform10Booz_xform4nbozE"></span><span id="booz_xform::Booz_xform::nboz__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a73d49c7bdf714e85c873fa339a9adbed"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nboz</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4nbozE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Maximum toroidal mode number (divided by nfp) for representing output quantities in Boozer coordinates. For example, if nboz=2 and nfp=10, the toroidal modes used will be n=-20, -10, 0, 10, 20. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform13compute_surfsE">
+<span id="_CPPv3N10booz_xform10Booz_xform13compute_surfsE"></span><span id="_CPPv2N10booz_xform10Booz_xform13compute_surfsE"></span><span id="booz_xform::Booz_xform::compute_surfs__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a9c46b56e91ee417edf395b5ed532311d"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_surfs</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform13compute_surfsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) Indices of ns_in-sized radial arrays, specifying the flux surfaces for which the transformation to Boozer coordinates will be performed. All values should be &gt;= 0 and &lt; ns_in. The array compute_surfs is similar to the array jlist in the earlier fortran booz_xform program, with compute_surfs = jlist - 2. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6aspectE">
+<span id="_CPPv3N10booz_xform10Booz_xform6aspectE"></span><span id="_CPPv2N10booz_xform10Booz_xform6aspectE"></span><span id="booz_xform::Booz_xform::aspect__boozfloat"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a53ef6a2a861424ac9d642f0acd123b66"></span><span class="n"><span class="pre">boozfloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aspect</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6aspectE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) The aspect ratio of the configuration. This value is not used for anything by booz_xform, and does not need to be set. It is provided as a means to pass this value from the input equilibrium to booz_xform output files. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform13toroidal_fluxE">
+<span id="_CPPv3N10booz_xform10Booz_xform13toroidal_fluxE"></span><span id="_CPPv2N10booz_xform10Booz_xform13toroidal_fluxE"></span><span id="booz_xform::Booz_xform::toroidal_flux__boozfloat"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ad5914a2af777a28a7e85087da2e06413"></span><span class="n"><span class="pre">boozfloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toroidal_flux</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform13toroidal_fluxE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(input) The boundary toroidal flux of the configuration (not divided by (2*pi)). This value is not used for anything by booz_xform, and does not need to be set. It is provided as a means to pass this value from the input equilibrium to booz_xform output files. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4ns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform4ns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform4ns_bE"></span><span id="booz_xform::Booz_xform::ns_b__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ab91ef12c152f9c0572c335fb98ce8732"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4ns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(output) Number of surfaces on which the transformation is calculated. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform3s_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform3s_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform3s_bE"></span><span id="booz_xform::Booz_xform::s_b__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a092faba6addb9454186d5a548daf260d"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">s_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform3s_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_b, output) Values of normalized toroidal flux for which the output data is stored. These numbers are used only for plotting. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform5mnbozE">
+<span id="_CPPv3N10booz_xform10Booz_xform5mnbozE"></span><span id="_CPPv2N10booz_xform10Booz_xform5mnbozE"></span><span id="booz_xform::Booz_xform::mnboz__i"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af5570b820bbff99b7fd929ed66859f7f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mnboz</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform5mnbozE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(output) Total number of Fourier modes for output data. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4xm_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform4xm_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform4xm_bE"></span><span id="booz_xform::Booz_xform::xm_b__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a7976f4bc57cd953928496d5f8387e002"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xm_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4xm_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz, output) Poloidal mode numbers used for the Fourier representation of output quantities, i.e. functions of the Boozer angles. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4xn_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform4xn_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform4xn_bE"></span><span id="booz_xform::Booz_xform::xn_b__IntVector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a3512e9bc636b19fe96c8efbd836bc129"></span><span class="n"><span class="pre">IntVector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xn_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4xn_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz, output) Toroidal mode numbers used for the Fourier representation of output quantities, i.e. functions of the Boozer angles. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6bmnc_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6bmnc_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6bmnc_bE"></span><span id="booz_xform::Booz_xform::bmnc_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a99f056d1304ad00eefe270dba58e05ff"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bmnc_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6bmnc_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B) Fourier modes of the magnetic field strength in Boozer coordinates. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6bmns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6bmns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6bmns_bE"></span><span id="booz_xform::Booz_xform::bmns_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a228154abc28f74e1904523287d7f04d0"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bmns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6bmns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B) Fourier modes of the magnetic field strength in Boozer coordinates. If the configuration is stellarator-symmetric, this quantity is zero so the array will have size 0 x 0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6gmnc_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6gmnc_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6gmnc_bE"></span><span id="booz_xform::Booz_xform::gmnc_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ac1a8c340ce2409685b352e99489c375c"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gmnc_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6gmnc_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the Jacobian of (psi, theta_B, zeta_B) coordinates. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6gmns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6gmns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6gmns_bE"></span><span id="booz_xform::Booz_xform::gmns_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a3546582fe2b64d33978bfbe3e9a62c0f"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gmns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6gmns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the Jacobian of (psi, theta_B, zeta_B) coordinates. If the configuration is stellarator-symmetric, this quantity is zero so this array will have size 0 x 0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6rmnc_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6rmnc_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6rmnc_bE"></span><span id="booz_xform::Booz_xform::rmnc_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ae16fde84ce5fa6aa87af5aa0bd23dd36"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rmnc_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6rmnc_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the major radius R of the flux surfaces. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6rmns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6rmns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6rmns_bE"></span><span id="booz_xform::Booz_xform::rmns_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a5191df7ca803a446eb63b53c55abd7c8"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rmns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6rmns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the major radius R of the flux surfaces. If the configuration is stellarator-symmetric, this quantity is zero so this array will have size 0 x 0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6zmnc_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6zmnc_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6zmnc_bE"></span><span id="booz_xform::Booz_xform::zmnc_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1afc997939538b0aaa5de73168a0ae2f35"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmnc_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6zmnc_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the Cartesian coordinate Z of the flux surfaces. If the configuration is stellarator-symmetric, this quantity is zero so array will have size 0 x 0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform6zmns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform6zmns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform6zmns_bE"></span><span id="booz_xform::Booz_xform::zmns_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aecce2465a309fd71a6474480db193fc5"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform6zmns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the Cartesian coordinate Z of the flux surfaces. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform7numnc_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform7numnc_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform7numnc_bE"></span><span id="booz_xform::Booz_xform::numnc_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a804aec714156ed64666f2781bf8a8fcc"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numnc_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform7numnc_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) cos(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the toroidal angle difference nu = zeta_B - zeta_0. If the configuration is stellarator-symmetric, this quantity is zero so this array will have size 0 x 0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform7numns_bE">
+<span id="_CPPv3N10booz_xform10Booz_xform7numns_bE"></span><span id="_CPPv2N10booz_xform10Booz_xform7numns_bE"></span><span id="booz_xform::Booz_xform::numns_b__Matrix"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a0375b6f69ac6144672a079f9394c6602"></span><span class="n"><span class="pre">Matrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numns_b</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform7numns_bE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size mnboz x ns_b, output) sin(m * theta_B - n * zeta_B) Fourier modes (with respect to Boozer coordinates) of the toroidal angle difference nu = zeta_B - zeta_0. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8Boozer_GE">
+<span id="_CPPv3N10booz_xform10Booz_xform8Boozer_GE"></span><span id="_CPPv2N10booz_xform10Booz_xform8Boozer_GE"></span><span id="booz_xform::Booz_xform::Boozer_G__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ab36501c6413f945f689984270a2baa54"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Boozer_G</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8Boozer_GE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_b, output) Coefficient of grad zeta_B in the covariant representation of the magnetic field vector B in Boozer coordinates, evaluated on the magnetic surfaces used for output quantities. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform12Boozer_G_allE">
+<span id="_CPPv3N10booz_xform10Booz_xform12Boozer_G_allE"></span><span id="_CPPv2N10booz_xform10Booz_xform12Boozer_G_allE"></span><span id="booz_xform::Booz_xform::Boozer_G_all__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a57998bbeaed9dd0639352678c63712c3"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Boozer_G_all</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform12Boozer_G_allE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in, output) Coefficient of grad zeta_B in the covariant representation of the magnetic field vector B in Boozer coordinates, evaluated on all the magnetic surfaces for which input data was provided. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform8Boozer_IE">
+<span id="_CPPv3N10booz_xform10Booz_xform8Boozer_IE"></span><span id="_CPPv2N10booz_xform10Booz_xform8Boozer_IE"></span><span id="booz_xform::Booz_xform::Boozer_I__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1ae79c814f01f01272cb05915d464c8746"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Boozer_I</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform8Boozer_IE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_b, output) Coefficient of grad theta_B in the covariant representation of the magnetic field vector B in Boozer coordinates, evaluated on the magnetic surfaces used for output quantities. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform12Boozer_I_allE">
+<span id="_CPPv3N10booz_xform10Booz_xform12Boozer_I_allE"></span><span id="_CPPv2N10booz_xform10Booz_xform12Boozer_I_allE"></span><span id="booz_xform::Booz_xform::Boozer_I_all__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1af1912f21f2ddea50d777d6541d0ab489"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Boozer_I_all</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform12Boozer_I_allE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in, output) Coefficient of grad theta_B in the covariant representation of the magnetic field vector B in Boozer coordinates, evaluated on all the magnetic surfaces for which input data was provided. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform3phiE">
+<span id="_CPPv3N10booz_xform10Booz_xform3phiE"></span><span id="_CPPv2N10booz_xform10Booz_xform3phiE"></span><span id="booz_xform::Booz_xform::phi__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a0cb269fb56e9775660a183d03c585ce7"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">phi</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform3phiE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary toroidal flux (not divided by (2*pi)), evaluated on full vmec grid. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4phipE">
+<span id="_CPPv3N10booz_xform10Booz_xform4phipE"></span><span id="_CPPv2N10booz_xform10Booz_xform4phipE"></span><span id="booz_xform::Booz_xform::phip__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a9dfe3074b5ae5a9215eeb19dfa5cea4d"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">phip</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4phipE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in + 1, output) The derivative of the toroidal flux (not divided by (2*pi)) with respect to s, evaluated on full vmec grid. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform3chiE">
+<span id="_CPPv3N10booz_xform10Booz_xform3chiE"></span><span id="_CPPv2N10booz_xform10Booz_xform3chiE"></span><span id="booz_xform::Booz_xform::chi__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1aacc7fdb813d608b9a00d3cda9cc33ec9"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">chi</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform3chiE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)), evaluated on full vmec grid. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10booz_xform10Booz_xform4presE">
+<span id="_CPPv3N10booz_xform10Booz_xform4presE"></span><span id="_CPPv2N10booz_xform10Booz_xform4presE"></span><span id="booz_xform::Booz_xform::pres__Vector"></span><span class="target" id="classbooz__xform_1_1_booz__xform_1a2581480438b6263b21c8e3aa6d5bcb18"></span><span class="n"><span class="pre">Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pres</span></span></span><a class="headerlink" href="#_CPPv4N10booz_xform10Booz_xform4presE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pressure evaluated on the full vmec grid </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plotting.html" class="btn btn-neutral float-left" title="Plotting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="developer.html" class="btn btn-neutral float-right" title="Developer notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

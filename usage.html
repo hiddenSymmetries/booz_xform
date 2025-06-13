@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typical usage &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plotting" href="plotting.html" />
+    <link rel="prev" title="Theory and numerical implementation" href="theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Typical usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="typical-usage">
+<h1>Typical usage<a class="headerlink" href="#typical-usage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>From the <a class="reference internal" href="theory.html"><span class="doc">Theory and numerical implementation</span></a> section, we see that the input quantities to
+the transformation are the following. To compute <span class="math notranslate nohighlight">\(\nu\)</span> (the
+difference between the old and new toroidal angle) we need
+<span class="math notranslate nohighlight">\(\iota\)</span>, <span class="math notranslate nohighlight">\(\lambda\)</span>, <span class="math notranslate nohighlight">\(B_{\theta_0}\)</span>, and
+<span class="math notranslate nohighlight">\(B_{\zeta_0}\)</span>. Also we need any scalars that we wish to
+transform from the old coordinates to the new ones, typically
+<span class="math notranslate nohighlight">\(R\)</span>, <span class="math notranslate nohighlight">\(Z\)</span>, and <span class="math notranslate nohighlight">\(B\)</span>.  All of these quantities must be
+supplied on each magnetic surface for which we want to execute the
+transformation.</p>
+<p>A common situation is that these input quantities are known on many
+magnetic surfaces, but we only wish to execute the transformation on a
+subset of the surfaces.  For this reason, there are two radial grids
+in <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code>. First, there is a grid for input quantities, with
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform5ns_inE" title="booz_xform::Booz_xform::ns_in"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">ns_in</span></code></a> surfaces, for which the
+normalized toroidal flux has values
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform4s_inE" title="booz_xform::Booz_xform::s_in"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">s_in</span></code></a>.  Second, there is a generally
+different grid for output quantities, with
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform4ns_bE" title="booz_xform::Booz_xform::ns_b"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">ns_b</span></code></a> surfaces.  The 0-based
+indices of the input radial grid on which the transformation will be
+executed is determined by
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform13compute_surfsE" title="booz_xform::Booz_xform::compute_surfs"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">compute_surfs</span></code></a>, a vector of
+integers.  If any radial interpolation of the input data needs to be
+done, it should be done before setting the input data on the
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform5ns_inE" title="booz_xform::Booz_xform::ns_in"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">ns_in</span></code></a> grid; no radial
+interpolation is performed during the transformation itself.  For
+input from a VMEC <code class="docutils literal notranslate"><span class="pre">wout</span></code> file, radial interpolation from full-grid
+quantities to the half-grid is automatically performed by the
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform9read_woutENSt6stringEb" title="booz_xform::Booz_xform::read_wout"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">read_wout()</span></code></a> or
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector" title="booz_xform::Booz_xform::init_from_vmec"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">init_from_vmec()</span></code></a> functions when
+they set the input arrays.</p>
+<p>For the input and output quantities that vary on a flux surface, the
+dependence on the poloidal and toroidal angles is represented using a
+double Fourier series.  There are three different Fourier resolutions
+used in the code.  The input data for <span class="math notranslate nohighlight">\(R\)</span>, <span class="math notranslate nohighlight">\(Z\)</span>, and
+<span class="math notranslate nohighlight">\(\lambda\)</span> use poloidal mode numbers
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform2xmE" title="booz_xform::Booz_xform::xm"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xm</span></code></a> and toroidal mode numbers
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform2xnE" title="booz_xform::Booz_xform::xn"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xn</span></code></a>, with a total of
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform5mnmaxE" title="booz_xform::Booz_xform::mnmax"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">mnmax</span></code></a> modes.  The input data for
+<span class="math notranslate nohighlight">\(B_{\theta_0}\)</span>, <span class="math notranslate nohighlight">\(B_{\zeta_0}\)</span>, and <span class="math notranslate nohighlight">\(B\)</span> use poloidal
+mode numbers <a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform6xm_nyqE" title="booz_xform::Booz_xform::xm_nyq"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xm_nyq</span></code></a> and toroidal
+mode numbers <a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform6xn_nyqE" title="booz_xform::Booz_xform::xn_nyq"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xn_nyq</span></code></a>, with a total
+of <a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform9mnmax_nyqE" title="booz_xform::Booz_xform::mnmax_nyq"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">mnmax_nyq</span></code></a> modes.  These two
+resolutions could be the same, but they are allowed to be different in
+case some quantities are known with different resolution than the others,
+as is the case in VMEC. Finally, output quantities (functions of the Boozer angles)
+are computed using
+poloidal mode numbers
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform4xm_bE" title="booz_xform::Booz_xform::xm_b"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xm_b</span></code></a> and toroidal mode numbers
+<a class="reference internal" href="api.html#_CPPv4N10booz_xform10Booz_xform4xn_bE" title="booz_xform::Booz_xform::xn_b"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">xn_b</span></code></a>, with a total of
+<code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">mnmax_b</span></code> modes.
+This third Fourier resolution is controlled by specifying the maximum poloidal mode number
+<code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">mpol_b</span></code> and the maximum toroidal mode number
+<code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">ntor_b</span></code>.</p>
+</section>
+<section id="python">
+<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading"></a></h2>
+<p>Here we show how to drive the Boozer coordinate transformation from
+python.  A similar demonstration can be found in <a class="reference external" href="https://github.com/hiddenSymmetries/booz_xform/blob/main/examples/booz_xform_demo.ipynb">Jupyter notebook
+form in the
+repository.</a></p>
+<p>We start by importing the package and creating a <code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">booz_xform</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bx</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">bx</span><span class="o">.</span><span class="n">Booz_xform</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If desired, we can set the input data directly from python, without a VMEC file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">rmnc</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Or, we can load in data from a VMEC <code class="docutils literal notranslate"><span class="pre">wout_*.nc</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">read_wout</span><span class="p">(</span><span class="s2">&quot;../tests/test_files/wout_li383_1.4m.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now have access to all the data that was loaded, in the form of numpy arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">rmnc</span>
+<span class="go">array([[ 1.47265784e+00,  1.47064413e+00,  1.46876563e+00, ...,</span>
+<span class="go">       1.38298775e+00,  1.38106309e+00,  1.37915239e+00],</span>
+<span class="go">     [ 9.66386163e-02,  9.39656679e-02,  9.12856961e-02, ...,</span>
+<span class="go">       8.39222860e-04, -1.15483564e-03, -3.14856274e-03],</span>
+<span class="go">     [ 5.94466624e-03,  5.33733834e-03,  4.72596296e-03, ...,</span>
+<span class="go">      -3.90319604e-03, -3.99352196e-03, -4.08841769e-03],</span>
+<span class="go">     ...,</span>
+<span class="go">     [ 3.82105109e-07,  1.56748891e-06,  4.30513328e-06, ...,</span>
+<span class="go">      -4.47161579e-07, -4.73285221e-07, -2.08934612e-07],</span>
+<span class="go">     [-3.72242588e-07, -2.86176654e-06, -6.26756380e-06, ...,</span>
+<span class="go">      -7.09993720e-06, -4.03495548e-06, -1.29908981e-06],</span>
+<span class="go">     [ 7.68276658e-08, -7.96425120e-08,  7.05128633e-08, ...,</span>
+<span class="go">      -9.91504287e-06, -6.37379506e-06, -2.21053463e-06]])</span>
+</pre></div>
+</div>
+<p>We can set the desired Fourier resolution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">mboz</span> <span class="o">=</span> <span class="mi">54</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">nboz</span> <span class="o">=</span> <span class="mi">32</span>
+</pre></div>
+</div>
+<p>The transformation to Boozer coordinates will be run on all flux
+surfaces by default:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">compute_surfs</span>
+<span class="go">array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,</span>
+<span class="go">     17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,</span>
+<span class="go">     34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],</span>
+<span class="go">    dtype=int32)</span>
+</pre></div>
+</div>
+<p>If desired, we can select only specific surfaces:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">compute_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">47</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now, run the calculation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="go">Initializing with mboz=54, nboz=9</span>
+<span class="go">nu = 218, nv = 38</span>
+<span class="go">             OUTBOARD (theta=0)        SURFACE         INBOARD (theta=pi)</span>
+<span class="go">------------------------------------------------------------------------------</span>
+<span class="go">zeta    |B|input  |B|Boozer    Error            |B|input  |B|Boozer    Error</span>
+
+<span class="go">  0    1.526e+00  1.526e+00  1.931e-08    0    1.571e+00  1.571e+00  1.100e-08</span>
+<span class="go"> pi    1.527e+00  1.527e+00  2.879e-08         1.567e+00  1.567e+00  2.006e-08</span>
+<span class="go">  0    1.510e+00  1.510e+00  1.681e-07    1    1.588e+00  1.588e+00  1.468e-09</span>
+<span class="go"> pi    1.511e+00  1.511e+00  3.346e-07         1.581e+00  1.581e+00  8.609e-10</span>
+<span class="go">  0    1.500e+00  1.500e+00  2.377e-07    2    1.599e+00  1.599e+00  2.861e-09</span>
+<span class="go"> pi    1.500e+00  1.500e+00  4.647e-07         1.591e+00  1.591e+00  4.037e-09</span>
+<span class="go">  0    1.424e+00  1.424e+00  2.494e-06   23    1.728e+00  1.728e+00  2.405e-07</span>
+<span class="go"> pi    1.387e+00  1.387e+00  5.532e-06         1.702e+00  1.702e+00  1.672e-07</span>
+<span class="go">  0    1.419e+00  1.419e+00  1.599e-05   47    1.843e+00  1.843e+00  7.609e-06</span>
+<span class="go"> pi    1.313e+00  1.313e+00  1.189e-05         1.824e+00  1.824e+00  2.558e-05</span>
+</pre></div>
+</div>
+<p>(The output can be suppressed by setting <code class="docutils literal notranslate"><span class="pre">b.verbose</span> <span class="pre">=</span> <span class="pre">False</span></code>
+beforehand.)  All of the output data are now available as numpy
+arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">bmnc_b</span>
+<span class="go">array([[ 1.54860454e+00,  1.54995067e+00,  1.55126119e+00,</span>
+<span class="go">       1.60164563e+00,  1.68603124e+00],</span>
+<span class="go">     [ 4.76751287e-04,  2.52763362e-04,  1.02340154e-04,</span>
+<span class="go">      -1.06088199e-03,  3.35055745e-03],</span>
+<span class="go">     [ 4.55391623e-04,  2.91930336e-04,  1.55133171e-04,</span>
+<span class="go">      -1.24795854e-03, -1.46200165e-03],</span>
+<span class="go">     ...,</span>
+<span class="go">     [-4.75912238e-16,  1.34267428e-16,  1.03266022e-16,</span>
+<span class="go">       1.96786082e-16,  2.22042269e-12],</span>
+<span class="go">     [-3.33107565e-16, -1.97079156e-16, -4.52095365e-17,</span>
+<span class="go">      -2.00845700e-16,  8.16904959e-13],</span>
+<span class="go">     [-7.15099095e-17, -1.25428639e-17,  1.70490792e-16,</span>
+<span class="go">       1.08711597e-16,  3.86347018e-13]])</span>
+</pre></div>
+</div>
+<p>The python module includes routines for plotting the results,
+as described in detail on the <a class="reference internal" href="plotting.html"><span class="doc">Plotting</span></a> page:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span><span class="o">.</span><span class="n">surfplot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">js</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/surfplot.png"><img alt="_images/surfplot.png" src="_images/surfplot.png" style="width: 400px;" /></a>
+<p>For plots vs. radius, the x axis can be either the normalized toroidal
+flux <span class="math notranslate nohighlight">\(s\)</span> or <span class="math notranslate nohighlight">\(\sqrt{s}\)</span>, and the y axis can be either
+linear or logarithmic. The <span class="math notranslate nohighlight">\(m=n=0\)</span> mode can be included or
+excluded.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span><span class="o">.</span><span class="n">symplot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sqrts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">B0</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/symplot1.png"><img alt="_images/symplot1.png" src="_images/symplot1.png" style="width: 400px;" /></a>
+<p>If desired, results can be saved to a <code class="docutils literal notranslate"><span class="pre">boozmn_*.nc</span></code> NetCDF file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">write_boozmn</span><span class="p">(</span><span class="s2">&quot;boozmn_li383_1.4m.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Results from this new <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> module are identical to the old
+fortran77 version to machine precision:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">netcdf_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load reference data generated by the F77 version</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">netcdf_file</span><span class="p">(</span><span class="s2">&quot;../tests/test_files/boozmn_li383_1.4m.nc&quot;</span><span class="p">,</span> <span class="n">mmap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bmnc_b_old</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;bmnc_b&quot;</span><span class="p">][()]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between fortran and C++/python:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">bmnc_b_old</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">bmnc_b</span><span class="p">)))</span>
+<span class="go">Difference between fortran and C++/python: 1.021405182655144e-14</span>
+</pre></div>
+</div>
+</section>
+<section id="c">
+<h2>C++<a class="headerlink" href="#c" title="Permalink to this heading"></a></h2>
+<p>For an example of driving the Boozer coordinate transformation
+directly from C++, without any involvement of python, you can see
+<a class="reference external" href="https://github.com/hiddenSymmetries/booz_xform/blob/main/src/_booz_xform/driver.cpp">driver.cpp in the repository</a>.</p>
+<p>The first step is to create a <code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code> object:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">booz_xform</span><span class="o">::</span><span class="n">Booz_xform</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>All the input data can be read in from a VMEC wout file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">.</span><span class="n">read_wout</span><span class="p">(</span><span class="s">&quot;wout_li383_1.4m.nc&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>However it is not necessary to use a VMEC file. Instead, the input
+data can be set directly. 1D and 2D arrays use the Eigen package, as
+discussed in more detail in the <a class="reference internal" href="api.html"><span class="doc">API Reference</span></a>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">.</span><span class="n">mnmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">ns_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">51</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">rmnc</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">mnmax</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">ns_in</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">rmnc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.013</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You may wish to set the resolution, and choose which surfaces on which
+to run the transformation.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">.</span><span class="n">mboz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">54</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">nboz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">compute_surfs</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">compute_surfs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">47</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The transformation is run using</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>You may wish to save the results to a NetCDF file, though this is not
+mandatory:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">.</span><span class="n">write_boozmn</span><span class="p">(</span><span class="s">&quot;boozmn_li383_1.4m.nc&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>All of the output data are also available directly from the member
+variables of the class instance:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B(0,0): &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">bmnc_b</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="theory.html" class="btn btn-neutral float-left" title="Theory and numerical implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plotting.html" class="btn btn-neutral float-right" title="Plotting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

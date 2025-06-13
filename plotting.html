@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plotting &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" />
+    <link rel="prev" title="Typical usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Plotting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plotting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plotting">
+<h1>Plotting<a class="headerlink" href="#plotting" title="Permalink to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> python module includes several routines for plotting.
+These functions take a <a class="reference internal" href="api.html#booz_xform.Booz_xform" title="booz_xform.Booz_xform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Booz_xform</span></code></a> instance as an argument.
+This object can be one which was used to drive the coordinate transformation.
+Or, this <a class="reference internal" href="api.html#booz_xform.Booz_xform" title="booz_xform.Booz_xform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Booz_xform</span></code></a> instance could be one in which results from an earlier
+transformation were loaded using the <a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn" title="booz_xform.Booz_xform.read_boozmn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read_boozmn()</span></code></a> function.</p>
+<p>The plotting routine require the python <a class="reference external" href="https://matplotlib.org/">matplotlib</a> package. This package must be installed
+manually since it is not required for the core functionality of
+<code class="docutils literal notranslate"><span class="pre">booz_xform</span></code> and so is not installed by <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<p>All plotting routines use matplotlib’s current axis. When using these
+routines in a script, you typically need to call <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code> at the
+end to actually display the figure.</p>
+<p>A <a class="reference external" href="https://github.com/hiddenSymmetries/booz_xform/blob/main/examples/plots_demo.ipynb">gallery of plots that can be generated</a>
+can be found in <code class="docutils literal notranslate"><span class="pre">plots_demo</span></code> notebook in the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory.
+The full API of the available plotting routines follow.</p>
+<span class="target" id="module-booz_xform"></span><dl class="py function">
+<dt class="sig sig-object py" id="booz_xform.modeplot">
+<span class="sig-name descname"><span class="pre">modeplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ymin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'loc':</span> <span class="pre">'best'}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#booz_xform.modeplot" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the radial variation of the Fourier modes of <span class="math notranslate nohighlight">\(|B|\)</span> in
+Boozer coordinates. The plot includes only the largest few modes,
+based on their magnitude at the outermost surface for which data
+are available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b</strong> (<a class="reference internal" href="api.html#booz_xform.Booz_xform" title="booz_xform.Booz_xform"><em>Booz_xform</em></a><em>, </em><em>str</em>) – The Booz_xform instance to plot,
+or a filename of a boozmn_*.nc file.</p></li>
+<li><p><strong>nmodes</strong> (<em>int</em>) – How many modes to include</p></li>
+<li><p><strong>ymin</strong> (<em>float</em>) – Lower limit for the y-axis. Only used if <code class="docutils literal notranslate"><span class="pre">log==True</span></code>.</p></li>
+<li><p><strong>sqrts</strong> (<em>bool</em>) – If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.</p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – Whether to use a logarithmic y axis.</p></li>
+<li><p><strong>B0</strong> (<em>bool</em>) – Whether to include the m=n=0 mode in the figure.</p></li>
+<li><p><strong>legend_args</strong> (<em>dict</em>) – Any arguments to pass to <code class="docutils literal notranslate"><span class="pre">plt.legend()</span></code>.
+Useful for setting the legend font size and location.</p></li>
+<li><p><strong>kwargs</strong> – Any additional key-value pairs to pass to matplotlib’s <code class="docutils literal notranslate"><span class="pre">plot</span></code> command.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function can generate figures like this:</p>
+<a class="reference internal image-reference" href="_images/modeplot1.png"><img alt="_images/modeplot1.png" src="_images/modeplot1.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/modeplot2.png"><img alt="_images/modeplot2.png" src="_images/modeplot2.png" style="width: 400px;" /></a>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="booz_xform.surfplot">
+<span class="sig-name descname"><span class="pre">surfplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">js</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntheta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncontours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#booz_xform.surfplot" title="Permalink to this definition"></a></dt>
+<dd><p>Plot <span class="math notranslate nohighlight">\(|B|\)</span> on a surface vs the Boozer poloidal and toroidal angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b</strong> (<a class="reference internal" href="api.html#booz_xform.Booz_xform" title="booz_xform.Booz_xform"><em>Booz_xform</em></a><em>, </em><em>str</em>) – The Booz_xform instance to plot,
+or a filename of a boozmn_*.nc file.</p></li>
+<li><p><strong>js</strong> (<em>int</em>) – The index among the output surfaces to plot.</p></li>
+<li><p><strong>fill</strong> (<em>bool</em>) – Whether the contours are filled, i.e.
+whether to use plt.contourf vs plt.contour.</p></li>
+<li><p><strong>ntheta</strong> (<em>int</em>) – Number of grid points in the poloidal angle.</p></li>
+<li><p><strong>nphi</strong> (<em>int</em>) – Number of grid points in the toroidal angle.</p></li>
+<li><p><strong>ncontours</strong> (<em>int</em>) – Number of contours to show.</p></li>
+<li><p><strong>kwargs</strong> – Any additional key-value pairs to pass to matplotlib’s
+<code class="docutils literal notranslate"><span class="pre">contourf</span></code> or <code class="docutils literal notranslate"><span class="pre">contour</span></code> command.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function can generate figures like this:</p>
+<a class="reference internal image-reference" href="_images/surfplot.png"><img alt="_images/surfplot.png" src="_images/surfplot.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/surfplot2.png"><img alt="_images/surfplot2.png" src="_images/surfplot2.png" style="width: 400px;" /></a>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="booz_xform.symplot">
+<span class="sig-name descname"><span class="pre">symplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ymin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">helical_detail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'loc':</span> <span class="pre">'best'}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#booz_xform.symplot" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the radial variation of all the Fourier modes of <span class="math notranslate nohighlight">\(|B|\)</span>
+in Boozer coordinates. Color is used to group modes with
+<span class="math notranslate nohighlight">\(m=0\)</span> and/or <span class="math notranslate nohighlight">\(n=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b</strong> (<a class="reference internal" href="api.html#booz_xform.Booz_xform" title="booz_xform.Booz_xform"><em>Booz_xform</em></a><em>, </em><em>str</em>) – The Booz_xform instance to plot,
+or a filename of a boozmn_*.nc file.</p></li>
+<li><p><strong>max_m</strong> (<em>int</em>) – Maximum poloidal mode number to include in the plot.</p></li>
+<li><p><strong>max_n</strong> (<em>int</em>) – Maximum toroidal mode number (divided by nfp) to include in the plot.</p></li>
+<li><p><strong>ymin</strong> (<em>float</em>) – Lower limit for the y-axis. Only used if <code class="docutils literal notranslate"><span class="pre">log==True</span></code>.</p></li>
+<li><p><strong>sqrts</strong> (<em>bool</em>) – If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.</p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – Whether to use a logarithmic y axis.</p></li>
+<li><p><strong>B0</strong> (<em>bool</em>) – Whether to include the m=n=0 mode in the figure.</p></li>
+<li><p><strong>helical_detail</strong> (<em>bool</em>) – Whether to show modes with <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">nfp</span> <span class="pre">*</span> <span class="pre">m</span></code> and
+<code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">-nfp</span> <span class="pre">*</span> <span class="pre">m</span></code> in a separate color.</p></li>
+<li><p><strong>legend_args</strong> (<em>dict</em>) – Any arguments to pass to <code class="docutils literal notranslate"><span class="pre">plt.legend()</span></code>.
+Useful for setting the legend font size and location.</p></li>
+<li><p><strong>kwargs</strong> – Any additional key-value pairs to pass to matplotlib’s <code class="docutils literal notranslate"><span class="pre">plot</span></code> command.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function can generate figures like this:</p>
+<a class="reference internal image-reference" href="_images/symplot1.png"><img alt="_images/symplot1.png" src="_images/symplot1.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/symplot2.png"><img alt="_images/symplot2.png" src="_images/symplot2.png" style="width: 400px;" /></a>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="Typical usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; booz_xform 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/equation_numbers.css?v=88a43d82" />
+      <link rel="stylesheet" type="text/css" href="_static/parameter_linebreak.css?v=7e24ad2e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ae2dc491"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            booz_xform
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-pypi">1. Installation from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-from-a-local-copy-of-the-repository">2. Installation from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#installation-without-pip-from-a-local-copy-of-the-repository">3. Installation without pip from a local copy of the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#building-outside-of-the-python-package-system">4. Building outside of the python package system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory and numerical implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#theory">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#determining-the-toroidal-angle-difference">1. Determining the toroidal angle difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#transforming-other-quantities">2. Transforming other quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#implementation-details">Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Typical usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.surfplot"><code class="docutils literal notranslate"><span class="pre">surfplot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#booz_xform.symplot"><code class="docutils literal notranslate"><span class="pre">symplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#booz_xform.Booz_xform"><code class="docutils literal notranslate"><span class="pre">Booz_xform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.init_from_vmec"><code class="docutils literal notranslate"><span class="pre">Booz_xform.init_from_vmec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.read_wout"><code class="docutils literal notranslate"><span class="pre">Booz_xform.read_wout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.run"><code class="docutils literal notranslate"><span class="pre">Booz_xform.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.write_boozmn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.write_boozmn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_G_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_G_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.Boozer_I_all"><code class="docutils literal notranslate"><span class="pre">Booz_xform.Boozer_I_all</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.aspect"><code class="docutils literal notranslate"><span class="pre">Booz_xform.aspect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.asym"><code class="docutils literal notranslate"><span class="pre">Booz_xform.asym</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubumns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubumns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.bsubvmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.bsubvmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.chi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.chi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.compute_surfs"><code class="docutils literal notranslate"><span class="pre">Booz_xform.compute_surfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.gmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.gmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.iota"><code class="docutils literal notranslate"><span class="pre">Booz_xform.iota</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.lmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.lmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mnmax_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mnmax_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.mpol_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.mpol_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nboz"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nboz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.nfp"><code class="docutils literal notranslate"><span class="pre">Booz_xform.nfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ns_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ns_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.ntor_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.ntor_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.numns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.numns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phi"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.phip"><code class="docutils literal notranslate"><span class="pre">Booz_xform.phip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.pres"><code class="docutils literal notranslate"><span class="pre">Booz_xform.pres</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.rmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.rmns_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.s_in"><code class="docutils literal notranslate"><span class="pre">Booz_xform.s_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.toroidal_flux"><code class="docutils literal notranslate"><span class="pre">Booz_xform.toroidal_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.verbose"><code class="docutils literal notranslate"><span class="pre">Booz_xform.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xm_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xm_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.xn_nyq"><code class="docutils literal notranslate"><span class="pre">Booz_xform.xn_nyq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmnc_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmnc_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#booz_xform.Booz_xform.zmns_b"><code class="docutils literal notranslate"><span class="pre">Booz_xform.zmns_b</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#c">C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Developer notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer.html#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#c-tests">C++ tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#python-tests">Python tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source code on GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">booz_xform</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.aspect">aspect (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.asym">asym (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.bmnc">bmnc (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bmnc_b">bmnc_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bmns">bmns (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bmns_b">bmns_b (Booz_xform property)</a>
+</li>
+      <li>
+    booz_xform
+
+      <ul>
+        <li><a href="plotting.html#module-booz_xform">module</a>
+</li>
+      </ul></li>
+      <li><a href="api.html#booz_xform.Booz_xform">Booz_xform (class in booz_xform)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xformE">booz_xform::Booz_xform (C++ class)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6aspectE">booz_xform::Booz_xform::aspect (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4asymE">booz_xform::Booz_xform::asym (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4bmncE">booz_xform::Booz_xform::bmnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6bmnc_bE">booz_xform::Booz_xform::bmnc_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4bmnsE">booz_xform::Booz_xform::bmns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6bmns_bE">booz_xform::Booz_xform::bmns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform10Booz_xformEv">booz_xform::Booz_xform::Booz_xform (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8Boozer_GE">booz_xform::Booz_xform::Boozer_G (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform12Boozer_G_allE">booz_xform::Booz_xform::Boozer_G_all (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8Boozer_IE">booz_xform::Booz_xform::Boozer_I (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform12Boozer_I_allE">booz_xform::Booz_xform::Boozer_I_all (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8bsubumncE">booz_xform::Booz_xform::bsubumnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8bsubumnsE">booz_xform::Booz_xform::bsubumns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8bsubvmncE">booz_xform::Booz_xform::bsubvmnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8bsubvmnsE">booz_xform::Booz_xform::bsubvmns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform3chiE">booz_xform::Booz_xform::chi (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform13compute_surfsE">booz_xform::Booz_xform::compute_surfs (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6gmnc_bE">booz_xform::Booz_xform::gmnc_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6gmns_bE">booz_xform::Booz_xform::gmns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4initEv">booz_xform::Booz_xform::init (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform14init_from_vmecEiR6VectorR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6MatrixR6VectorR6VectorR6VectorR6Vector">booz_xform::Booz_xform::init_from_vmec (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4iotaE">booz_xform::Booz_xform::iota (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4lmncE">booz_xform::Booz_xform::lmnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4lmnsE">booz_xform::Booz_xform::lmns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4mbozE">booz_xform::Booz_xform::mboz (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform5mnbozE">booz_xform::Booz_xform::mnboz (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform5mnmaxE">booz_xform::Booz_xform::mnmax (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform9mnmax_nyqE">booz_xform::Booz_xform::mnmax_nyq (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4mpolE">booz_xform::Booz_xform::mpol (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8mpol_nyqE">booz_xform::Booz_xform::mpol_nyq (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4nbozE">booz_xform::Booz_xform::nboz (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform3nfpE">booz_xform::Booz_xform::nfp (C++ member)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4ns_bE">booz_xform::Booz_xform::ns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform5ns_inE">booz_xform::Booz_xform::ns_in (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4ntorE">booz_xform::Booz_xform::ntor (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform8ntor_nyqE">booz_xform::Booz_xform::ntor_nyq (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform7numnc_bE">booz_xform::Booz_xform::numnc_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform7numns_bE">booz_xform::Booz_xform::numns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform3phiE">booz_xform::Booz_xform::phi (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4phipE">booz_xform::Booz_xform::phip (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4presE">booz_xform::Booz_xform::pres (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform11read_boozmnENSt6stringE">booz_xform::Booz_xform::read_boozmn (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform9read_woutENSt6stringEb">booz_xform::Booz_xform::read_wout (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4rmncE">booz_xform::Booz_xform::rmnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6rmnc_bE">booz_xform::Booz_xform::rmnc_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4rmnsE">booz_xform::Booz_xform::rmns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6rmns_bE">booz_xform::Booz_xform::rmns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform3runEv">booz_xform::Booz_xform::run (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform3s_bE">booz_xform::Booz_xform::s_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4s_inE">booz_xform::Booz_xform::s_in (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform13surface_solveEi">booz_xform::Booz_xform::surface_solve (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform13toroidal_fluxE">booz_xform::Booz_xform::toroidal_flux (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform7verboseE">booz_xform::Booz_xform::verbose (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform12write_boozmnENSt6stringE">booz_xform::Booz_xform::write_boozmn (C++ function)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform2xmE">booz_xform::Booz_xform::xm (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4xm_bE">booz_xform::Booz_xform::xm_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6xm_nyqE">booz_xform::Booz_xform::xm_nyq (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform2xnE">booz_xform::Booz_xform::xn (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4xn_bE">booz_xform::Booz_xform::xn_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6xn_nyqE">booz_xform::Booz_xform::xn_nyq (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4zmncE">booz_xform::Booz_xform::zmnc (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6zmnc_bE">booz_xform::Booz_xform::zmnc_b (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform4zmnsE">booz_xform::Booz_xform::zmns (C++ member)</a>
+</li>
+      <li><a href="api.html#_CPPv4N10booz_xform10Booz_xform6zmns_bE">booz_xform::Booz_xform::zmns_b (C++ member)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.Boozer_G">Boozer_G (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.Boozer_G_all">Boozer_G_all (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.Boozer_I">Boozer_I (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.Boozer_I_all">Boozer_I_all (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bsubumnc">bsubumnc (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bsubumns">bsubumns (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bsubvmnc">bsubvmnc (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.bsubvmns">bsubvmns (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.chi">chi (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.compute_surfs">compute_surfs (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.gmnc_b">gmnc_b (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.gmns_b">gmns_b (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.init_from_vmec">init_from_vmec() (Booz_xform method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.iota">iota (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.lmnc">lmnc (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.lmns">lmns (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.mboz">mboz (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.mnboz">mnboz (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.mnmax">mnmax (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.mnmax_nyq">mnmax_nyq (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="plotting.html#booz_xform.modeplot">modeplot() (in module booz_xform)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="plotting.html#module-booz_xform">booz_xform</a>
+</li>
+      </ul></li>
+      <li><a href="api.html#booz_xform.Booz_xform.mpol">mpol (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.mpol_nyq">mpol_nyq (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.nboz">nboz (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.nfp">nfp (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.ns_b">ns_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.ns_in">ns_in (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.ntor">ntor (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.ntor_nyq">ntor_nyq (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.numnc_b">numnc_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.numns_b">numns_b (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.phi">phi (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.phip">phip (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.pres">pres (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.read_boozmn">read_boozmn() (Booz_xform method)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.read_wout">read_wout() (Booz_xform method)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.rmnc">rmnc (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.rmnc_b">rmnc_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.rmns">rmns (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.rmns_b">rmns_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.run">run() (Booz_xform method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.s_b">s_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.s_in">s_in (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="plotting.html#booz_xform.surfplot">surfplot() (in module booz_xform)</a>
+</li>
+      <li><a href="plotting.html#booz_xform.symplot">symplot() (in module booz_xform)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.toroidal_flux">toroidal_flux (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.verbose">verbose (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.write_boozmn">write_boozmn() (Booz_xform method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.xm">xm (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.xm_b">xm_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.xm_nyq">xm_nyq (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.xn">xn (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.xn_b">xn_b (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.xn_nyq">xn_nyq (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.zmnc">zmnc (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.zmnc_b">zmnc_b (Booz_xform property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#booz_xform.Booz_xform.zmns">zmns (Booz_xform property)</a>
+</li>
+      <li><a href="api.html#booz_xform.Booz_xform.zmns_b">zmns_b (Booz_xform property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Matt Landreman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
