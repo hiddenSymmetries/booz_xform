@@ -58,6 +58,8 @@ void Booz_xform::read_boozmn(std::string filename) {
       Boozer_I_all[j] = Boozer_I_in[j+1];
   }
 
+  toroidal_flux = phi[ns_in];
+  
   ns_b = nc.getdim("comput_surfs");
   if (verbose > 0) std::cout << "Read mboz=" << mboz << ", nboz=" << nboz <<
 		     ", mnboz=" << mnboz << ", ns_b=" << ns_b << std::endl;
