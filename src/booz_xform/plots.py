@@ -94,6 +94,7 @@ def symplot(b,
             sqrts = False,
             log = True,
             B0 = True,
+            remove_helicity = None,
             helical_detail = False,
             legend_args = {"loc":"best"},
             **kwargs):
@@ -111,6 +112,8 @@ def symplot(b,
       sqrts (bool): If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.
       log (bool): Whether to use a logarithmic y axis.
       B0 (bool): Whether to include the m=n=0 mode in the figure.
+      remove_helicity ((int,int)): If passed `(m,n)`, remove modes with helicity
+         `(m,n)`.
       helical_detail (bool): Whether to show modes with ``n = nfp * m`` and
          ``n = -nfp * m`` in a separate color.
       legend_args (dict): Any arguments to pass to ``plt.legend()``.
@@ -135,11 +138,22 @@ def symplot(b,
     helical_plus_color = 'gray'
     helical_minus_color = 'c'
 
+    if remove_helicity is not None:
+        # Filter out modes with helicity (h_m,h_n)
+        h_m, h_n = remove_helicity
+
+        # Make copy so we do not modify b.bmnc_b
+        data = b.bmnc_b.copy()
+
+        data[h_n * b.xm_b == h_m * b.xn_b] = 0.0
+    else:
+        data = b.bmnc_b
+
     # If ymin is not specified, pick a default value such that the
     # plot mostly shows the largest modes, not all the modes down to
     # machine precision.
     if ymin is None:
-        ymin = np.max(b.bmnc_b) * 1e-4
+        ymin = np.max(data) * 1e-4
     
     mnmax = len(b.xm_b)
 
@@ -162,41 +176,41 @@ def symplot(b,
     if B0:
         for imode in range(mnmax):
             if b.xn_b[imode] == 0 and b.xm_b[imode] == 0:
-                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=background_color,
+                plt.plot(rad, my_abs(data[imode, :]), color=background_color,
                              label='m = 0, n = 0 (Background)', **kwargs)
                 break
     for imode in range(mnmax):
         if b.xn_b[imode] == 0 and b.xm_b[imode] != 0:
-            plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=QA_color,
+            plt.plot(rad, my_abs(data[imode, :]), color=QA_color,
                          label=r'm $\ne$ 0, n = 0 (Quasiaxisymmetric)', **kwargs)
             break
     for imode in range(mnmax):
         if b.xn_b[imode] != 0 and b.xm_b[imode] == 0:
-            plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=mirror_color,
+            plt.plot(rad, my_abs(data[imode, :]), color=mirror_color,
                          label=r'm = 0, n $\ne$ 0 (Mirror)', **kwargs)
             break
 
     if helical_detail:
         for imode in range(mnmax):
             if b.xn_b[imode] == b.xm_b[imode] * b.nfp and b.xm_b[imode] != 0:
-                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_plus_color,
+                plt.plot(rad, my_abs(data[imode, :]), color=helical_plus_color,
                              label=r'n = n$_{fp}$ m (Helical)', **kwargs)
                 break
         for imode in range(mnmax):
             if b.xn_b[imode] == -b.xm_b[imode] * b.nfp and b.xm_b[imode] != 0:
-                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_minus_color,
+                plt.plot(rad, my_abs(data[imode, :]), color=helical_minus_color,
                              label=r'n = -n$_{fp}$ m (Helical)', **kwargs)
                 break
         for imode in range(mnmax):
             if b.xn_b[imode] != 0 and b.xm_b[imode] != 0:
-                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_color,
+                plt.plot(rad, my_abs(data[imode, :]), color=helical_color,
                              label=r'Other helical', **kwargs)
                 break
     else:
         for imode in range(mnmax):
             if b.xn_b[imode] != 0 and b.xm_b[imode] != 0 \
                and b.xn_b[imode] != b.xm_b[imode] * b.nfp and b.xn_b[imode] != -b.xm_b[imode] * b.nfp:
-                plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=helical_color,
+                plt.plot(rad, my_abs(data[imode, :]), color=helical_color,
                              label=r'm $\ne$ 0, n $\ne$ 0 (Helical)', **kwargs)
                 break
 
@@ -230,7 +244,7 @@ def symplot(b,
                 else:
                     mycolor = helical_color
 
-        plt.plot(rad, my_abs(b.bmnc_b[imode, :]), color=mycolor, **kwargs)
+        plt.plot(rad, my_abs(data[imode, :]), color=mycolor, **kwargs)
 
     if sqrts:
         plt.xlabel('$r/a$ = sqrt(Normalized toroidal flux)')
@@ -249,6 +263,7 @@ def modeplot(b,
              sqrts = False,
              log = True,
              B0 = True,
+             remove_helicity = None,
              legend_args = {"loc":"best"},
              **kwargs):
     """
@@ -265,6 +280,8 @@ def modeplot(b,
       sqrts (bool): If true, the x axis will be sqrt(toroidal flux) instead of toroidal flux.
       log (bool): Whether to use a logarithmic y axis.
       B0 (bool): Whether to include the m=n=0 mode in the figure.
+      remove_helicity ((int,int)): If passed `(m,n)`, remove modes with helicity
+         `(m,n)`.
       legend_args (dict): Any arguments to pass to ``plt.legend()``.
          Useful for setting the legend font size and location.
       kwargs: Any additional key-value pairs to pass to matplotlib's ``plot`` command.
@@ -285,15 +302,26 @@ def modeplot(b,
     if ymin is None:
         ymin = np.max(b.bmnc_b) * 1e-4
 
+    if remove_helicity is not None:
+        # Filter out modes with helicity (h_m,h_n)
+        h_m, h_n = remove_helicity
+
+        # Make copy so we do not modify b.bmnc_b
+        data = b.bmnc_b.copy()
+
+        data[h_n * b.xm_b == h_m * b.xn_b] = 0.0
+    else:
+        data = b.bmnc_b
+
     # Either keep or discard the m=n=0 mode:
     assert b.xm_b[0] == 0
     assert b.xn_b[0] == 0
     if B0:
-        data = b.bmnc_b
+        data = data
         xm = b.xm_b
         xn = b.xn_b
     else:
-        data = b.bmnc_b[1:, :]
+        data = data[1:, :]
         xm = b.xm_b[1:]
         xn = b.xn_b[1:]
 
