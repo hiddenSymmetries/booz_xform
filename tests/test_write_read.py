@@ -2,12 +2,61 @@
 
 import unittest
 import os
+import tempfile
 import numpy as np
 from booz_xform import Booz_xform
+from scipy.io import netcdf_file
 
 TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
 
 class WriteReadTest(unittest.TestCase):
+    def test_flux_arrays_preserve_vmec_values_and_units(self):
+        """
+        VMEC phi and chi are signed fluxes in Wb, not values divided by
+        2*pi. Check their native import and boozmn serialization against an
+        independent NetCDF reader so a hidden normalization cannot survive a
+        Booz_xform-only write/read comparison.
+        """
+        wout_filename = os.path.join(TEST_DIR, 'wout_circular_tokamak.nc')
+        with netcdf_file(wout_filename, 'r', mmap=False) as wout:
+            phi_vmec = np.array(wout.variables['phi'].data, copy=True)
+            chi_vmec = np.array(wout.variables['chi'].data, copy=True)
+            phipf_vmec = np.array(wout.variables['phipf'].data, copy=True)
+        phip_expected = -phipf_vmec / (2 * np.pi)
+
+        b1 = Booz_xform()
+        b1.read_wout(wout_filename, True)
+        np.testing.assert_array_equal(b1.phi, phi_vmec)
+        np.testing.assert_array_equal(b1.chi, chi_vmec)
+        np.testing.assert_allclose(b1.phip, phip_expected,
+                                   rtol=2e-16, atol=0)
+
+        b1.compute_surfs = [0, 5]
+        b1.run()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            boozmn_filename = os.path.join(tmpdir, 'boozmn_flux_units.nc')
+            b1.write_boozmn(boozmn_filename)
+
+            with netcdf_file(boozmn_filename, 'r', mmap=False) as boozmn:
+                phi_b = boozmn.variables['phi_b']
+                chi_b = boozmn.variables['chi_b']
+                phip_b = boozmn.variables['phip_b']
+                np.testing.assert_array_equal(phi_b.data, phi_vmec)
+                np.testing.assert_array_equal(chi_b.data, chi_vmec)
+                phip_expected[0] = 0
+                np.testing.assert_allclose(phip_b.data, phip_expected,
+                                           rtol=2e-16, atol=0)
+                self.assertEqual(phi_b.units, b'Tesla * meter^2')
+                self.assertEqual(chi_b.units, b'Tesla * meter^2')
+                self.assertEqual(phip_b.units, b'Tesla * meter^2')
+
+            b2 = Booz_xform()
+            b2.read_boozmn(boozmn_filename)
+            np.testing.assert_array_equal(b2.phi, phi_vmec)
+            np.testing.assert_array_equal(b2.chi, chi_vmec)
+            np.testing.assert_allclose(b2.phip, phip_expected,
+                                       rtol=2e-16, atol=0)
+
     def test_write_read(self):
         """
         Write a boozmn file, then read in the contents of that file to a

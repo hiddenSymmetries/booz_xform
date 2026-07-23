@@ -95,7 +95,7 @@ void Booz_xform::write_boozmn(std::string filename) {
       nc.put(radius_dim, "phi_b", phi_dummy, placeholder_str, "Tesla * meter^2");
   } else {
       phip[0] = 0;
-      nc.put(radius_dim, "phip_b", phip, "Derivative of toroidal flux (not divided by (2*pi)) with respect to s. This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
+      nc.put(radius_dim, "phip_b", phip, "Derivative d(psi)/ds of the booz_xform signed toroidal flux function psi=-Phi_VMEC/(2*pi), with the axis entry set to zero. This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
       nc.put(radius_dim, "chi_b", chi, "Uniformly spaced grid going from 0 to the boundary poloidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");
       nc.put(radius_dim, "pres_b", pres, "Pressure on full vmec grid. This grid generally does not correspond to the radial grid used for other quantities in this file!", "Pascal");
       nc.put(radius_dim, "phi_b", phi, "Uniformly spaced grid going from 0 to the boundary toroidal flux (not divided by (2*pi)). This grid generally does not correspond to the radial grid used for other quantities in this file!", "Tesla * meter^2");

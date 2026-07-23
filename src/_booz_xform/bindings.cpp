@@ -60,10 +60,13 @@ need to call this function directly.
 :param bsubvmns0: Vmec's original bsubvmns array, on the half grid.
   For stellarator-symmetric configurations this array is ignored and need not
   be specified.
-:param phip: Phip on vmec's full grid. (Defaults to empty Vector)
-:param chi: chi on vmec's full grid. (Defaults to empty Vector)
+:param phips: VMEC phipf = d(Phi_VMEC)/ds on the full grid. booz_xform
+  stores -phips/(2*pi). (Defaults to empty Vector)
+:param chi: Signed poloidal flux in Wb on the VMEC full grid, not divided
+  by 2*pi. (Defaults to empty Vector)
 :param pres: pressure on vmec's full grid. (Defaults to empty Vector)
-:param phi: phi on vmec's full grid. (Defaults to empty Vector)
+:param phi: Signed toroidal flux in Wb on the VMEC full grid, not divided
+  by 2*pi. (Defaults to empty Vector)
 )",
 	 "ns"_a,
 	 "iotas"_a,
@@ -180,16 +183,21 @@ plotting output.)")
 input radial surfaces.)")
 
     .def_readwrite("phi", &Booz_xform::phi, R"(
-(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_in + 1, input) Signed toroidal flux in Wb
+(T m^2), not divided by 2*pi, on the VMEC full radial grid. When initialized
+from VMEC, the values and signs are copied from the VMEC phi array.)")
 
     .def_readwrite("chi", &Booz_xform::chi, R"(
-(1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_in + 1, input) Signed poloidal flux in Wb
+(T m^2), not divided by 2*pi, on the VMEC full radial grid. When initialized
+from VMEC, the values and signs are copied from the VMEC chi array.)")
 
     .def_readwrite("phip", &Booz_xform::phip, R"(
-(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_in + 1, input) Derivative d(psi)/ds in Wb,
+where psi = -Phi_VMEC/(2*pi) and s is VMEC normalized toroidal flux. When
+initialized from VMEC, this array is -phipf/(2*pi) on the full radial grid.
+write_boozmn writes the array unchanged except that its axis entry is set to
+zero for the legacy boozmn format.)")
 
     .def_readwrite("pres", &Booz_xform::pres, R"(
 (1D float array of length ns_in, input) Pressure on full vmec grid.)")
