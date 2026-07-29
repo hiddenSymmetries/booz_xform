@@ -180,19 +180,19 @@ plotting output.)")
 input radial surfaces.)")
 
     .def_readwrite("phi", &Booz_xform::phi, R"(
-(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_vmec, input) Toroidal flux (not divided by 2*pi),
+on vmec's full grid.)")
 
     .def_readwrite("chi", &Booz_xform::chi, R"(
-(1D float array of length ns_in, input) Poloidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_vmec, input) Poloidal flux (not divided by 2*pi),
+on vmec's full grid.)")
 
     .def_readwrite("phip", &Booz_xform::phip, R"(
-(1D float array of length ns_in, input) Toroidal flux normalized by 2*pi,
-evaluated on all the magnetic surfaces for which input data was provided.)")
+(1D float array of length ns_vmec, input) Derivative of toroidal flux (divided by (-2*pi)) with respect to s,
+on vmec's full grid.)")
 
     .def_readwrite("pres", &Booz_xform::pres, R"(
-(1D float array of length ns_in, input) Pressure on full vmec grid.)")
+(1D float array of length ns_vmec, input) Pressure on full vmec grid.)")
 
     .def_readwrite("rmnc", &Booz_xform::rmnc, R"(
 (2D float array of size mnmax x ns_in, input) cos(m * theta_0 - n *
