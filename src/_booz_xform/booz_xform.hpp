@@ -16,6 +16,12 @@ namespace booz_xform {
 
   int driver(int, char**);
 
+  /** Return the number of OpenMP threads available to the compiled C++
+   *  code, i.e. omp_get_max_threads(). If booz_xform was compiled
+   *  without OpenMP, 1 is returned.
+   */
+  int omp_max_threads();
+
   // Trick for passing version number from setup.py to C++, from
   // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
 #define STRINGIFY(x) #x
