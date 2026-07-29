@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@master
     
     - name: Set up Python
-      uses: actions/setup-python@v7
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.14
+        python-version: 3.8
 
     # At some point we may want to distribute wheels, but for now just distribute the source and build separately on each machine.
     #- name: Install wheel
