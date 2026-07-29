@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8, 3.9, "3.10"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         os: [ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
@@ -31,29 +31,20 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential git cmake libnetcdf-dev
-        # In the future, if we want to add MPI, we'd need to also install "openmpi-bin libopenmpi-dev"
 
     - name: get any needed packages from homebrew
       if: "contains(matrix.os, 'macos')"
       run: |
         brew install netcdf
-        # If we want to add MPI in the future, uncomment the next line:
-        #brew install open-mpi
 
     - name: Print versions
       run: |
         cmake --version
-        #which mpicc
-        #which mpiexec
-        #mpicc --version
 
-    - uses: actions/checkout@v3
-      # If we want submodules downloaded, uncomment the next 2 lines:
-      #with:
-      #  submodules: true
+    - uses: actions/checkout@v7
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python-version }}
 
