@@ -35,6 +35,10 @@ output quantities are read-only, and they are populated when
           ``b.rmnc[0,0] = 2.0`` will not. This is due to the copying
           of data when interfacing python to C++.
 
+The module also provides the following function:
+
+.. autofunction:: booz_xform.omp_max_threads
+
 
 C++
 ^^^

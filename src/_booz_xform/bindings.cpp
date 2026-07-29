@@ -395,6 +395,14 @@ input data was provided.)")
 
     ;
 
+  m.def("omp_max_threads", &omp_max_threads, R"(
+Return the number of OpenMP threads available to the compiled C++ code,
+i.e. ``omp_get_max_threads()``. If booz_xform was compiled without
+OpenMP, 1 is returned. This function is useful for checking how many
+threads the C++ side of the code sees.
+
+:return: The number of threads, an int >= 1.)");
+
   // Trick for passing version number from setup.py, from
   // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
 #define STRINGIFY(x) #x
