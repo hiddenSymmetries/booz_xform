@@ -16,6 +16,12 @@ namespace booz_xform {
 
   int driver(int, char**);
 
+  /** Return the number of OpenMP threads available to the compiled C++
+   *  code, i.e. omp_get_max_threads(). If booz_xform was compiled
+   *  without OpenMP, 1 is returned.
+   */
+  int omp_max_threads();
+
   // Trick for passing version number from setup.py to C++, from
   // https://github.com/pybind/cmake_example/blob/master/src/main.cpp
 #define STRINGIFY(x) #x
@@ -386,22 +392,21 @@ namespace booz_xform {
     */
     Vector Boozer_I_all;
 
-    /** (size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary
-    toroidal flux (not divided by (2*pi)), evaluated on full vmec grid.
+    /** (size ns_vmec, output) Uniformly spaced grid going from 0 to the boundary
+    toroidal flux (not divided by (2*pi)), corresponding to the full vmec grid.
     */
     Vector phi;
 
-    /** (size ns_in + 1, output) The derivative of the toroidal flux (not divided by (2*pi))
+    /** (size ns_vmec, output) The derivative of the toroidal flux (divided by (-2*pi))
     with respect to s, evaluated on full vmec grid.
     */
     Vector phip;
 
-    /** (size ns_in + 1, output) Uniformly spaced grid going from 0 to the boundary
-    poloidal flux (not divided by (2*pi)), evaluated on full vmec grid.
+    /** (size ns_vmec, output) Poloidal flux (not divided by (2*pi)), evaluated on full vmec grid.
     */
     Vector chi;
 
-    /** Pressure evaluated on the full vmec grid **/
+    /** (size ns_vmec, output) Pressure evaluated on the full vmec grid **/
     Vector pres;
 
     //! Constructor

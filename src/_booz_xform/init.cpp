@@ -9,6 +9,19 @@
 
 using namespace booz_xform;
 
+/** Return the number of OpenMP threads available to the compiled C++
+ *  code, i.e. omp_get_max_threads(). If booz_xform was compiled without
+ *  OpenMP, 1 is returned. This function is useful for checking from
+ *  python how many threads the C++ side of the code sees.
+ */
+int booz_xform::omp_max_threads() {
+#ifdef OPENMP
+  return omp_get_max_threads();
+#else
+  return 1;
+#endif
+}
+
 /** Initialize variables that are common to all surfaces that share
  *  the same (mpol, ntor) resolution.
  *
@@ -27,10 +40,7 @@ void Booz_xform::init() {
   mnboz = (2 * nboz + 1) * (mboz - 1) + nboz + 1;
   xm_b.setZero(mnboz);
   xn_b.setZero(mnboz);
-  int nthreads = 0;
-#ifdef OPENMP
-  nthreads = omp_get_max_threads();
-#endif
+  int nthreads = omp_max_threads();
   if (verbose > 0) {
     std::cout << "Initializing with mboz=" << mboz << ", nboz=" << nboz << std::endl;
     std::cout << "ntheta = " << ntheta << ", nzeta = " << nzeta
