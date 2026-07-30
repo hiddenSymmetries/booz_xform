@@ -1,12 +1,17 @@
 # Versions >= 3.9 have improved support for MPI: https://cliutils.gitlab.io/modern-cmake/chapters/packages/MPI.html
-# The command add_compile_definitions, used in this file, was new in CMake version 3.12.
-cmake_minimum_required(VERSION 3.12)
+# 3.18 is required because pybind11 >= 3's CMake package config needs >= 3.15,
+# and because CMake 4 warns about compatibility requests below 3.10.
+cmake_minimum_required(VERSION 3.18)
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS 1 )
 
-# Comment out the next line when speed is needed
-set(CMAKE_BUILD_TYPE Debug)
-add_definitions(-O2)
+# Default to an optimized build, but respect -DCMAKE_BUILD_TYPE=... on the
+# command line.  setup.py passes Release, so pip-installed packages and the
+# wheels on PyPI are optimized.  Use -DCMAKE_BUILD_TYPE=Debug for debugging;
+# that also re-enables Eigen's bounds assertions.
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
 
 # This next compile flag is needed to avoid a compile error on some systems. See
 # https://pybind11.readthedocs.io/en/stable/faq.html#recursive-template-instantiation-exceeded-maximum-depth-of-256
@@ -50,19 +55,19 @@ list(FILTER SOURCES EXCLUDE REGEX ".*xbooz_xform.cpp$")
 list(FILTER SOURCES EXCLUDE REGEX ".*bindings.cpp$")
 message("Sources after filter: ${SOURCES}")
 
-# Locate pybind11
-execute_process(COMMAND python -m pybind11 --cmakedir
+# Locate pybind11.  setup.py passes -DPython_EXECUTABLE, so an install always
+# asks the interpreter being installed into; a bare "cmake .." falls back to
+# whatever python is on PATH.
+if(NOT DEFINED Python_EXECUTABLE)
+  set(Python_EXECUTABLE python)
+endif()
+execute_process(COMMAND ${Python_EXECUTABLE} -m pybind11 --cmakedir
                 OUTPUT_VARIABLE pybind11_DIR
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
-message("Result of python -m pybind11 --cmakedir: ${pybind11_DIR}")
-#set(pybind11_DIR "/Users/mattland/opt/miniconda3/envs/20201118-01/lib/python3.8/site-packages/pybind11/share/cmake/pybind11")
-#message("New pybind11_DIR: ${pybind11_DIR}")
+message("Result of ${Python_EXECUTABLE} -m pybind11 --cmakedir: ${pybind11_DIR}")
 
-find_package(pybind11 REQUIRED PATHS pybind11_DIR)
+find_package(pybind11 REQUIRED PATHS ${pybind11_DIR})
 pybind11_add_module(_booz_xform ${SOURCE_DIR}/bindings.cpp)
-
-# Pass version number from setup.py to C++, following https://github.com/pybind/cmake_example/blob/master/CMakeLists.txt
-target_compile_definitions(_booz_xform PRIVATE VERSION_INFO=${BOOZ_XFORM_VERSION})
 
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:
@@ -80,6 +85,19 @@ endif()
 # Driver and python module depend on the library:
 target_link_libraries(xbooz_xform PUBLIC libbooz_xform)
 target_link_libraries(_booz_xform PUBLIC libbooz_xform)
+
+# Pass the version number from pyproject.toml (via setup.py) to C++, following
+# https://github.com/pybind/cmake_example/blob/master/CMakeLists.txt
+# booz_xform::version is a namespace-scope const, so it has internal linkage and
+# every target that uses it needs the definition: bindings.cpp exposes it as
+# _booz_xform.__version__, driver.cpp prints it, and write_boozmn.cpp records it
+# in the output file.  Left undefined for builds that do not go through
+# setup.py, in which case the C++ code reports "development version".
+if(BOOZ_XFORM_VERSION)
+  foreach(target _booz_xform libbooz_xform xbooz_xform)
+    target_compile_definitions(${target} PRIVATE VERSION_INFO=${BOOZ_XFORM_VERSION})
+  endforeach()
+endif()
 
 # Set up unitTests executable
 set(BOOZ_TESTS unitTests)

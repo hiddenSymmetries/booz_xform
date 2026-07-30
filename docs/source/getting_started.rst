@@ -5,15 +5,21 @@ Getting started
 Requirements
 ^^^^^^^^^^^^
 
-``booz_xform`` requires a C++ compiler and python3.  The python
-interface uses arrays from the ``numpy`` package, and building
-``booz_xform`` requires the `pybind11 package
-<https://pybind11.readthedocs.io/en/stable/>`_.  These packages are
-installed automatically by the ``pip install`` step described in the
-next section.
+On Linux and macOS, ``booz_xform`` is distributed as pre-compiled
+binary wheels for CPython 3.10 and newer, so the only requirement for
+installing it is python3 itself. Everything the compiled code needs is
+included in the wheel.
 
-``booz_xform`` also requires the NetCDF library. The C++ or fortran
-interfaces to NetCDF are not required, only the standard C interface.
+Building ``booz_xform`` from source -- which happens automatically if
+no wheel matches your platform, and which is what you do as a
+developer -- additionally requires a C++ compiler, ``cmake``, and the
+NetCDF library. The C++ or fortran interfaces to NetCDF are not
+required, only the standard C interface. The `pybind11 package
+<https://pybind11.readthedocs.io/en/stable/>`_ is also required, and is
+installed automatically by ``pip``.
+
+The python interface uses arrays from the ``numpy`` package, which
+``pip`` installs automatically.
 
 OpenMP is an optional dependency. If found, OpenMP is used to
 parallelize the calculation over magnetic surfaces.  MPI is not used.
@@ -29,10 +35,6 @@ separately if you want to use these features.
 Installation
 ^^^^^^^^^^^^
 
-Before attempting to install ``booz_xform``, make sure NetCDF 
-is available on your system. On some HPC systems, this may require
-loading the relevant module.
-
 There are several ways you can install ``booz_xform``, depending on
 whether you are a user or developer.
 
@@ -40,20 +42,35 @@ whether you are a user or developer.
 *************************
 
 If you do not plan to edit the source code, the recommended way to
-install ``booz_xform`` is to install the latest release from `PyPI
+install ``booz_xform`` is to get the latest release from `PyPI
 <https://pypi.org/project/booz_xform/>`_ using ``pip``::
 
-    pip install -v booz_xform
+    pip install booz_xform
 
-This command will download and compile the code. At the start of the
-compilation step, the ``cmake`` build system will search for the
-NetCDF and MPI header files and libraries.  Any of the environment
-variables ``NETCDF_DIR``, ``NETCDF_HOME``, or ``NETCDFDIR`` can be set
-to guide ``cmake`` in this search, and it will also look in standard
-locations such as ``/opt/local/include``.
+On Linux (x86-64 and aarch64) and macOS (Apple Silicon and Intel),
+this downloads a pre-compiled wheel. Nothing is compiled, and NetCDF
+does not need to be installed on your system.
+
+If there is no wheel for your platform -- Windows, Alpine Linux, PyPy,
+or a CPython version newer than the latest release -- ``pip`` falls
+back to building from the source distribution. In that case you need a
+C++ compiler and NetCDF, so make sure NetCDF is available on your
+system first; on some HPC systems, this may require loading the
+relevant module. You can also force a source build with::
+
+    pip install -v --no-binary booz_xform booz_xform
+
+(the duplication at the end is intended.)
+At the start of the compilation step, the ``cmake`` build system will
+search for the NetCDF header files and libraries.  Any of the
+environment variables ``NETCDF_DIR``, ``NETCDF_HOME``, or
+``NETCDFDIR`` can be set to guide ``cmake`` in this search, and it
+will also look in standard locations such as ``/opt/local/include``.
+On Apple Silicon with Homebrew, ``cmake`` does not search
+``/opt/homebrew`` on its own, so you may need to set ``NETCDF_DIR=/opt/homebrew``.
 
 The ``-v`` flag above (for verbose output) is optional, but it is
-useful since it allows you to see which compiler, NetCDF, and MPI
+useful since it allows you to see which compiler and NetCDF
 libraries were used. This information can be found in the lines
 similar to the following in the output::
 
@@ -78,8 +95,9 @@ use the Intel compiler ``icpc``, use
 
 .. code-block::
 
-  CXX=icpc pip install -v booz_xform
-  
+  CXX=icpc pip install -v --no-binary booz_xform booz_xform
+
+
 If the installation is successful, ``booz_xform`` will be added to
 your python environment. You should now be able to import the module
 from python::
@@ -125,25 +143,7 @@ to the default location, add the ``--user`` flag::
     pip install -v -e --user .
 
 
-3. Installation without pip from a local copy of the repository
-***************************************************************
-
-This option is similar to option 2, and is well suited for code
-development. This option gives a somewhat faster installation than
-option 2, but you must first manually ensure all the dependencies in
-``pyproject.toml`` are installed.
-
-From a cloned copy of the repository, run
-
-.. code-block::
-
-  python setup.py develop
-
-This command can be preceded by ``CXX=`` to select a
-specific compiler, as in the other methods above.
-
-
-4. Building outside of the python package system
+3. Building outside of the python package system
 ************************************************
 
 If you are actively developing the code, you may wish to compile the
@@ -169,3 +169,36 @@ created in the ``build`` directory. Note that in this approach, no
 python package is installed.  You can import only the ``Booz_xform``
 class with ``import _booz_xform``, which loads the compiled extension
 without importing the pure python functions.
+
+
+The xbooz_xform command
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Any of the installation options above that install the python package
+also install a command-line driver named ``xbooz_xform``, which takes
+the same input file as the fortran ``booz_xform`` code in Stellopt::
+
+    xbooz_xform in_booz
+
+Run it with no arguments to see a description of the input file
+format. The command reads ``wout_<extension>.nc`` from the current
+working directory and writes ``boozmn_<extension>.nc`` there.
+
+When installed by ``pip``, this command is a small python wrapper
+(``booz_xform/_cli.py``) around the compiled extension, so that it also
+works for the pre-compiled wheels. Option 3 above instead produces an
+equivalent standalone C++ executable of the same name, which does not
+require python at run time.
+
+
+Checking the version
+^^^^^^^^^^^^^^^^^^^^
+
+The version of ``booz_xform`` that is installed can be displayed with::
+
+  >>> import booz_xform
+  >>> booz_xform.__version__
+
+This is the same version number that appears on PyPI, in the GitHub
+release, and in the ``version`` attribute of the ``boozmn_*.nc`` files
+that ``booz_xform`` writes.

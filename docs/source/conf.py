@@ -21,8 +21,17 @@ project = 'booz_xform'
 copyright = '2021, Matt Landreman'
 author = 'Matt Landreman'
 
-# The full version, including alpha/beta/rc tags
-release = '0.0.4'
+# The full version, including alpha/beta/rc tags. Taken from the installed
+# booz_xform distribution so that it never drifts from [project] version in
+# pyproject.toml, which is the single source of truth. See dev/RELEASING.md.
+from importlib.metadata import PackageNotFoundError, version as _version
+try:
+    release = _version('booz_xform')
+except PackageNotFoundError:
+    # Docs can be built for the prose alone without booz_xform installed;
+    # autodoc/breathe content will be incomplete in that case anyway.
+    release = 'unknown'
+version = release
 
 
 # -- General configuration ---------------------------------------------------

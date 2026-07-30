@@ -1,9 +1,132 @@
 [build-system]
 requires = [
-    "setuptools>=42",
+    # >=77 for PEP 639 license expressions ([project] license/license-files).
+    "setuptools>=77",
     "wheel",
     "ninja; sys_platform != 'win32'",
-    "pybind11>=2.6.0,<3.0.0",
-    "cmake>=3.12",
+    # No upper bound: pybind11 3.x is what supports CPython 3.14, and the
+    # bindings use only long-stable pybind11 API.
+    "pybind11>=2.12",
+    # pybind11 3.x's CMake package config requires CMake >= 3.15.
+    "cmake>=3.18",
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "booz_xform"
+# THE version literal for the whole project.  See dev/RELEASING.md: `tbump`
+# rewrites it, setuptools puts it in the wheel/sdist metadata (and hence on
+# PyPI), booz_xform.__version__ reads it back from that metadata, setup.py
+# passes it to the C++ compiler as VERSION_INFO, and the release workflow
+# refuses to publish if the git tag disagrees with it.
+version = "0.0.9"
+description = "Transformation to Boozer coordinates"
+readme = "README.md"
+license = "BSD-2-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Matt Landreman", email = "matt.landreman@gmail.com" }]
+dependencies = ["numpy"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.optional-dependencies]
+# scipy and matplotlib are used by the test suite and by booz_xform.plots, but
+# are not needed to import the package or run the transformation.
+test = ["pytest", "scipy", "matplotlib"]
+dev = ["pytest", "scipy", "matplotlib", "tbump", "pybind11", "cmake", "ninja"]
+
+[project.scripts]
+# Command-line driver, equivalent to the C++ xbooz_xform executable that CMake
+# builds for source checkouts.  Implemented in Python on top of the extension
+# module so that it also works when installed from a binary wheel.
+xbooz_xform = "booz_xform._cli:main"
+
+[project.urls]
+Homepage = "https://github.com/hiddenSymmetries/booz_xform"
+Documentation = "https://hiddensymmetries.github.io/booz_xform/"
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["booz_xform*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Tests must exercise the installed package, including its compiled
+# _booz_xform extension, so src/ is deliberately not added to the path.
+
+# Release helper: `tbump 0.1.0` rewrites the version in pyproject.toml, commits,
+# tags v0.1.0, and pushes both.  See dev/RELEASING.md.
+[tool.tbump]
+github_url = "https://github.com/hiddenSymmetries/booz_xform"
+
+[tool.tbump.version]
+current = "0.0.9"
+# PEP 440: X.Y.Z with an optional pre-release suffix (e.g. 0.1.0rc1).
+regex = '''
+  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  (?P<pre>(a|b|rc)\d+)?
+  '''
+
+[tool.tbump.git]
+message_template = "Release {new_version}"
+tag_template = "v{new_version}"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+search = 'version = "{current_version}"'
+
+# Catch a broken tree before it is tagged rather than after.
+[[tool.tbump.before_commit]]
+name = "run the test suite"
+cmd = "pytest -q"
+
+# Binary wheels (.github/workflows/release.yml).  Each wheel is built in an
+# isolated image/runner, repaired by auditwheel/delocate so that libnetcdf and
+# friends travel with it, and then smoke-tested against the full test suite, so
+# a wheel that cannot import or run its own extension never reaches PyPI.
+[tool.cibuildwheel]
+# PyPy: the bindings are built against the CPython C API via pybind11.
+# musllinux: would need a separate apk toolchain for netcdf/hdf5.
+# Free-threaded (cp3??t) builds: not exercised; the C++ side uses OpenMP and
+# holds no GIL discipline beyond pybind11's default.
+# CPython < 3.10 is excluded automatically by requires-python above.
+skip = ["pp*", "*-musllinux_*", "cp3??t-*"]
+build-frontend = "build"
+build-verbosity = 1
+test-extras = ["test"]
+test-command = "cd {project} && python -m pytest tests"
+
+[tool.cibuildwheel.linux]
+# manylinux_2_28 is AlmaLinux 8, so netcdf comes from EPEL.
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+before-all = "dnf install -y epel-release && dnf install -y netcdf-devel"
+# auditwheel vendors libnetcdf, libhdf5, libgomp etc. into the wheel.
+environment = { MPLBACKEND = "Agg" }
+
+[tool.cibuildwheel.macos]
+# delocate vendors libnetcdf, libhdf5 and libomp into the wheel.  libomp is what
+# lets CMake's FindOpenMP succeed with Apple clang, so macOS wheels are
+# OpenMP-parallel like the Linux ones; without it the wheels would be
+# single-threaded.  See dev/RELEASING.md for the duplicate-runtime caveat.
+# MACOSX_DEPLOYMENT_TARGET is set per-runner in release.yml -- it must match the
+# SDK the Homebrew netcdf was built against, or delocate rejects the wheel.
+before-all = "brew install netcdf libomp"
+# CMake does not search Homebrew's prefix by default on Apple Silicon, so point
+# cmake/FindNetCDF.cmake at it explicitly.
+environment = { NETCDF_DIR = "$(brew --prefix)", MPLBACKEND = "Agg" }
