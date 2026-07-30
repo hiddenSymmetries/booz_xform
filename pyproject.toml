@@ -19,7 +19,7 @@ name = "booz_xform"
 # PyPI), booz_xform.__version__ reads it back from that metadata, setup.py
 # passes it to the C++ compiler as VERSION_INFO, and the release workflow
 # refuses to publish if the git tag disagrees with it.
-version = "0.0.9"
+version = "0.1.0rc1"
 description = "Transformation to Boozer coordinates"
 readme = "README.md"
 license = "BSD-2-Clause"
@@ -71,7 +71,7 @@ testpaths = ["tests"]
 github_url = "https://github.com/hiddenSymmetries/booz_xform"
 
 [tool.tbump.version]
-current = "0.0.9"
+current = "0.1.0rc1"
 # PEP 440: X.Y.Z with an optional pre-release suffix (e.g. 0.1.0rc1).
 regex = '''
   (?P<major>\d+)
