@@ -1,5 +1,7 @@
 *~
 build/*
+dist/
+wheelhouse/
 xbooz_xform
 unitTests
 __pycache__
@@ -12,3 +14,12 @@ requirements.txt
 .ycm_extra_conf.py
 examples/data/
 tags
+
+.DS_Store
+.vscode
+.pymon
+jxbout_*
+mercier.*
+threed1.*
+timings.txt
+#*

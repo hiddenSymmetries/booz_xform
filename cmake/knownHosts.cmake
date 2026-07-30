@@ -14,18 +14,8 @@ if(DEFINED ENV{GITHUB_ACTIONS})
   #set(BOOZ_COMMAND_TO_SUBMIT_JOB "mpiexec -n NUM_PROCS --mca btl_base_warn_component_unused 0 --mca orte_base_help_aggregate 0")
 
 elseif(DEFINED ENV{NERSC_HOST})
-  message("Detected host is NERSC Cori")
+  message("Detected host is NERSC")
   set(CMAKE_CXX_COMPILER "CC")
-
-elseif("$ENV{CLUSTER}" STREQUAL "DRACO")
-  message("Detected host is IPP Draco")
-  # CMake detects gnu compiler unless you specify Intel:
-  set(CMAKE_CXX_COMPILER "mpiicpc")
-
-elseif("$ENV{CLUSTER}" STREQUAL "COBRA")
-  message("Detected host is IPP Cobra")
-  # CMake detects gnu compiler unless you specify Intel:
-  set(CMAKE_CXX_COMPILER "mpiicpc")
 
 elseif("$ENV{CLUSTER}" STREQUAL "RAVEN")
   message("Detected host is IPP Raven")

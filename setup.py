@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
-# This file was adapted from the "official" pybind11 example at
+# All package metadata, including the version, lives in pyproject.toml.  This
+# file exists only to drive the CMake build of the _booz_xform extension.
+#
+# It was adapted from the "official" pybind11 example at
 # https://github.com/pybind/cmake_example
-
+#
 # See also https://www.benjack.io/2018/02/02/python-cpp-revisited.html
 
 import os
 import sys
 import subprocess
-from shutil import copyfile, copymode # for doctest unitTests
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -44,15 +46,29 @@ class CMakeBuild(build_ext):
         # Can be set with Conda-Build, for example.
         cmake_generator = os.environ.get("CMAKE_GENERATOR", "")
 
-        # Set Python_EXECUTABLE instead if you use PYBIND11_FINDPYTHON.
-        # Note the version number is passed to C++ here using -DBOOZ_XFORM_VERSION.
+        # The version number comes from [project] version in pyproject.toml and
+        # is handed to the C++ compiler as VERSION_INFO; see
+        # src/_booz_xform/booz_xform.hpp.  Python code does not use it --
+        # booz_xform.__version__ reads the installed distribution metadata --
+        # but the C++ driver prints it and write_boozmn() records it in the
+        # output file.
+        #
+        # Python_EXECUTABLE is what pybind11 >= 3 (FindPython) uses;
+        # PYTHON_EXECUTABLE is the pybind11 2.x spelling.  Pass both so the
+        # extension is always built against the interpreter that is installing
+        # it, rather than whichever "python" happens to be first on PATH.
         cmake_args = [
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extdir),
+            "-DPython_EXECUTABLE={}".format(sys.executable),
             "-DPYTHON_EXECUTABLE={}".format(sys.executable),
             "-DBOOZ_XFORM_VERSION={}".format(self.distribution.get_version()),
             "-DCMAKE_BUILD_TYPE={}".format(cfg),  # not used on MSVC, but no harm
         ]
-        build_args = []
+        # Only the python extension module is needed for an install.  The
+        # standalone xbooz_xform executable and the C++ unitTests executable are
+        # separate CMake targets, built by hand or by CI; skipping them here
+        # keeps wheel builds from compiling doctest five times per platform.
+        build_args = ["--target", "_booz_xform"]
 
         if self.compiler.compiler_type != "msvc":
             # Using Ninja-build since it a) is available as a wheel and b)
@@ -103,45 +119,10 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
-        # Copy unit tests to the repository
-        #src_file = os.path.join(self.build_temp, 'unitTests')
-        #dest_dir = os.path.join(os.path.dirname(
-        #    os.path.abspath(__file__)), 'tests')
 
-        # Copy standalone executable so it can be installed:
-        src_file = os.path.join(self.build_temp, 'xbooz_xform')
-        dest_dir = os.path.join(os.path.dirname(
-            os.path.abspath(__file__)))
-        dest_file = os.path.join(dest_dir, os.path.basename(src_file))
-        print("copying {} -> {}".format(src_file, dest_file))
-        copyfile(src_file, dest_file)
-        copymode(src_file, dest_file)
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
-# The information here can also be placed in setup.cfg - better separation of
-# logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="booz_xform",
-    version="0.0.9",
-    author="Matt Landreman",
-    author_email="matt.landreman@gmail.com",
-    description="Transformation to Boozer coordinates",
-    long_description=long_description,
-    packages=['booz_xform'],
-    # tell setuptools to look for any packages under 'src'
-    #packages=find_packages('src'),
-    # Tell setuptools that all packages will be under the 'src' directory
-    # and nowhere else
-    package_dir={'':'src'},
     ext_modules=[CMakeExtension("booz_xform._booz_xform")],
     cmdclass={"build_ext": CMakeBuild},
-    install_requires=['numpy'],
-    # The next line makes the executable available:
-    data_files = [('bin', ['xbooz_xform'])],
-    test_suite='tests',
-    zip_safe=False,
 )
 
 # For guidance about packages involving both pure python and a pybind11 extension, see

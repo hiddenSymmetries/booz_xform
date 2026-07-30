@@ -35,7 +35,11 @@ jobs:
     - name: get any needed packages from homebrew
       if: "contains(matrix.os, 'macos')"
       run: |
-        brew install netcdf
+        brew install netcdf libomp
+        # CMake does not search Homebrew's prefix by default on Apple Silicon,
+        # so tell cmake/FindNetCDF.cmake where to look. libomp is what lets
+        # find_package(OpenMP) succeed with Apple clang.
+        echo "NETCDF_DIR=$(brew --prefix)" >> $GITHUB_ENV
 
     - name: Print versions
       run: |
@@ -62,18 +66,27 @@ jobs:
     - name: env after adding python
       run: env
 
+    # The [test] extra adds pytest, scipy and matplotlib, which the test suite
+    # needs but the package itself does not.
     - name: Install
-      run: pip install -v .
+      run: pip install -v ".[test]"
 
     - name: Try import
-      run: python -c "import booz_xform as bx; b = bx.Booz_xform()"
-
-    - name: Install python packages that are required for the tests.
       run: |
-        pip install scipy matplotlib
-    
+        python -c "
+        import booz_xform as bx
+        b = bx.Booz_xform()
+        print('version:', bx.__version__)
+        print('OpenMP max threads:', bx.omp_max_threads())
+        "
+
+    - name: Try the command-line driver
+      run: xbooz_xform | head -1
+
     - name: Run python unit tests
-      run: python3 -m unittest -v
+      run: python -m pytest -v
+      env:
+        MPLBACKEND: Agg
 
     # To run the C++ unit tests, it seems best to build them separately from the python package system, because we don't want these unit tests to be installed. It seems unnecessary to build them again, but the little bit of time this takes is not important.
 

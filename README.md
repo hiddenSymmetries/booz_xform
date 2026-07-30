@@ -12,10 +12,15 @@ codes other than VMEC, it is parallelized using OpenMP, and it
 includes functions for plotting output.  It is also equipped with unit
 and regression tests and continuous integration.
 
-`booz_xform` requires NetCDF, a C++ compiler, and python3. For many
-users, the code can be installed by executing
+For most users, the code can be installed by executing
 
     pip install booz_xform
+
+Pre-compiled wheels are available for Linux (x86-64 and aarch64) and
+macOS (Apple Silicon and Intel) on CPython 3.10 and newer, so this
+requires nothing but python3. On other
+platforms, `pip` builds from source, which requires NetCDF, a C++
+compiler, and `cmake`.
 
 For more installation options and other information, see the
 [booz_xform documentation
