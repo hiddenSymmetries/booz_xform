@@ -10,6 +10,7 @@
 
 import os
 import shlex
+import shutil
 import sys
 import subprocess
 from setuptools import setup, Extension
@@ -22,6 +23,57 @@ PLAT_TO_CMAKE = {
     "win-arm32": "ARM",
     "win-arm64": "ARM64",
 }
+
+
+# CMakeCache.txt entries that hold absolute paths which can go stale between
+# builds.  See cmake_cache_is_usable() below.
+CACHED_PATH_ENTRIES = (
+    "CMAKE_MAKE_PROGRAM",
+    "CMAKE_CXX_COMPILER",
+    "CMAKE_C_COMPILER",
+    "pybind11_DIR",
+    "Python_EXECUTABLE",
+    "PYTHON_EXECUTABLE",
+)
+
+
+def cmake_cache_is_usable(build_temp, sourcedir):
+    """Can the CMake cache left in build_temp by an earlier build be reused?
+
+    The build directory persists between runs, but the tools it points at do
+    not.  Every `pip install` builds in a fresh, randomly-named isolated
+    environment, so the ninja executable and pybind11 CMake directory that CMake
+    recorded during one run live in a directory pip deletes when that run ends.
+    CMake does not notice on the next run: it reads CMAKE_MAKE_PROGRAM from the
+    cache and dies with "no such file or directory", and nothing short of
+    deleting the build directory by hand fixes it.  So the second and every
+    later `pip install .` in a working tree used to fail.
+
+    Rather than force a from-scratch configure every time, which would throw
+    away incremental rebuilds for developers, check whether the recorded paths
+    still exist, and whether the cache belongs to this source tree at all.
+    """
+    cache = os.path.join(build_temp, "CMakeCache.txt")
+    if not os.path.isfile(cache):
+        # Nothing cached, so nothing can be stale.
+        return True
+
+    with open(cache, errors="replace") as f:
+        for line in f:
+            # Cache entries look like NAME:TYPE=VALUE; comments start with //.
+            name, separator, value = line.partition("=")
+            if not separator or ":" not in name:
+                continue
+            key = name.split(":", 1)[0].strip()
+            value = value.strip()
+            if key == "CMAKE_HOME_DIRECTORY":
+                # The tree was moved or renamed since the last build.
+                if os.path.normpath(value) != os.path.normpath(sourcedir):
+                    return False
+            elif key in CACHED_PATH_ENTRIES:
+                if os.path.isabs(value) and not os.path.exists(value):
+                    return False
+    return True
 
 
 # A CMakeExtension needs a sourcedir instead of a file list.
@@ -115,6 +167,11 @@ class CMakeBuild(build_ext):
             if hasattr(self, "parallel") and self.parallel:
                 # CMake 3.12+ only.
                 build_args += ["-j{}".format(self.parallel)]
+
+        if not cmake_cache_is_usable(self.build_temp, ext.sourcedir):
+            print("Discarding the stale CMake cache in {} and configuring from "
+                  "scratch.".format(self.build_temp))
+            shutil.rmtree(self.build_temp, ignore_errors=True)
 
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
