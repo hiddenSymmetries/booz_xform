@@ -31,7 +31,46 @@ message("NETCDF_LIBRARIES=${NETCDF_LIBRARIES}")
 
 # If in the future we want to use MPI, uncomment this next line:
 #find_package(MPI REQUIRED)
+
+# Apple's clang can compile OpenMP, but Apple does not ship the runtime
+# library. Homebrew's libomp supplies it, and it is the only practical way to
+# get an OpenMP build on macOS without switching compilers. The catch is that
+# the formula is keg-only: it is deliberately NOT symlinked into the Homebrew
+# prefix, so FindOpenMP finds neither libomp.dylib nor omp.h in the usual
+# places, gives up, and silently configures a serial build. Point it at the keg
+# instead. OpenMP_ROOT is honored by every find_ call inside FindOpenMP (policy
+# CMP0074), which is what makes both the library and the header discoverable.
+# An OpenMP_ROOT set by the user, or in the environment, always wins.
+if(APPLE AND NOT DEFINED OpenMP_ROOT AND NOT DEFINED ENV{OpenMP_ROOT})
+  find_program(BREW_EXECUTABLE brew)
+  if(BREW_EXECUTABLE)
+    execute_process(COMMAND ${BREW_EXECUTABLE} --prefix libomp
+                    RESULT_VARIABLE brew_libomp_result
+                    OUTPUT_VARIABLE brew_libomp_prefix
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    ERROR_QUIET)
+    # `brew --prefix <formula>` succeeds and prints a path even when the
+    # formula is not installed, so check that the header is really there.
+    if(brew_libomp_result EQUAL 0 AND EXISTS "${brew_libomp_prefix}/include/omp.h")
+      set(OpenMP_ROOT "${brew_libomp_prefix}")
+      message(STATUS "Using Homebrew's keg-only libomp for OpenMP: ${OpenMP_ROOT}")
+    endif()
+  endif()
+endif()
+
 find_package(OpenMP)
+
+# OpenMP is optional, and a build without it is correct, just serial. That is
+# easy to miss in a build log, and a wheel that quietly lost its parallelism is
+# worth failing the build over, so the wheel builds (and CI) set this option.
+option(BOOZ_XFORM_REQUIRE_OPENMP
+       "Fail the build if OpenMP is not found, instead of building serially" OFF)
+if(BOOZ_XFORM_REQUIRE_OPENMP AND NOT OpenMP_CXX_FOUND)
+  message(FATAL_ERROR
+    "BOOZ_XFORM_REQUIRE_OPENMP is ON but OpenMP was not found.\n"
+    "On macOS, install Homebrew's libomp ('brew install libomp'), or set\n"
+    "OpenMP_ROOT to a directory containing include/omp.h and lib/libomp.dylib.")
+endif()
 
 # Tell "make" to print out the commands used for compiling and linking:
 set(CMAKE_VERBOSE_MAKEFILE on)

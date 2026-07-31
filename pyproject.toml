@@ -117,16 +117,19 @@ manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 before-all = "dnf install -y epel-release && dnf install -y netcdf-devel"
 # auditwheel vendors libnetcdf, libhdf5, libgomp etc. into the wheel.
-environment = { MPLBACKEND = "Agg" }
+environment = { CMAKE_ARGS = "-DBOOZ_XFORM_REQUIRE_OPENMP=ON", MPLBACKEND = "Agg" }
 
 [tool.cibuildwheel.macos]
 # delocate vendors libnetcdf, libhdf5 and libomp into the wheel.  libomp is what
 # lets CMake's FindOpenMP succeed with Apple clang, so macOS wheels are
 # OpenMP-parallel like the Linux ones; without it the wheels would be
-# single-threaded.  See dev/RELEASING.md for the duplicate-runtime caveat.
+# single-threaded.  Because the libomp formula is keg-only, CMakeLists.txt has
+# to locate it explicitly -- see the OpenMP_ROOT block there, and see
+# dev/RELEASING.md for the duplicate-runtime caveat.
 # MACOSX_DEPLOYMENT_TARGET is set per-runner in release.yml -- it must match the
 # SDK the Homebrew netcdf was built against, or delocate rejects the wheel.
 before-all = "brew install netcdf libomp"
 # CMake does not search Homebrew's prefix by default on Apple Silicon, so point
-# cmake/FindNetCDF.cmake at it explicitly.
-environment = { NETCDF_DIR = "$(brew --prefix)", MPLBACKEND = "Agg" }
+# cmake/FindNetCDF.cmake at it explicitly.  BOOZ_XFORM_REQUIRE_OPENMP turns a
+# silently-serial wheel into a failed build.
+environment = { NETCDF_DIR = "$(brew --prefix)", CMAKE_ARGS = "-DBOOZ_XFORM_REQUIRE_OPENMP=ON", MPLBACKEND = "Agg" }

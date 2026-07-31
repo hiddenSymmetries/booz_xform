@@ -9,6 +9,7 @@
 # See also https://www.benjack.io/2018/02/02/python-cpp-revisited.html
 
 import os
+import shlex
 import sys
 import subprocess
 from setuptools import setup, Extension
@@ -64,6 +65,12 @@ class CMakeBuild(build_ext):
             "-DBOOZ_XFORM_VERSION={}".format(self.distribution.get_version()),
             "-DCMAKE_BUILD_TYPE={}".format(cfg),  # not used on MSVC, but no harm
         ]
+
+        # Anything in the CMAKE_ARGS environment variable is passed straight
+        # through, the same convention scikit-build uses.  The wheel builds use
+        # it for -DBOOZ_XFORM_REQUIRE_OPENMP=ON; it is also the way to pass
+        # -DNETCDF_DIR=... or any other CMake option to a `pip install`.
+        cmake_args += shlex.split(os.environ.get("CMAKE_ARGS", ""))
         # Only the python extension module is needed for an install.  The
         # standalone xbooz_xform executable and the C++ unitTests executable are
         # separate CMake targets, built by hand or by CI; skipping them here
