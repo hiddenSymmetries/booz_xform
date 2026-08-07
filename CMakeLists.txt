@@ -107,6 +107,9 @@ message("Result of ${Python_EXECUTABLE} -m pybind11 --cmakedir: ${pybind11_DIR}"
 
 find_package(pybind11 REQUIRED PATHS ${pybind11_DIR})
 pybind11_add_module(_booz_xform ${SOURCE_DIR}/bindings.cpp)
+# Prevent broad dependency include paths from shadowing the selected pybind11.
+target_include_directories(_booz_xform BEFORE PRIVATE ${pybind11_INCLUDE_DIRS})
+set_target_properties(_booz_xform PROPERTIES NO_SYSTEM_FROM_IMPORTED ON)
 
 add_library(libbooz_xform ${SOURCES})
 # The next line makes the library name libbooz_xform.a instead of liblibbooz_xform.a:

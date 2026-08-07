@@ -8,6 +8,11 @@ from booz_xform import Booz_xform, omp_max_threads
 TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_files')
 
 class MainTest(unittest.TestCase):
+    def test_numpy_array_assignment(self):
+        b = Booz_xform()
+        b.xm = np.array([0.0, 1.0, 2.0])
+        np.testing.assert_array_equal(b.xm, [0, 1, 2])
+
     def test_compute_surfs_edit(self):
         b = Booz_xform()
         b.read_wout(os.path.join(TEST_DIR, 'wout_li383_1.4m.nc'))
