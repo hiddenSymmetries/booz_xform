@@ -15,5 +15,5 @@ except PackageNotFoundError:
     # build went through setup.py.
     from ._booz_xform import __version__
 
-from ._booz_xform import Booz_xform, omp_max_threads
+from ._booz_xform import Booz_xform, InputArrays, OutputArrays, omp_max_threads
 from .plots import surfplot, symplot, modeplot, wireplot

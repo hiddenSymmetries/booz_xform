@@ -260,3 +260,47 @@ variables of the class instance:
    std::cout << "B(0,0): " << b.bmnc_b(0, 0) << std::endl;
   
    
+
+
+.. _derivatives:
+
+Derivatives
+^^^^^^^^^^^
+
+After :func:`~booz_xform.Booz_xform.run`, the class provides the exact
+derivatives of the discrete transformation, i.e. of the Fourier
+integrals that :func:`~booz_xform.Booz_xform.run` evaluates on its
+fixed grid, with ``mboz``, ``nboz`` and ``compute_surfs`` held fixed.
+:func:`~booz_xform.Booz_xform.jvp` maps tangents of the internal
+half-grid input arrays (``iota``, ``rmnc``, ``zmns``, ``lmns``,
+``bmnc``, ``bsubumnc``, ``bsubvmnc`` and, for non-symmetric
+configurations, their counterparts) to tangents of the outputs
+(``bmnc_b``, ``rmnc_b``, ``zmns_b``, ``numns_b``, ``gmnc_b``,
+``Boozer_G``, ``Boozer_I`` and counterparts), and
+:func:`~booz_xform.Booz_xform.vjp` is its transpose, which is what a
+gradient-based optimizer needs. The radial interpolation from the VMEC
+wout arrays to the half grid is linear, and
+:func:`~booz_xform.Booz_xform.init_from_vmec_jvp` and
+:func:`~booz_xform.Booz_xform.init_from_vmec_vjp` provide it and its
+transpose. For example, the gradient of the sum of the squares of the
+Boozer harmonics of :math:`B` with respect to the arrays of the wout
+file is obtained by
+
+.. code-block:: python
+
+  import booz_xform as bx
+
+  b = bx.Booz_xform()
+  b.read_wout("wout_li383_1.4m.nc")
+  b.run()
+  bar = bx.OutputArrays()
+  bar.bmnc_b = 2 * b.bmnc_b
+  grad = b.init_from_vmec_vjp(b.vjp(bar))
+  # grad.bmnc, grad.bsubumnc, grad.lmns, grad.iota, ... have the
+  # shapes of the wout arrays, transposed to (mnmax, ns).
+
+Members of :class:`~booz_xform.InputArrays` and
+:class:`~booz_xform.OutputArrays` that are not set are treated as zero.
+The cost of :func:`~booz_xform.Booz_xform.vjp` is about twice that of
+:func:`~booz_xform.Booz_xform.run`, since it recomputes the real-space
+quantities of each surface before the adjoint sweep.

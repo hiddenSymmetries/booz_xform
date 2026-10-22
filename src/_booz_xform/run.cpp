@@ -23,4 +23,5 @@ void Booz_xform::run() {
   for (int j = 0; j < compute_surfs.size(); j++) {
     surface_solve(j);
   }
+  completed = true;
 }

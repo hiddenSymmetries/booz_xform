@@ -32,6 +32,36 @@ namespace booz_xform {
   const std::string version = "development version";
 #endif
 
+  /** Perturbations of the input arrays of Booz_xform.
+   *
+   *  The members have the names, and the layout, of the input arrays of
+   *  Booz_xform. An instance holds either tangents (input of jvp()) or
+   *  cotangents (output of vjp()). Members that are left empty (size 0)
+   *  are treated as zero on input. Depending on the method, the radial
+   *  dimension is either that of the VMEC wout file (ns, for
+   *  init_from_vmec_jvp() input and init_from_vmec_vjp() output) or the
+   *  internal half grid (ns_in, for jvp() input and vjp() output).
+   */
+  struct InputArrays {
+    Vector iota;
+    Matrix rmnc, rmns, zmnc, zmns, lmnc, lmns;
+    Matrix bmnc, bmns, bsubumnc, bsubumns, bsubvmnc, bsubvmns;
+  };
+
+  /** Perturbations of the output arrays of Booz_xform.
+   *
+   *  The members have the names and the layout of the output arrays of
+   *  Booz_xform, i.e. (mnboz, ns_b) for the spectra and (ns_b) for G and
+   *  I. An instance holds either tangents (output of jvp()) or cotangents
+   *  (input of vjp()). Members that are left empty are treated as zero
+   *  on input.
+   */
+  struct OutputArrays {
+    Matrix bmnc_b, bmns_b, rmnc_b, rmns_b, zmnc_b, zmns_b;
+    Matrix numnc_b, numns_b, gmnc_b, gmns_b;
+    Vector Boozer_G, Boozer_I;
+  };
+
   class Booz_xform {
   private:
     int nu2_b; //!< Not sure
@@ -54,6 +84,26 @@ namespace booz_xform {
 
     void defaults();
     void check_accuracy(int, int, Vector&, Vector&, Vector&, Matrix&, Matrix&, Matrix&, Matrix&);
+
+    /** Real-space quantities on one surface, shared by the transformation
+     *  and its derivatives. The trigonometric tables in Boozer angles
+     *  already contain the quadrature weights of the theta end points.
+     */
+    struct SurfaceState {
+      int js;
+      boozfloat iota, G, I, GI;
+      Vector wmns, wmnc;
+      Vector r, z, lambda, d_lambda_d_theta, d_lambda_d_zeta;
+      Vector w, d_w_d_theta, d_w_d_zeta, bmod;
+      Vector nu, d_nu_d_theta, d_nu_d_zeta;
+      Vector theta_Boozer_grid, zeta_Boozer_grid, d_Boozer_d_vmec, boozer_jacobian;
+      Matrix cosm_b, sinm_b, cosn_b, sinn_b;
+    };
+    void surface_state(int js_b, SurfaceState& st);
+    boozfloat fourier_factor(int jmn);
+    void check_run_state(const char* caller);
+    void surface_jvp(int js_b, const InputArrays& d_in, OutputArrays& d_out);
+    void surface_vjp(int js_b, const OutputArrays& bar_out, InputArrays& bar_in);
 
   public:
 
@@ -477,6 +527,41 @@ namespace booz_xform {
     void init();
 
     void surface_solve(int js_b);
+
+    //! Jacobian-vector product of run()
+    /**
+     * Must be called after run(). The derivative is the exact derivative
+     * of the discrete transformation, i.e. of the quadrature that run()
+     * evaluates, with respect to the internal half-grid input arrays
+     * (rmnc, zmns, lmns, bmnc, bsubumnc, bsubvmnc, iota and, if asym,
+     * their counterparts). mboz, nboz and compute_surfs are held fixed.
+     *
+     * @param[in] d_in Tangents of the inputs in the internal (ns_in) layout.
+     * @return Tangents of the outputs for the surfaces in compute_surfs.
+     */
+    OutputArrays jvp(const InputArrays& d_in);
+
+    //! Vector-Jacobian product (adjoint) of run()
+    /**
+     * Must be called after run(). This is the transpose of jvp().
+     *
+     * @param[in] bar_out Cotangents of the outputs.
+     * @return Cotangents of the inputs in the internal (ns_in) layout.
+     */
+    InputArrays vjp(const OutputArrays& bar_out);
+
+    //! Jacobian-vector product of init_from_vmec()
+    /**
+     * Maps tangents of the arrays of a VMEC wout file (radial size ns,
+     * input of init_from_vmec()) to tangents of the internal half-grid
+     * arrays (radial size ns_in). init_from_vmec() is linear in these
+     * arrays, so this applies the same radial interpolation and shift.
+     * Must be called after init_from_vmec() or read_wout().
+     */
+    InputArrays init_from_vmec_jvp(const InputArrays& d_wout);
+
+    //! Vector-Jacobian product (transpose) of init_from_vmec_jvp()
+    InputArrays init_from_vmec_vjp(const InputArrays& bar_internal);
 
   };
 

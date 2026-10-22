@@ -35,6 +35,20 @@ output quantities are read-only, and they are populated when
           ``b.rmnc[0,0] = 2.0`` will not. This is due to the copying
           of data when interfacing python to C++.
 
+Tangents and cotangents for :func:`~booz_xform.Booz_xform.jvp`,
+:func:`~booz_xform.Booz_xform.vjp`,
+:func:`~booz_xform.Booz_xform.init_from_vmec_jvp` and
+:func:`~booz_xform.Booz_xform.init_from_vmec_vjp` are passed in the
+following two classes (see :ref:`derivatives`):
+
+.. autoclass:: booz_xform.InputArrays
+   :members:
+   :undoc-members:
+
+.. autoclass:: booz_xform.OutputArrays
+   :members:
+   :undoc-members:
+
 The module also provides the following function:
 
 .. autofunction:: booz_xform.omp_max_threads

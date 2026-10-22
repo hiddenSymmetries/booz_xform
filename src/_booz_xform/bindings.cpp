@@ -11,6 +11,49 @@ using namespace pybind11::literals; // For documenting function arguments
 PYBIND11_MODULE(_booz_xform, m) {
   m.doc() = "Transformation to Boozer coordinates";
 
+  py::class_<InputArrays>(m, "InputArrays", R"(
+Tangents or cotangents of the input arrays of Booz_xform: iota, rmnc,
+rmns, zmnc, zmns, lmnc, lmns, bmnc, bmns, bsubumnc, bsubumns, bsubvmnc
+and bsubvmns, with the same layout as the attributes of the same name.
+Attributes left empty are treated as zero. Used by
+:meth:`Booz_xform.jvp`, :meth:`Booz_xform.vjp`,
+:meth:`Booz_xform.init_from_vmec_jvp` and
+:meth:`Booz_xform.init_from_vmec_vjp`.)")
+    .def(py::init())
+    .def_readwrite("iota", &InputArrays::iota)
+    .def_readwrite("rmnc", &InputArrays::rmnc)
+    .def_readwrite("rmns", &InputArrays::rmns)
+    .def_readwrite("zmnc", &InputArrays::zmnc)
+    .def_readwrite("zmns", &InputArrays::zmns)
+    .def_readwrite("lmnc", &InputArrays::lmnc)
+    .def_readwrite("lmns", &InputArrays::lmns)
+    .def_readwrite("bmnc", &InputArrays::bmnc)
+    .def_readwrite("bmns", &InputArrays::bmns)
+    .def_readwrite("bsubumnc", &InputArrays::bsubumnc)
+    .def_readwrite("bsubumns", &InputArrays::bsubumns)
+    .def_readwrite("bsubvmnc", &InputArrays::bsubvmnc)
+    .def_readwrite("bsubvmns", &InputArrays::bsubvmns);
+
+  py::class_<OutputArrays>(m, "OutputArrays", R"(
+Tangents or cotangents of the output arrays of Booz_xform: bmnc_b,
+bmns_b, rmnc_b, rmns_b, zmnc_b, zmns_b, numnc_b, numns_b, gmnc_b,
+gmns_b, Boozer_G and Boozer_I, with the same layout as the attributes of
+the same name. Attributes left empty are treated as zero. Used by
+:meth:`Booz_xform.jvp` and :meth:`Booz_xform.vjp`.)")
+    .def(py::init())
+    .def_readwrite("bmnc_b", &OutputArrays::bmnc_b)
+    .def_readwrite("bmns_b", &OutputArrays::bmns_b)
+    .def_readwrite("rmnc_b", &OutputArrays::rmnc_b)
+    .def_readwrite("rmns_b", &OutputArrays::rmns_b)
+    .def_readwrite("zmnc_b", &OutputArrays::zmnc_b)
+    .def_readwrite("zmns_b", &OutputArrays::zmns_b)
+    .def_readwrite("numnc_b", &OutputArrays::numnc_b)
+    .def_readwrite("numns_b", &OutputArrays::numns_b)
+    .def_readwrite("gmnc_b", &OutputArrays::gmnc_b)
+    .def_readwrite("gmns_b", &OutputArrays::gmns_b)
+    .def_readwrite("Boozer_G", &OutputArrays::Boozer_G)
+    .def_readwrite("Boozer_I", &OutputArrays::Boozer_I);
+
   py::class_<Booz_xform>(m, "Booz_xform", R"(
 A class holding the input and output information for a
 transformation to Boozer coordinates)")
@@ -83,6 +126,34 @@ need to call this function directly.
      "chi"_a=defaultInitPtr,
      "pres"_a=defaultInitPtr,
      "phi"_a=defaultInitPtr)
+
+    .def("jvp", &Booz_xform::jvp, R"(
+Jacobian-vector product of :meth:`run`. Must be called after
+:meth:`run`. The derivative is that of the discrete transformation,
+with mboz, nboz and compute_surfs held fixed.
+
+:param d_in: An :class:`InputArrays` with tangents of the internal
+  half-grid input arrays (radial size ns_in).
+:return: An :class:`OutputArrays` with tangents of the outputs.)", "d_in"_a)
+
+    .def("vjp", &Booz_xform::vjp, R"(
+Vector-Jacobian product (adjoint) of :meth:`run`, the transpose of
+:meth:`jvp`. Must be called after :meth:`run`.
+
+:param bar_out: An :class:`OutputArrays` with cotangents of the outputs.
+:return: An :class:`InputArrays` with cotangents of the internal
+  half-grid input arrays (radial size ns_in).)", "bar_out"_a)
+
+    .def("init_from_vmec_jvp", &Booz_xform::init_from_vmec_jvp, R"(
+Jacobian-vector product of :meth:`init_from_vmec`, which is linear in
+the VMEC arrays. Maps tangents of the arrays of a wout file (radial size
+ns; iota stands for iotas) to tangents of the internal half-grid arrays
+(radial size ns_in), which :meth:`jvp` takes.)", "d_wout"_a)
+
+    .def("init_from_vmec_vjp", &Booz_xform::init_from_vmec_vjp, R"(
+Transpose of :meth:`init_from_vmec_jvp`. Maps cotangents of the internal
+half-grid arrays, as returned by :meth:`vjp`, to cotangents of the arrays
+of a wout file.)", "bar_internal"_a)
 
     .def("run", &Booz_xform::run, R"(
 Run the transformation to Boozer coordinates on all the selected
